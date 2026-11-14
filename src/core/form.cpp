@@ -191,6 +191,12 @@ Form Form::fromJson(const json& j) {
     const json& p = f.root->raw;
     f.clientWidth = intProp(p, "ClientWidth", f.root->width ? f.root->width : 640);
     f.clientHeight = intProp(p, "ClientHeight", f.root->height ? f.root->height : 480);
+    // Maximized forms fill the 640x480 screen the game requires; their stored
+    // client size is just the design-time window.
+    if (identProp(p, "WindowState") == "wsMaximized") {
+        f.clientWidth = 640;
+        f.clientHeight = 480;
+    }
     if (auto font = parseFont(p, nullptr)) f.font = *font;
     if (!f.root->color) f.root->color = kSystemColors[15];  // clBtnFace
     return f;

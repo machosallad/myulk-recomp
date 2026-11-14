@@ -64,16 +64,31 @@ cmake --build --preset web
 python -m http.server -d build/web 8080     # open http://localhost:8080/myulk.html
 ```
 
-The web build packages `extracted/resources` into `myulk.data` with `--preload-file`. That file contains the original game's data, so don't publish it.
+The web build packages `extracted/resources` and `extracted/iso/SOUNDS` into `myulk.data` (about 170 MB) with `--preload-file`. That file contains the original game's data, so don't publish it.
 
 ## The current app
 
-The current app is a **form viewer**, the first piece of the skeleton:
+`myulk` starts **the game**: the intro postcards and the first area of chapter 1 (see `src/adventure/scenes.cpp`).
+
+- **Click** the scene to move. The cursor shows what a click does: arrows for turning or looking up/down, the hand for going forward or using a hotspot, the back arrow for leaving a close-up.
+- **F11:** fullscreen. **Esc:** quit.
+- **Not implemented yet:**
+  - Movies: they are skipped, and the scene continues as if each one had finished.
+  - Inventory, dialogue, the menu, and every scene after the first area.
+
+`myulk --viewer [FORM]` opens the **form viewer** for the original screens:
 
 - **Left/Right** (or **PgUp/PgDn**): switch between the 57 forms.
 - **F1:** show component outlines (red = has event handlers).
-- **F11:** toggle fullscreen.
 - **Hover** over a component: the status bar shows its name and handlers.
 - **Click:** logs the handler the original game would run.
 
 Text uses SDL's built-in 8×8 debug font for now, with Swedish letters folded to ASCII.
+
+### Automation and testing
+
+`--screenshot out.bmp` renders, saves one frame and exits. `--frames N` waits N frames first. `--click X,Y` (repeatable) clicks at 640×480 screen coordinates before the screenshot. For example, this goes from the intro to the farmyard:
+
+```bat
+build\native\myulk.exe --click 300,200 --click 300,200 --click 300,200 --click 225,207 --screenshot out.bmp --frames 30
+```

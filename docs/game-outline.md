@@ -172,3 +172,16 @@ Port note: keep this API as it is in C++ and port each scene procedure as a func
 - **Record arrays:** functions returning `DS`-based addresses.
 - **Code-to-data usage:** `tools/ghidra/DataXrefs.java` → `decomp/data_xrefs.csv`.
 - **Rules:** the manual, extracted with `python -I tools/hlp_text.py` → `extracted/help/MYULK.txt` (48 topics, Swedish).
+
+## Porting status
+
+| Part | State |
+|---|---|
+| Adventure engine (`src/adventure/engine.*`) | pictures, compass, exit slots, hotspots, cursors, location history, music and sound hooks, movie timing; data segment emulated at original addresses |
+| Intro (`2:3CED` → `2:52E0` → `2:4357/4393/43D5` → `2:5326`) | ported; movies skipped |
+| Chapter 1 opening area `nbae.dll` (`18:2EC0`–`18:33DC`, 11 scenes) | ported and covered by tests |
+| Inventory, dialogue (`Say*`, `Choose`), menu, saves | not yet |
+| Movies (Cinepak AVI) | not yet |
+| Remaining scenes from `6:009A` | not yet |
+
+`tools/annotate_strings.py` writes `decomp/annotated/segNN.c`: the decompiled code with the Pascal string each pointer refers to, e.g. `/* "AE1B" */`. Ghidra often guesses the segment of `push cs` pointers wrongly, so it also mislabels code pointers as data strings (`s_Ctl3dUnregister_1108_324a + 0xe` is really routine `18:3258`). Read exit targets as offsets in the scene's own segment.

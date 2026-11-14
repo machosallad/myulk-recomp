@@ -29,6 +29,8 @@ FetchContent_MakeAvailable(SDL3 json)
 add_library(myulk_core STATIC
     src/core/calendar.cpp
     src/core/form.cpp
+    src/adventure/engine.cpp
+    src/adventure/scenes.cpp
 )
 target_include_directories(myulk_core PUBLIC src)
 target_link_libraries(myulk_core PUBLIC nlohmann_json::nlohmann_json)
@@ -38,6 +40,9 @@ add_executable(myulk
     src/app/main.cpp
     src/app/assets.cpp
     src/app/form_view.cpp
+    src/app/audio.cpp
+    src/app/cursors.cpp
+    src/app/adventure_screen.cpp
 )
 target_link_libraries(myulk PRIVATE myulk_core SDL3::SDL3-static)
 
@@ -51,13 +56,14 @@ endif()
 
 if(EMSCRIPTEN)
     # Game data is the user's own extracted copy, preloaded into the virtual FS.
-    # Only the main EXE's resources (forms and their images) for now; the
-    # scene art in PICTDLL is large and will be loaded on demand later.
-    set(MYULK_WEB_DATA "${CMAKE_SOURCE_DIR}/extracted/resources/MYULK" CACHE PATH
-        "Extracted MYULK resources to package for the web build")
+    # Packs the extracted pictures and the adventure sounds into myulk.data
+    # (~170 MB). Fine for local testing; per-chapter loading comes later.
+    set(MYULK_EXTRACTED_DIR "${CMAKE_SOURCE_DIR}/extracted" CACHE PATH
+        "Extracted game data to package for the web build")
     set_target_properties(myulk PROPERTIES SUFFIX ".html")
     target_link_options(myulk PRIVATE
-        "--preload-file=${MYULK_WEB_DATA}@/data/resources/MYULK"
+        "--preload-file=${MYULK_EXTRACTED_DIR}/resources@/data/resources"
+        "--preload-file=${MYULK_EXTRACTED_DIR}/iso/SOUNDS@/data/iso/SOUNDS"
         "--shell-file=${CMAKE_SOURCE_DIR}/web/shell.html"
         "-sALLOW_MEMORY_GROWTH=1")
     set_property(TARGET myulk APPEND PROPERTY LINK_DEPENDS "${CMAKE_SOURCE_DIR}/web/shell.html")
@@ -66,7 +72,8 @@ endif()
 # --- tests --------------------------------------------------------------------
 if(MYULK_BUILD_TESTS AND NOT EMSCRIPTEN)
     enable_testing()
-    add_executable(myulk_tests tests/test_main.cpp tests/test_calendar.cpp tests/test_form.cpp)
+    add_executable(myulk_tests tests/test_main.cpp tests/test_calendar.cpp tests/test_form.cpp
+        tests/test_adventure.cpp)
     target_link_libraries(myulk_tests PRIVATE myulk_core)
     add_test(NAME myulk_tests COMMAND myulk_tests)
 endif()
