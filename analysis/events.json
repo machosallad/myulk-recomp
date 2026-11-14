@@ -1,0 +1,2145 @@
+{
+ "TAdvForm": {
+  "unit": "AdvFrm",
+  "seg": 2,
+  "events": {
+   "AdvForm": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "2:3CED"
+    },
+    "OnClose": {
+     "handler": "FormClose",
+     "addr": "2:3E18"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "2:3ACD"
+    }
+   },
+   "MImage": {
+    "OnMouseDown": {
+     "handler": "MImageMouseDown",
+     "addr": "2:402E"
+    },
+    "OnMouseUp": {
+     "handler": "MImageMouseUp",
+     "addr": "2:4072"
+    }
+   },
+   "InventImage": {
+    "OnMouseUp": {
+     "handler": "InventImageMouseUp",
+     "addr": "2:40D2"
+    }
+   },
+   "EndImg": {
+    "OnMouseMove": {
+     "handler": "FirstMouseMove",
+     "addr": "2:3EE1"
+    }
+   },
+   "TalkPanel": {
+    "OnMouseMove": {
+     "handler": "TalkPanelMouseMove",
+     "addr": "2:4EBB"
+    }
+   },
+   "TalkLabel1": {
+    "OnMouseDown": {
+     "handler": "TalkLabelMouseDown",
+     "addr": "2:4F34"
+    },
+    "OnMouseMove": {
+     "handler": "ExitBtnMouseMove",
+     "addr": "2:4E9C"
+    },
+    "OnMouseUp": {
+     "handler": "TalkLabel1MouseUp",
+     "addr": "2:4F63"
+    }
+   },
+   "TalkLabel2": {
+    "OnMouseDown": {
+     "handler": "TalkLabelMouseDown",
+     "addr": "2:4F34"
+    },
+    "OnMouseMove": {
+     "handler": "ExitBtnMouseMove",
+     "addr": "2:4E9C"
+    },
+    "OnMouseUp": {
+     "handler": "TalkLabel2MouseUp",
+     "addr": "2:4F8C"
+    }
+   },
+   "TalkLabel3": {
+    "OnMouseDown": {
+     "handler": "TalkLabelMouseDown",
+     "addr": "2:4F34"
+    },
+    "OnMouseMove": {
+     "handler": "ExitBtnMouseMove",
+     "addr": "2:4E9C"
+    },
+    "OnMouseUp": {
+     "handler": "TalkLabel3MouseUp",
+     "addr": "2:4FB6"
+    }
+   },
+   "TalkLabel4": {
+    "OnMouseDown": {
+     "handler": "TalkLabelMouseDown",
+     "addr": "2:4F34"
+    },
+    "OnMouseMove": {
+     "handler": "ExitBtnMouseMove",
+     "addr": "2:4E9C"
+    },
+    "OnMouseUp": {
+     "handler": "TalkLabel4MouseUp",
+     "addr": "2:4FE1"
+    }
+   },
+   "TalkLabel5": {
+    "OnMouseDown": {
+     "handler": "TalkLabelMouseDown",
+     "addr": "2:4F34"
+    },
+    "OnMouseMove": {
+     "handler": "ExitBtnMouseMove",
+     "addr": "2:4E9C"
+    },
+    "OnMouseUp": {
+     "handler": "TalkLabel5MouseUp",
+     "addr": "2:500A"
+    }
+   },
+   "TalkLabel6": {
+    "OnMouseDown": {
+     "handler": "TalkLabelMouseDown",
+     "addr": "2:4F34"
+    },
+    "OnMouseMove": {
+     "handler": "ExitBtnMouseMove",
+     "addr": "2:4E9C"
+    },
+    "OnMouseUp": {
+     "handler": "TalkLabel6MouseUp",
+     "addr": "2:5033"
+    }
+   },
+   "TalkLabel7": {
+    "OnMouseDown": {
+     "handler": "TalkLabelMouseDown",
+     "addr": "2:4F34"
+    },
+    "OnMouseMove": {
+     "handler": "ExitBtnMouseMove",
+     "addr": "2:4E9C"
+    },
+    "OnMouseUp": {
+     "handler": "TalkLabel7MouseUp",
+     "addr": "2:505D"
+    }
+   },
+   "TalkLabel8": {
+    "OnMouseDown": {
+     "handler": "TalkLabelMouseDown",
+     "addr": "2:4F34"
+    },
+    "OnMouseMove": {
+     "handler": "ExitBtnMouseMove",
+     "addr": "2:4E9C"
+    },
+    "OnMouseUp": {
+     "handler": "TalkLabel8MouseUp",
+     "addr": "2:5088"
+    }
+   },
+   "TalkLabel9": {
+    "OnMouseDown": {
+     "handler": "TalkLabelMouseDown",
+     "addr": "2:4F34"
+    },
+    "OnMouseMove": {
+     "handler": "ExitBtnMouseMove",
+     "addr": "2:4E9C"
+    },
+    "OnMouseUp": {
+     "handler": "TalkLabel9MouseUp",
+     "addr": "2:50B3"
+    }
+   },
+   "TalkLabel10": {
+    "OnMouseDown": {
+     "handler": "TalkLabelMouseDown",
+     "addr": "2:4F34"
+    },
+    "OnMouseMove": {
+     "handler": "ExitBtnMouseMove",
+     "addr": "2:4E9C"
+    },
+    "OnMouseUp": {
+     "handler": "TalkLabel10MouseUp",
+     "addr": "2:50DC"
+    }
+   },
+   "TalkLabel11": {
+    "OnMouseDown": {
+     "handler": "TalkLabelMouseDown",
+     "addr": "2:4F34"
+    },
+    "OnMouseMove": {
+     "handler": "ExitBtnMouseMove",
+     "addr": "2:4E9C"
+    },
+    "OnMouseUp": {
+     "handler": "TalkLabel11MouseUp",
+     "addr": "2:5106"
+    }
+   },
+   "TalkLabel12": {
+    "OnMouseDown": {
+     "handler": "TalkLabelMouseDown",
+     "addr": "2:4F34"
+    },
+    "OnMouseMove": {
+     "handler": "ExitBtnMouseMove",
+     "addr": "2:4E9C"
+    },
+    "OnMouseUp": {
+     "handler": "TalkLabel12MouseUp",
+     "addr": "2:5130"
+    }
+   },
+   "TalkLabel13": {
+    "OnMouseDown": {
+     "handler": "TalkLabelMouseDown",
+     "addr": "2:4F34"
+    },
+    "OnMouseMove": {
+     "handler": "ExitBtnMouseMove",
+     "addr": "2:4E9C"
+    },
+    "OnMouseUp": {
+     "handler": "TalkLabel13MouseUp",
+     "addr": "2:515B"
+    }
+   },
+   "MovieTimer": {
+    "OnTimer": {
+     "handler": "MovieTimerTimer",
+     "addr": "2:545C"
+    }
+   },
+   "EndTimer1": {
+    "OnTimer": {
+     "handler": "EndTimer1Timer",
+     "addr": "2:5F4E"
+    }
+   },
+   "EndTimer2": {
+    "OnTimer": {
+     "handler": "EndTimer2Timer",
+     "addr": "2:60E2"
+    }
+   }
+  }
+ },
+ "TForm1": {
+  "unit": "Mjulk1u1",
+  "seg": 9,
+  "events": {
+   "Form1": {
+    "OnClose": {
+     "handler": "FormClose",
+     "addr": "9:3893"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "9:0747"
+    },
+    "OnDestroy": {
+     "handler": "FormDestroy",
+     "addr": "9:3533"
+    },
+    "OnShow": {
+     "handler": "FormShow",
+     "addr": "9:35DD"
+    }
+   },
+   "KoHigh": {
+    "OnEndDrag": {
+     "handler": "KoHighEndDrag",
+     "addr": "9:0CC1"
+    }
+   },
+   "TraktHigh": {
+    "OnEndDrag": {
+     "handler": "TraktHighEndDrag",
+     "addr": "9:0DB1"
+    }
+   },
+   "KontoHigh": {
+    "OnEndDrag": {
+     "handler": "KontoHighEndDrag",
+     "addr": "9:0E28"
+    }
+   },
+   "MenuHigh": {
+    "OnEndDrag": {
+     "handler": "MenuHighEndDrag",
+     "addr": "9:0FFE"
+    }
+   },
+   "TotStatHigh": {
+    "OnEndDrag": {
+     "handler": "TotStatHighEndDrag",
+     "addr": "9:0DFC"
+    }
+   },
+   "VSMHigh": {
+    "OnEndDrag": {
+     "handler": "VSMHighEndDrag",
+     "addr": "9:0D70"
+    }
+   },
+   "LantHigh": {
+    "OnEndDrag": {
+     "handler": "LantHighEndDrag",
+     "addr": "9:0D0C"
+    }
+   },
+   "ImgBack": {
+    "OnMouseDown": {
+     "handler": "ImgBackMouseDown",
+     "addr": "9:0C55"
+    },
+    "OnMouseMove": {
+     "handler": "ImgBackMouseMove",
+     "addr": "9:06E8"
+    },
+    "OnMouseUp": {
+     "handler": "ImgBackMouseUp",
+     "addr": "9:2C23"
+    }
+   },
+   "ImgBostFrame": {
+    "OnEndDrag": {
+     "handler": "ImgBostFrameEndDrag",
+     "addr": "9:0EB3"
+    }
+   },
+   "ImgMaskFrame": {
+    "OnEndDrag": {
+     "handler": "ImgMaskFrameEndDrag",
+     "addr": "9:0F94"
+    }
+   },
+   "ImgLagFrame": {
+    "OnEndDrag": {
+     "handler": "ImgLagFrameEndDrag",
+     "addr": "9:0F28"
+    }
+   },
+   "ImgMRumFrame": {
+    "OnEndDrag": {
+     "handler": "ImgMRumFrameEndDrag",
+     "addr": "9:0F4C"
+    }
+   },
+   "ImgLogeFrame": {
+    "OnEndDrag": {
+     "handler": "ImgLogeFrameEndDrag",
+     "addr": "9:0E8F"
+    }
+   },
+   "ImgZoomOut": {
+    "OnEndDrag": {
+     "handler": "ImgZoomOutEndDrag",
+     "addr": "9:0E6B"
+    }
+   },
+   "ImgZoomIn": {
+    "OnEndDrag": {
+     "handler": "ImgZoomInEndDrag",
+     "addr": "9:0E47"
+    }
+   },
+   "ImgFldE": {
+    "OnEndDrag": {
+     "handler": "ImgFldEEndDrag",
+     "addr": "9:2279"
+    }
+   },
+   "ImgFldC": {
+    "OnEndDrag": {
+     "handler": "ImgFldCEndDrag",
+     "addr": "9:224E"
+    }
+   },
+   "ImgFldA": {
+    "OnEndDrag": {
+     "handler": "ImgFldAEndDrag",
+     "addr": "9:0FD3"
+    }
+   },
+   "ImgFldH": {
+    "OnEndDrag": {
+     "handler": "ImgFldHEndDrag",
+     "addr": "9:22A4"
+    }
+   },
+   "ImgFldB": {
+    "OnEndDrag": {
+     "handler": "ImgFldBEndDrag",
+     "addr": "9:22DE"
+    }
+   },
+   "ImgFldD": {
+    "OnEndDrag": {
+     "handler": "ImgFldDEndDrag",
+     "addr": "9:2309"
+    }
+   },
+   "ImgFldF": {
+    "OnEndDrag": {
+     "handler": "ImgFldFEndDrag",
+     "addr": "9:2334"
+    }
+   },
+   "ImgFldG": {
+    "OnEndDrag": {
+     "handler": "ImgFldGEndDrag",
+     "addr": "9:235F"
+    }
+   },
+   "BlinkTimer": {
+    "OnTimer": {
+     "handler": "BlinkTimerTimer",
+     "addr": "9:1049"
+    }
+   },
+   "MainTimer": {
+    "OnTimer": {
+     "handler": "MainTimerTimer",
+     "addr": "9:1A25"
+    }
+   }
+  }
+ },
+ "TFormBekKop": {
+  "unit": "Unbekkop",
+  "seg": 15,
+  "events": {
+   "FormBekKop": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "15:1975"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "15:1937"
+    }
+   }
+  }
+ },
+ "TFormBekKp2": {
+  "unit": "Unbekkp2",
+  "seg": 15,
+  "events": {
+   "FormBekKp2": {
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "15:37C4"
+    }
+   }
+  }
+ },
+ "TFormBekRep": {
+  "unit": "Unbekrep",
+  "seg": 1,
+  "events": {
+   "FormBekRep": {
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "1:2091"
+    }
+   }
+  }
+ },
+ "TFormBekSal": {
+  "unit": "Unbeksal",
+  "seg": 14,
+  "events": {
+   "FormBekSal": {
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "14:2809"
+    }
+   }
+  }
+ },
+ "TFormBete": {
+  "unit": "Unbete",
+  "seg": 8,
+  "events": {
+   "FormBete": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "8:2C49"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "8:25AE"
+    }
+   },
+   "Tillbaka": {
+    "OnClick": {
+     "handler": "TillbakaClick",
+     "addr": "8:25C0"
+    }
+   }
+  }
+ },
+ "TFormBost1": {
+  "unit": "Unbost1",
+  "seg": 10,
+  "events": {
+   "FormBost1": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "10:3E4F"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "10:3D7F"
+    }
+   },
+   "ImgOfficeHigh": {
+    "OnEndDrag": {
+     "handler": "ImgOfficeHighEndDrag",
+     "addr": "10:3DDF"
+    }
+   },
+   "ImgBack": {
+    "OnMouseDown": {
+     "handler": "ImgBackMouseDown",
+     "addr": "10:3E37"
+    },
+    "OnMouseMove": {
+     "handler": "ImgBackMouseMove",
+     "addr": "10:3DC5"
+    }
+   },
+   "Tillbaka": {
+    "OnClick": {
+     "handler": "TillbakaClick",
+     "addr": "10:3D54"
+    }
+   }
+  }
+ },
+ "TFormBost2": {
+  "unit": "Unbost2",
+  "seg": 11,
+  "events": {
+   "FormBost2": {
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "11:1E41"
+    }
+   },
+   "ImgBack": {
+    "OnClick": {
+     "handler": "ImgBackClick",
+     "addr": "11:213E"
+    }
+   },
+   "ImgBokFrame": {
+    "OnClick": {
+     "handler": "ImgBokFrameClick",
+     "addr": "11:1E94"
+    }
+   },
+   "ImgTelBok": {
+    "OnClick": {
+     "handler": "ImgTelBokClick",
+     "addr": "11:1EBC"
+    }
+   },
+   "Tillbaka": {
+    "OnClick": {
+     "handler": "TillbakaClick",
+     "addr": "11:1E5D"
+    }
+   },
+   "ImgBrev": {
+    "OnClick": {
+     "handler": "ImgBrevClick",
+     "addr": "11:20C4"
+    }
+   },
+   "Image1": {
+    "OnClick": {
+     "handler": "Image1Click",
+     "addr": "11:21ED"
+    }
+   },
+   "Image2": {
+    "OnClick": {
+     "handler": "Image2Click",
+     "addr": "11:222E"
+    }
+   },
+   "Image3": {
+    "OnClick": {
+     "handler": "Image3Click",
+     "addr": "11:227C"
+    }
+   },
+   "Image4": {
+    "OnClick": {
+     "handler": "Image4Click",
+     "addr": "11:22D8"
+    }
+   },
+   "Image5": {
+    "OnClick": {
+     "handler": "Image5Click",
+     "addr": "11:2326"
+    }
+   },
+   "Timer1": {
+    "OnTimer": {
+     "handler": "Timer1Timer",
+     "addr": "11:20AD"
+    }
+   }
+  }
+ },
+ "TFormGlbImg": {
+  "unit": "Unglbimg",
+  "seg": 16,
+  "events": {}
+ },
+ "TFormHayShp": {
+  "unit": "Unhayshp",
+  "seg": 10,
+  "events": {
+   "FormHayShp": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "10:12ED"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "10:1226"
+    }
+   },
+   "ImgTillbaka": {
+    "OnClick": {
+     "handler": "ImgTillbakaClick",
+     "addr": "10:1238"
+    }
+   }
+  }
+ },
+ "TFormHShop": {
+  "unit": "Unhshop",
+  "seg": 10,
+  "events": {
+   "FormHShop": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "10:2025"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "10:1F4B"
+    }
+   },
+   "ImgTillbaka": {
+    "OnClick": {
+     "handler": "ImgTillbakaClick",
+     "addr": "10:1F5D"
+    }
+   }
+  }
+ },
+ "TFormHVShop": {
+  "unit": "Unhvshop",
+  "seg": 10,
+  "events": {
+   "FormHVShop": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "10:15F8"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "10:153E"
+    }
+   },
+   "ImgTillbaka": {
+    "OnClick": {
+     "handler": "ImgTillbakaClick",
+     "addr": "10:151E"
+    }
+   }
+  }
+ },
+ "TFormKonto": {
+  "unit": "Unkonto",
+  "seg": 10,
+  "events": {
+   "FormKonto": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "10:30FD"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "10:30C6"
+    }
+   },
+   "Label1": {
+    "OnClick": {
+     "handler": "Label1Click",
+     "addr": "10:30A6"
+    }
+   }
+  }
+ },
+ "TFormKopAvb": {
+  "unit": "Unkopavb",
+  "seg": 13,
+  "events": {
+   "FormKopAvb": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "13:3D06"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "13:3BFD"
+    }
+   },
+   "Tillbaka": {
+    "OnClick": {
+     "handler": "TillbakaClick",
+     "addr": "13:3BDD"
+    }
+   }
+  }
+ },
+ "TFormKopHan": {
+  "unit": "Unkophan",
+  "seg": 14,
+  "events": {
+   "FormKopHan": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "14:0617"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "14:05F4"
+    }
+   },
+   "Tillbaka": {
+    "OnClick": {
+     "handler": "TillbakaClick",
+     "addr": "14:05D4"
+    }
+   },
+   "LbMaskiner": {
+    "OnClick": {
+     "handler": "LbMaskinerClick",
+     "addr": "14:084F"
+    },
+    "OnDblClick": {
+     "handler": "LbMaskinerDblClick",
+     "addr": "14:082D"
+    }
+   }
+  }
+ },
+ "TFormKopSem": {
+  "unit": "Unkopsem",
+  "seg": 14,
+  "events": {
+   "FormKopSem": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "14:01F3"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "14:0190"
+    }
+   },
+   "Tillbaka": {
+    "OnClick": {
+     "handler": "TillbakaClick",
+     "addr": "14:0170"
+    }
+   }
+  }
+ },
+ "TFormKopSni": {
+  "unit": "Unkopsni",
+  "seg": 13,
+  "events": {
+   "FormKopSni": {
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "13:3ECA"
+    }
+   },
+   "Tillbaka": {
+    "OnClick": {
+     "handler": "TillbakaClick",
+     "addr": "13:3EDC"
+    }
+   },
+   "LblBostad": {
+    "OnClick": {
+     "handler": "LblBostadClick",
+     "addr": "13:3F34"
+    }
+   },
+   "LblLagard": {
+    "OnClick": {
+     "handler": "LblLagardClick",
+     "addr": "13:3F40"
+    }
+   },
+   "LblLoge": {
+    "OnClick": {
+     "handler": "LblLogeClick",
+     "addr": "13:3F4C"
+    }
+   },
+   "LblMaskHall": {
+    "OnClick": {
+     "handler": "LblMaskHallClick",
+     "addr": "13:3F58"
+    }
+   }
+  }
+ },
+ "TFormKopVet": {
+  "unit": "Unkopvet",
+  "seg": 14,
+  "events": {
+   "FormKopVet": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "14:0433"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "14:038C"
+    }
+   },
+   "Tillbaka": {
+    "OnClick": {
+     "handler": "TillbakaClick",
+     "addr": "14:036C"
+    }
+   }
+  }
+ },
+ "TFormLag1": {
+  "unit": "Unlag1",
+  "seg": 14,
+  "events": {
+   "FormLag1": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "14:1134"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "14:108C"
+    },
+    "OnDestroy": {
+     "handler": "FormDestroy",
+     "addr": "14:124A"
+    }
+   },
+   "Image1": {
+    "OnEndDrag": {
+     "handler": "Image1EndDrag",
+     "addr": "14:110A"
+    }
+   },
+   "ImgBack": {
+    "OnMouseDown": {
+     "handler": "ImgBackMouseDown",
+     "addr": "14:111C"
+    },
+    "OnMouseMove": {
+     "handler": "ImgBackMouseMove",
+     "addr": "14:10F2"
+    }
+   },
+   "Tillbaka": {
+    "OnClick": {
+     "handler": "TillbakaClick",
+     "addr": "14:10D2"
+    }
+   }
+  }
+ },
+ "TFormLag2": {
+  "unit": "Unlag2",
+  "seg": 14,
+  "events": {
+   "FormLag2": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "14:198B"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "14:14C6"
+    }
+   },
+   "Tillbaka": {
+    "OnClick": {
+     "handler": "TillbakaClick",
+     "addr": "14:14A6"
+    }
+   },
+   "ImgRight": {
+    "OnClick": {
+     "handler": "ImgRightClick",
+     "addr": "14:195D"
+    }
+   },
+   "ImgLeft": {
+    "OnClick": {
+     "handler": "ImgLeftClick",
+     "addr": "14:1915"
+    }
+   }
+  }
+ },
+ "TFormLantM1": {
+  "unit": "Unlantm1",
+  "seg": 15,
+  "events": {
+   "FormLantM1": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "15:1D99"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "15:1B78"
+    },
+    "OnDestroy": {
+     "handler": "FormDestroy",
+     "addr": "15:1DAA"
+    }
+   },
+   "ImgUtHigh": {
+    "OnEndDrag": {
+     "handler": "ImgUtHighEndDrag",
+     "addr": "15:1D87"
+    }
+   },
+   "ImgFoodHigh": {
+    "OnEndDrag": {
+     "handler": "ImgFoodHighEndDrag",
+     "addr": "15:1D75"
+    }
+   },
+   "ImgBack": {
+    "OnMouseDown": {
+     "handler": "ImgBackMouseDown",
+     "addr": "15:1D5D"
+    },
+    "OnMouseMove": {
+     "handler": "ImgBackMouseMove",
+     "addr": "15:1D21"
+    }
+   },
+   "Tillbaka": {
+    "OnClick": {
+     "handler": "TillbakaClick",
+     "addr": "15:1CEC"
+    }
+   }
+  }
+ },
+ "TFormLantM2": {
+  "unit": "Unlantm2",
+  "seg": 15,
+  "events": {
+   "FormLantM2": {
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "15:31A4"
+    }
+   },
+   "ImgHay": {
+    "OnClick": {
+     "handler": "ImgHayClick",
+     "addr": "15:2F3B"
+    }
+   },
+   "Tillbaka": {
+    "OnClick": {
+     "handler": "TillbakaClick",
+     "addr": "15:2F1B"
+    }
+   },
+   "Image1": {
+    "OnClick": {
+     "handler": "Image1Click",
+     "addr": "15:31E1"
+    }
+   },
+   "ImgKraft": {
+    "OnClick": {
+     "handler": "ImgKraftClick",
+     "addr": "15:2F51"
+    }
+   },
+   "Label1": {
+    "OnClick": {
+     "handler": "TillbakaClick",
+     "addr": "15:2F1B"
+    }
+   },
+   "Image2": {
+    "OnClick": {
+     "handler": "Image2Click",
+     "addr": "15:3210"
+    }
+   }
+  }
+ },
+ "TFormLantM3": {
+  "unit": "Unlantm3",
+  "seg": 15,
+  "events": {
+   "FormLantM3": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "15:27FE"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "15:2319"
+    }
+   },
+   "Tillbaka": {
+    "OnClick": {
+     "handler": "TillbakaClick",
+     "addr": "15:233A"
+    }
+   },
+   "Image2": {
+    "OnClick": {
+     "handler": "Image2Click",
+     "addr": "15:279E"
+    }
+   },
+   "ImgBytSad": {
+    "OnClick": {
+     "handler": "ImgBytSadClick",
+     "addr": "15:2751"
+    }
+   },
+   "Label2": {
+    "OnClick": {
+     "handler": "TillbakaClick",
+     "addr": "15:233A"
+    }
+   },
+   "Image1": {
+    "OnClick": {
+     "handler": "Image1Click",
+     "addr": "15:27D9"
+    }
+   }
+  }
+ },
+ "TFormLivDj1": {
+  "unit": "Unlivdj1",
+  "seg": 15,
+  "events": {
+   "FormLivDj1": {
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "15:08D3"
+    },
+    "OnDestroy": {
+     "handler": "FormDestroy",
+     "addr": "15:09A5"
+    }
+   },
+   "ImgKo": {
+    "OnEndDrag": {
+     "handler": "ImgKoEndDrag",
+     "addr": "15:0963"
+    }
+   },
+   "ImgTj": {
+    "OnEndDrag": {
+     "handler": "ImgTjEndDrag",
+     "addr": "15:097F"
+    }
+   },
+   "ImgKv": {
+    "OnEndDrag": {
+     "handler": "ImgKvEndDrag",
+     "addr": "15:0971"
+    }
+   },
+   "ImgBack": {
+    "OnMouseDown": {
+     "handler": "ImgBackMouseDown",
+     "addr": "15:098D"
+    },
+    "OnMouseMove": {
+     "handler": "ImgBackMouseMove",
+     "addr": "15:0941"
+    }
+   },
+   "Tillbaka": {
+    "OnClick": {
+     "handler": "TillbakaClick",
+     "addr": "15:08A9"
+    }
+   }
+  }
+ },
+ "TFormLoge1": {
+  "unit": "Unloge1",
+  "seg": 10,
+  "events": {
+   "FormLoge1": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "10:39C5"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "10:392B"
+    },
+    "OnDestroy": {
+     "handler": "FormDestroy",
+     "addr": "10:3AD9"
+    }
+   },
+   "Image1": {
+    "OnEndDrag": {
+     "handler": "Image1EndDrag",
+     "addr": "10:398C"
+    }
+   },
+   "ImgBack": {
+    "OnMouseDown": {
+     "handler": "ImgBackMouseDown",
+     "addr": "10:39AD"
+    },
+    "OnMouseMove": {
+     "handler": "ImgBackMouseMove",
+     "addr": "10:3971"
+    }
+   },
+   "Tillbaka": {
+    "OnClick": {
+     "handler": "TillbakaClick",
+     "addr": "10:38FB"
+    }
+   }
+  }
+ },
+ "TFormLoge2": {
+  "unit": "Unloge2",
+  "seg": 11,
+  "events": {
+   "FormLoge2": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "11:11F5"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "11:11B2"
+    }
+   },
+   "Tillbaka": {
+    "OnClick": {
+     "handler": "TillbakaClick",
+     "addr": "11:11C4"
+    }
+   }
+  }
+ },
+ "TFormMaShop": {
+  "unit": "Unmashop",
+  "seg": 9,
+  "events": {
+   "FormMaShop": {
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "9:3CA0"
+    },
+    "OnDestroy": {
+     "handler": "FormDestroy",
+     "addr": "9:3F57"
+    }
+   },
+   "Image1": {
+    "OnEndDrag": {
+     "handler": "Image1EndDrag",
+     "addr": "9:3E9D"
+    }
+   },
+   "Image3": {
+    "OnEndDrag": {
+     "handler": "Image3EndDrag",
+     "addr": "9:3EC7"
+    }
+   },
+   "Image4": {
+    "OnEndDrag": {
+     "handler": "Image4EndDrag",
+     "addr": "9:3ED9"
+    }
+   },
+   "Image5": {
+    "OnEndDrag": {
+     "handler": "Image5EndDrag",
+     "addr": "9:3F45"
+    }
+   },
+   "Image6": {
+    "OnEndDrag": {
+     "handler": "Image6EndDrag",
+     "addr": "9:3EEB"
+    }
+   },
+   "Image7": {
+    "OnEndDrag": {
+     "handler": "Image7EndDrag",
+     "addr": "9:3EFD"
+    }
+   },
+   "Image8": {
+    "OnEndDrag": {
+     "handler": "Image8EndDrag",
+     "addr": "9:3F0F"
+    }
+   },
+   "Image9": {
+    "OnEndDrag": {
+     "handler": "Image9EndDrag",
+     "addr": "9:3F21"
+    }
+   },
+   "Image10": {
+    "OnEndDrag": {
+     "handler": "Image10EndDrag",
+     "addr": "9:3F33"
+    }
+   },
+   "ImgBack": {
+    "OnMouseDown": {
+     "handler": "ImgBackMouseDown",
+     "addr": "9:3EAF"
+    },
+    "OnMouseMove": {
+     "handler": "ImgBackMouseMove",
+     "addr": "9:3E82"
+    }
+   },
+   "ImgTillbaka": {
+    "OnClick": {
+     "handler": "ImgTillbakaClick",
+     "addr": "9:3DFA"
+    }
+   }
+  }
+ },
+ "TFormMaskArb": {
+  "unit": "Unmskarb",
+  "seg": 14,
+  "events": {
+   "FormMaskArb": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "14:34DA"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "14:3176"
+    },
+    "OnDestroy": {
+     "handler": "FormDestroy",
+     "addr": "14:3A1C"
+    }
+   },
+   "ImgE": {
+    "OnEndDrag": {
+     "handler": "ImgEEndDrag",
+     "addr": "14:393A"
+    }
+   },
+   "ImgD": {
+    "OnEndDrag": {
+     "handler": "ImgDEndDrag",
+     "addr": "14:395D"
+    }
+   },
+   "ImgC": {
+    "OnEndDrag": {
+     "handler": "ImgCEndDrag",
+     "addr": "14:3980"
+    }
+   },
+   "ImgG": {
+    "OnEndDrag": {
+     "handler": "ImgGEndDrag",
+     "addr": "14:39A3"
+    }
+   },
+   "ImgF": {
+    "OnEndDrag": {
+     "handler": "ImgFEndDrag",
+     "addr": "14:3917"
+    }
+   },
+   "ImgA": {
+    "OnEndDrag": {
+     "handler": "ImgAEndDrag",
+     "addr": "14:38F4"
+    }
+   },
+   "ImgH": {
+    "OnEndDrag": {
+     "handler": "ImgHEndDrag",
+     "addr": "14:39C6"
+    }
+   },
+   "ImgB": {
+    "OnEndDrag": {
+     "handler": "ImgBEndDrag",
+     "addr": "14:38D1"
+    }
+   },
+   "ImgBack": {
+    "OnMouseDown": {
+     "handler": "ImgBackMouseDown",
+     "addr": "14:3237"
+    }
+   },
+   "Tillbaka": {
+    "OnClick": {
+     "handler": "TillbakaClick",
+     "addr": "14:3156"
+    }
+   },
+   "ImgTrLeft": {
+    "OnClick": {
+     "handler": "ImgTrLeftClick",
+     "addr": "14:3268"
+    }
+   },
+   "ImgTrRight": {
+    "OnClick": {
+     "handler": "ImgTrRightClick",
+     "addr": "14:32F7"
+    }
+   },
+   "ImgMaskLeft": {
+    "OnClick": {
+     "handler": "ImgMaskLeftClick",
+     "addr": "14:357B"
+    }
+   },
+   "ImgMaskRight": {
+    "OnClick": {
+     "handler": "ImgMaskRightClick",
+     "addr": "14:358E"
+    }
+   },
+   "BtnAvbrytTrak": {
+    "OnClick": {
+     "handler": "BtnAvbrytTrakClick",
+     "addr": "14:39DC"
+    }
+   },
+   "BtnAvbrytMask": {
+    "OnClick": {
+     "handler": "BtnAvbrytMaskClick",
+     "addr": "14:39FC"
+    }
+   }
+  }
+ },
+ "TFormMaskHall": {
+  "unit": "Unmaskha",
+  "seg": 10,
+  "events": {
+   "FormMaskHall": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "10:354E"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "10:343A"
+    },
+    "OnDestroy": {
+     "handler": "FormDestroy",
+     "addr": "10:3662"
+    }
+   },
+   "Image1": {
+    "OnEndDrag": {
+     "handler": "Image1EndDrag",
+     "addr": "10:353C"
+    }
+   },
+   "ImgBack": {
+    "OnMouseDown": {
+     "handler": "ImgBackMouseDown",
+     "addr": "10:350C"
+    },
+    "OnMouseMove": {
+     "handler": "ImgBackMouseMove",
+     "addr": "10:3524"
+    }
+   },
+   "Tillbaka": {
+    "OnClick": {
+     "handler": "TillbakaClick",
+     "addr": "10:341A"
+    }
+   }
+  }
+ },
+ "TFormMiShop": {
+  "unit": "Unmishop",
+  "seg": 10,
+  "events": {
+   "FormMiShop": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "10:1054"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "10:0DC2"
+    }
+   },
+   "ImgTillbaka": {
+    "OnClick": {
+     "handler": "ImgTillbakaClick",
+     "addr": "10:0DA2"
+    }
+   },
+   "Image6": {
+    "OnClick": {
+     "handler": "Image6Click",
+     "addr": "10:0DF9"
+    }
+   },
+   "Image7": {
+    "OnClick": {
+     "handler": "Image7Click",
+     "addr": "10:0E11"
+    }
+   },
+   "Image8": {
+    "OnClick": {
+     "handler": "Image8Click",
+     "addr": "10:0E29"
+    }
+   },
+   "Image9": {
+    "OnClick": {
+     "handler": "Image9Click",
+     "addr": "10:0E41"
+    }
+   }
+  }
+ },
+ "TFormMRum1": {
+  "unit": "Unmrum1",
+  "seg": 14,
+  "events": {
+   "FormMRum1": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "14:1E1C"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "14:1D94"
+    },
+    "OnDestroy": {
+     "handler": "FormDestroy",
+     "addr": "14:1F32"
+    }
+   },
+   "Image1": {
+    "OnEndDrag": {
+     "handler": "Image1EndDrag",
+     "addr": "14:1DF2"
+    }
+   },
+   "ImgBack": {
+    "OnMouseDown": {
+     "handler": "ImgBackMouseDown",
+     "addr": "14:1E04"
+    },
+    "OnMouseMove": {
+     "handler": "ImgBackMouseMove",
+     "addr": "14:1DDA"
+    }
+   },
+   "Tillbaka": {
+    "OnClick": {
+     "handler": "TillbakaClick",
+     "addr": "14:1D74"
+    }
+   }
+  }
+ },
+ "TFormMRum2": {
+  "unit": "Unmrum2",
+  "seg": 14,
+  "events": {
+   "FormMRum2": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "14:22C6"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "14:2125"
+    }
+   },
+   "Tillbaka": {
+    "OnClick": {
+     "handler": "TillbakaClick",
+     "addr": "14:2105"
+    }
+   },
+   "ImgRight": {
+    "OnClick": {
+     "handler": "ImgRightClick",
+     "addr": "14:242B"
+    }
+   },
+   "ImgLeft": {
+    "OnClick": {
+     "handler": "ImgLeftClick",
+     "addr": "14:241F"
+    }
+   }
+  }
+ },
+ "TFormMskFsg": {
+  "unit": "Unmskfsg",
+  "seg": 11,
+  "events": {
+   "FormMskFsg": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "11:09F2"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "11:07EC"
+    }
+   },
+   "Tillbaka": {
+    "OnClick": {
+     "handler": "TillbakaClick",
+     "addr": "11:07FE"
+    }
+   },
+   "ImgTrLeft": {
+    "OnClick": {
+     "handler": "ImgTrLeftClick",
+     "addr": "11:0838"
+    }
+   },
+   "ImgTrRight": {
+    "OnClick": {
+     "handler": "ImgTrRightClick",
+     "addr": "11:089D"
+    }
+   },
+   "ImgMaskLeft": {
+    "OnClick": {
+     "handler": "ImgMaskLeftClick",
+     "addr": "11:0912"
+    }
+   },
+   "ImgMaskRight": {
+    "OnClick": {
+     "handler": "ImgMaskRightClick",
+     "addr": "11:0977"
+    }
+   }
+  }
+ },
+ "TFormOkDlg": {
+  "unit": "Unokdlg",
+  "seg": 1,
+  "events": {
+   "FormOkDlg": {
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "1:2500"
+    }
+   }
+  }
+ },
+ "TFormOkKoSj": {
+  "unit": "Unokkosj",
+  "seg": 15,
+  "events": {
+   "FormOkKoSj": {
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "15:3CBD"
+    }
+   }
+  }
+ },
+ "TFormOkMask": {
+  "unit": "Unokmask",
+  "seg": 15,
+  "events": {
+   "FormOkMask": {
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "15:3EE2"
+    }
+   }
+  }
+ },
+ "TFormPShop": {
+  "unit": "Unpshop",
+  "seg": 10,
+  "events": {
+   "FormPShop": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "10:242C"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "10:22D2"
+    }
+   },
+   "ImgTillbaka": {
+    "OnClick": {
+     "handler": "ImgTillbakaClick",
+     "addr": "10:22B2"
+    }
+   }
+  }
+ },
+ "TFormSaljUt": {
+  "unit": "Unsaljut",
+  "seg": 11,
+  "events": {
+   "FormSaljUt": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "11:187A"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "11:1916"
+    }
+   },
+   "Tillbaka": {
+    "OnClick": {
+     "handler": "TillbakaClick",
+     "addr": "11:188B"
+    }
+   }
+  }
+ },
+ "TFormSalKoA": {
+  "unit": "Unsalkoa",
+  "seg": 15,
+  "events": {
+   "FormSalKoA": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "15:12CF"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "15:11BF"
+    }
+   },
+   "ImgBack": {
+    "OnClick": {
+     "handler": "ImgBackClick",
+     "addr": "15:11E2"
+    }
+   },
+   "Tillbaka": {
+    "OnClick": {
+     "handler": "TillbakaClick",
+     "addr": "15:117D"
+    }
+   },
+   "ImgLeft": {
+    "OnClick": {
+     "handler": "ImgLeftClick",
+     "addr": "15:1219"
+    }
+   },
+   "ImgRight": {
+    "OnClick": {
+     "handler": "ImgRightClick",
+     "addr": "15:1272"
+    }
+   }
+  }
+ },
+ "TFormSetWor": {
+  "unit": "Unsetwor",
+  "seg": 15,
+  "events": {
+   "FormSetWor": {
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "15:04F4"
+    }
+   },
+   "Tillbaka": {
+    "OnClick": {
+     "handler": "TillbakaClick",
+     "addr": "15:0469"
+    }
+   }
+  }
+ },
+ "TFormSkShop": {
+  "unit": "Unskshop",
+  "seg": 7,
+  "events": {
+   "FormSkShop": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "7:3F1B"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "7:3D73"
+    }
+   },
+   "ImgTillbaka": {
+    "OnClick": {
+     "handler": "ImgTillbakaClick",
+     "addr": "7:3D85"
+    }
+   }
+  }
+ },
+ "TFormSlaShp": {
+  "unit": "Unslashp",
+  "seg": 10,
+  "events": {
+   "FormSlaShp": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "10:19D7"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "10:189F"
+    }
+   },
+   "ImgTillbaka": {
+    "OnClick": {
+     "handler": "ImgTillbakaClick",
+     "addr": "10:187F"
+    }
+   }
+  }
+ },
+ "TFormSounds": {
+  "unit": "Unsounds",
+  "seg": 1,
+  "events": {
+   "FormSounds": {
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "1:091E"
+    }
+   }
+  }
+ },
+ "TFormSSHop": {
+  "unit": "Unsshop",
+  "seg": 10,
+  "events": {
+   "FormSSHop": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "10:1D12"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "10:1C0A"
+    }
+   },
+   "ImgTillbaka": {
+    "OnClick": {
+     "handler": "ImgTillbakaClick",
+     "addr": "10:1C1C"
+    }
+   }
+  }
+ },
+ "TFormTotSta": {
+  "unit": "Untotsta",
+  "seg": 10,
+  "events": {
+   "FormTotSta": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "10:2F5F"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "10:2BC4"
+    }
+   },
+   "Tillbaka": {
+    "OnClick": {
+     "handler": "TillbakaClick",
+     "addr": "10:2C05"
+    }
+   }
+  }
+ },
+ "TFormTShop": {
+  "unit": "Untshop",
+  "seg": 10,
+  "events": {
+   "FormTShop": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "10:2902"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "10:2700"
+    }
+   },
+   "ImgTillbaka": {
+    "OnClick": {
+     "handler": "ImgTillbakaClick",
+     "addr": "10:26E0"
+    }
+   }
+  }
+ },
+ "TFormValRep": {
+  "unit": "Unvalrep",
+  "seg": 14,
+  "events": {
+   "FormValRep": {
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "14:0D82"
+    },
+    "OnDestroy": {
+     "handler": "FormDestroy",
+     "addr": "14:0DF6"
+    }
+   },
+   "Tillbaka": {
+    "OnClick": {
+     "handler": "TillbakaClick",
+     "addr": "14:0CD3"
+    }
+   },
+   "LbReps": {
+    "OnClick": {
+     "handler": "LbRepsClick",
+     "addr": "14:0CF8"
+    },
+    "OnDblClick": {
+     "handler": "LbRepsDblClick",
+     "addr": "14:0D6E"
+    }
+   }
+  }
+ },
+ "TFormValSad": {
+  "unit": "Unvalsad",
+  "seg": 14,
+  "events": {
+   "FormValSad": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "14:3D8A"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "14:3E0D"
+    }
+   },
+   "Tillbaka": {
+    "OnClick": {
+     "handler": "TillbakaClick",
+     "addr": "14:3D74"
+    }
+   },
+   "rbVete": {
+    "OnClick": {
+     "handler": "rbVeteClick",
+     "addr": "14:3DC1"
+    }
+   },
+   "rbHavre": {
+    "OnClick": {
+     "handler": "rbHavreClick",
+     "addr": "14:3DE7"
+    }
+   },
+   "rbRag": {
+    "OnClick": {
+     "handler": "rbRagClick",
+     "addr": "14:3DFA"
+    }
+   },
+   "rbKorn": {
+    "OnClick": {
+     "handler": "rbKornClick",
+     "addr": "14:3DD4"
+    }
+   },
+   "rbVall": {
+    "OnClick": {
+     "handler": "rbVallClick",
+     "addr": "14:3DAE"
+    }
+   }
+  }
+ },
+ "TFormVSM": {
+  "unit": "Unvsm",
+  "seg": 10,
+  "events": {
+   "FormVSM": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "10:0921"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "10:02E3"
+    }
+   },
+   "Tillbaka": {
+    "OnClick": {
+     "handler": "TillbakaClick",
+     "addr": "10:04BF"
+    }
+   },
+   "Timer1": {
+    "OnTimer": {
+     "handler": "Timer1Timer",
+     "addr": "10:0889"
+    }
+   }
+  }
+ },
+ "TFormYul": {
+  "unit": "UnYul",
+  "seg": 7,
+  "events": {
+   "FormYul": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "7:31AF"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "7:3053"
+    },
+    "OnShow": {
+     "handler": "FormShow",
+     "addr": "7:33CD"
+    }
+   },
+   "Timer1": {
+    "OnTimer": {
+     "handler": "Timer1Timer",
+     "addr": "7:338C"
+    }
+   }
+  }
+ },
+ "TFormYul2": {
+  "unit": "Unyul2",
+  "seg": 16,
+  "events": {
+   "FormYul2": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "16:3178"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "16:30E6"
+    }
+   },
+   "Tillbaka": {
+    "OnClick": {
+     "handler": "TillbakaClick",
+     "addr": "16:3119"
+    }
+   }
+  }
+ },
+ "TLoadForm": {
+  "unit": "LoadFrm",
+  "seg": 4,
+  "events": {
+   "LoadForm": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "4:3D23"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "4:3D42"
+    },
+    "OnMouseMove": {
+     "handler": "FormMouseMove",
+     "addr": "4:3C8A"
+    }
+   },
+   "BtnOk": {
+    "OnClick": {
+     "handler": "BtnOkClick",
+     "addr": "4:3CC2"
+    }
+   }
+  }
+ },
+ "TMain": {
+  "unit": "Mainunit",
+  "seg": 5,
+  "events": {
+   "Main": {
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "5:3EA1"
+    },
+    "OnShow": {
+     "handler": "FormShow",
+     "addr": "5:3EF0"
+    }
+   },
+   "Image": {
+    "OnMouseDown": {
+     "handler": "ImageMouseDown",
+     "addr": "5:01F4"
+    }
+   },
+   "Timer": {
+    "OnTimer": {
+     "handler": "TimerTimeOut",
+     "addr": "5:01D2"
+    }
+   },
+   "HitBoxTimer": {
+    "OnTimer": {
+     "handler": "HitBoxTimeOut",
+     "addr": "5:01E3"
+    }
+   },
+   "StartupTimer": {
+    "OnTimer": {
+     "handler": "StartupTimerTimer",
+     "addr": "5:3E63"
+    }
+   }
+  }
+ },
+ "TMenuForm": {
+  "unit": "MenuFrm",
+  "seg": 6,
+  "events": {
+   "MenuForm": {
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "6:3A1A"
+    },
+    "OnMouseMove": {
+     "handler": "FormMouseMove",
+     "addr": "6:3A69"
+    }
+   },
+   "MainPanel": {
+    "OnMouseMove": {
+     "handler": "FormMouseMove",
+     "addr": "6:3A69"
+    }
+   }
+  }
+ },
+ "TQuestionForm": {
+  "unit": "QuestFrm",
+  "seg": 4,
+  "events": {
+   "QuestionForm": {
+    "OnMouseMove": {
+     "handler": "FormMouseMove",
+     "addr": "4:3AD8"
+    }
+   }
+  }
+ },
+ "TSaveForm": {
+  "unit": "SaveFrm",
+  "seg": 7,
+  "events": {
+   "SaveForm": {
+    "OnActivate": {
+     "handler": "FormActivate",
+     "addr": "7:2EE0"
+    },
+    "OnCreate": {
+     "handler": "FormCreate",
+     "addr": "7:2EFF"
+    },
+    "OnMouseMove": {
+     "handler": "FormMouseMove",
+     "addr": "7:2E1F"
+    }
+   },
+   "BtnOk": {
+    "OnClick": {
+     "handler": "BtnOkClick",
+     "addr": "7:2E38"
+    }
+   }
+  }
+ }
+}

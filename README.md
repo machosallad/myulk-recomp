@@ -7,3 +7,4 @@ Goal: run on modern desktops and in the browser (C++20 + SDL, planned), using th
 **This repository contains no original game data.** Put your ISO at `iso/Myulk.iso`. Both `iso/` and `extracted/` are gitignored.
 
 - [docs/extraction.md](docs/extraction.md) – how assets are extracted and what the original game is made of
+- [docs/code-map.md](docs/code-map.md) – recovered class structure, event handlers and program layout of the original EXE

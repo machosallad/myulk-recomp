@@ -1,0 +1,394 @@
+{
+ "entry": "1:0002",
+ "unit_inits": [
+  "33:0002",
+  "33:08A6",
+  "32:1A6C",
+  "31:50E2",
+  "30:0AB3",
+  "28:6F15",
+  "27:227D",
+  "23:2CEC",
+  "23:0995",
+  "17:3F1D",
+  "19:2DCC",
+  "18:2384",
+  "16:2F7A",
+  "15:3516",
+  "15:2AE2",
+  "14:0E08",
+  "4:3FB7",
+  "9:3A0A",
+  "1:1DA5",
+  "1:09CE"
+ ],
+ "create_form": "29:6F3D",
+ "forms": [
+  {
+   "class": "TAdvForm",
+   "var_ds": 19510
+  },
+  {
+   "class": "TMenuForm",
+   "var_ds": 22520
+  },
+  {
+   "class": "TSaveForm",
+   "var_ds": 22532
+  },
+  {
+   "class": "TLoadForm",
+   "var_ds": 22528
+  },
+  {
+   "class": "TMain",
+   "var_ds": 22484
+  },
+  {
+   "class": "TForm1",
+   "var_ds": 22488
+  },
+  {
+   "class": "TFormBekKop",
+   "var_ds": 22888
+  },
+  {
+   "class": "TFormBekKp2",
+   "var_ds": 22942
+  },
+  {
+   "class": "TFormBekRep",
+   "var_ds": 19500
+  },
+  {
+   "class": "TFormBekSal",
+   "var_ds": 22788
+  },
+  {
+   "class": "TFormBost1",
+   "var_ds": 22676
+  },
+  {
+   "class": "TFormBost2",
+   "var_ds": 22684
+  },
+  {
+   "class": "TFormGlbImg",
+   "var_ds": 23562
+  },
+  {
+   "class": "TFormHayShp",
+   "var_ds": 22594
+  },
+  {
+   "class": "TFormHShop",
+   "var_ds": 22610
+  },
+  {
+   "class": "TFormHVShop",
+   "var_ds": 22598
+  },
+  {
+   "class": "TFormKonto",
+   "var_ds": 22626
+  },
+  {
+   "class": "TFormKopAvb",
+   "var_ds": 22692
+  },
+  {
+   "class": "TFormKopHan",
+   "var_ds": 22712
+  },
+  {
+   "class": "TFormKopSem",
+   "var_ds": 22704
+  },
+  {
+   "class": "TFormKopSni",
+   "var_ds": 22700
+  },
+  {
+   "class": "TFormKopVet",
+   "var_ds": 22708
+  },
+  {
+   "class": "TFormLag1",
+   "var_ds": 22760
+  },
+  {
+   "class": "TFormLag2",
+   "var_ds": 22768
+  },
+  {
+   "class": "TFormLantM1",
+   "var_ds": 22894
+  },
+  {
+   "class": "TFormLantM2",
+   "var_ds": 22930
+  },
+  {
+   "class": "TFormLantM3",
+   "var_ds": 22904
+  },
+  {
+   "class": "TFormLivDj1",
+   "var_ds": 22868
+  },
+  {
+   "class": "TFormLoge1",
+   "var_ds": 22644
+  },
+  {
+   "class": "TFormLoge2",
+   "var_ds": 22654
+  },
+  {
+   "class": "TFormMaShop",
+   "var_ds": 22576
+  },
+  {
+   "class": "TFormMaskHall",
+   "var_ds": 22630
+  },
+  {
+   "class": "TFormMiShop",
+   "var_ds": 22586
+  },
+  {
+   "class": "TFormMRum1",
+   "var_ds": 22774
+  },
+  {
+   "class": "TFormMRum2",
+   "var_ds": 22782
+  },
+  {
+   "class": "TFormMaskArb",
+   "var_ds": 22794
+  },
+  {
+   "class": "TFormMskFsg",
+   "var_ds": 22638
+  },
+  {
+   "class": "TFormOkDlg",
+   "var_ds": 19506
+  },
+  {
+   "class": "TFormOkKoSj",
+   "var_ds": 23550
+  },
+  {
+   "class": "TFormOkMask",
+   "var_ds": 23554
+  },
+  {
+   "class": "TFormPShop",
+   "var_ds": 22614
+  },
+  {
+   "class": "TFormSaljUt",
+   "var_ds": 22658
+  },
+  {
+   "class": "TFormSalKoA",
+   "var_ds": 22878
+  },
+  {
+   "class": "TFormSetWor",
+   "var_ds": 22860
+  },
+  {
+   "class": "TFormSkShop",
+   "var_ds": 22590
+  },
+  {
+   "class": "TFormSlaShp",
+   "var_ds": 22602
+  },
+  {
+   "class": "TFormSounds",
+   "var_ds": 13724
+  },
+  {
+   "class": "TFormSSHop",
+   "var_ds": 22606
+  },
+  {
+   "class": "TFormTotSta",
+   "var_ds": 22622
+  },
+  {
+   "class": "TFormTShop",
+   "var_ds": 22618
+  },
+  {
+   "class": "TFormValRep",
+   "var_ds": 22750
+  },
+  {
+   "class": "TFormValSad",
+   "var_ds": 22848
+  },
+  {
+   "class": "TFormVSM",
+   "var_ds": 22568
+  },
+  {
+   "class": "TFormYul",
+   "var_ds": 22558
+  },
+  {
+   "class": "TFormYul2",
+   "var_ds": 23558
+  },
+  {
+   "class": "TFormBete",
+   "var_ds": 22562
+  },
+  {
+   "class": "TQuestionForm",
+   "var_ds": 22524
+  }
+ ],
+ "after_forms": [
+  {
+   "at": "1:0002",
+   "target": "KERNEL.91"
+  },
+  {
+   "at": "1:05CC",
+   "target": "29:6FD8"
+  },
+  {
+   "at": "1:05D4",
+   "target": "33:0093"
+  }
+ ],
+ "segment_units": {
+  "1": [
+   "Unbekrep",
+   "Unokdlg",
+   "Unsounds"
+  ],
+  "2": [
+   "AdvFrm"
+  ],
+  "4": [
+   "LoadFrm",
+   "QuestFrm"
+  ],
+  "5": [
+   "Mainunit"
+  ],
+  "6": [
+   "MenuFrm"
+  ],
+  "7": [
+   "SaveFrm",
+   "UnYul",
+   "Unskshop"
+  ],
+  "8": [
+   "Gauges",
+   "Unbete"
+  ],
+  "9": [
+   "Mjulk1u1",
+   "Unmashop"
+  ],
+  "10": [
+   "Unbost1",
+   "Unhayshp",
+   "Unhshop",
+   "Unhvshop",
+   "Unkonto",
+   "Unloge1",
+   "Unmaskha",
+   "Unmishop",
+   "Unpshop",
+   "Unslashp",
+   "Unsshop",
+   "Untotsta",
+   "Untshop",
+   "Unvsm"
+  ],
+  "11": [
+   "Unbost2",
+   "Unloge2",
+   "Unmskfsg",
+   "Unsaljut"
+  ],
+  "13": [
+   "Unkopavb",
+   "Unkopsni"
+  ],
+  "14": [
+   "Unbeksal",
+   "Unkophan",
+   "Unkopsem",
+   "Unkopvet",
+   "Unlag1",
+   "Unlag2",
+   "Unmrum1",
+   "Unmrum2",
+   "Unmskarb",
+   "Unvalrep",
+   "Unvalsad"
+  ],
+  "15": [
+   "Unbekkop",
+   "Unbekkp2",
+   "Unlantm1",
+   "Unlantm2",
+   "Unlantm3",
+   "Unlivdj1",
+   "Unokkosj",
+   "Unokmask",
+   "Unsalkoa",
+   "Unsetwor"
+  ],
+  "16": [
+   "Unglbimg",
+   "Unyul2"
+  ],
+  "19": [
+   "Autobtn"
+  ],
+  "21": [
+   "MPlayer"
+  ],
+  "22": [
+   "FileCtrl"
+  ],
+  "23": [
+   "Buttons"
+  ],
+  "24": [
+   "ExtCtrls"
+  ],
+  "25": [
+   "StdCtrls"
+  ],
+  "26": [
+   "Graphics"
+  ],
+  "27": [
+   "Menus"
+  ],
+  "28": [
+   "Controls"
+  ],
+  "29": [
+   "Forms"
+  ],
+  "31": [
+   "Classes"
+  ],
+  "33": [
+   "System"
+  ]
+ }
+}

@@ -32,6 +32,14 @@ class Resource:
 
 
 @dataclass
+class Relocation:
+    src_type: int           # 0 lobyte, 2 segment, 3 far ptr, 5 offset, 11 ptr48, 13 off32
+    offset: int             # location inside the segment
+    target: tuple           # ("internal", seg, off) | ("ordinal", mod, n) | ("name", mod, s) | ("osfixup", a, b)
+    additive: bool
+
+
+@dataclass
 class Segment:
     index: int              # 1-based
     offset: int             # file offset (0 = no data in file)
@@ -95,6 +103,77 @@ class NEFile:
             off, ln, fl, mn = struct.unpack_from("<HHHH", d, self.segtab + 8 * i)
             length = ln if ln or not off else 0x10000
             out.append(Segment(i + 1, off << self.align_shift, length, fl, mn or 0x10000))
+        return out
+
+    # ------------------------------------------------------------------
+    def entries(self) -> dict[int, tuple[int, int]]:
+        """Entry table: ordinal -> (segment, offset)."""
+        d = self.data
+        p = self.ne + struct.unpack_from("<H", d, self.ne + 0x04)[0]
+        end = p + struct.unpack_from("<H", d, self.ne + 0x06)[0]
+        out: dict[int, tuple[int, int]] = {}
+        ordinal = 1
+        while p < end:
+            count, typ = d[p], d[p + 1]
+            p += 2
+            if count == 0:
+                break
+            if typ == 0:            # unused ordinals
+                ordinal += count
+                continue
+            for _ in range(count):
+                if typ == 0xFF:     # moveable: flags, INT 3Fh, seg, offset
+                    seg, off = d[p + 3], struct.unpack_from("<H", d, p + 4)[0]
+                    p += 6
+                else:               # fixed: flags, offset
+                    seg, off = typ, struct.unpack_from("<H", d, p + 1)[0]
+                    p += 3
+                out[ordinal] = (seg, off)
+                ordinal += 1
+        return out
+
+    def relocations(self, seg: Segment) -> list[Relocation]:
+        """Relocations of one segment, with source chains expanded."""
+        d = self.data
+        if not seg.offset or not (seg.flags & 0x0100):
+            return []
+        p = seg.offset + seg.length
+        count = struct.unpack_from("<H", d, p)[0]
+        p += 2
+        entries = None
+        out: list[Relocation] = []
+        for _ in range(count):
+            src, flags, off, a, b = struct.unpack_from("<BBHHH", d, p)
+            p += 8
+            kind = flags & 3
+            additive = bool(flags & 4)
+            if kind == 0:       # internal reference
+                tseg, toff = a & 0xFF, b
+                if tseg == 0xFF:
+                    if entries is None:
+                        entries = self.entries()
+                    tseg, toff = entries.get(b, (0, 0))
+                target: tuple = ("internal", tseg, toff)
+            elif kind == 1:
+                target = ("ordinal", self.imported_modules()[a - 1], b)
+            elif kind == 2:
+                n = d[self.imptab + b]
+                name = d[self.imptab + b + 1:self.imptab + b + 1 + n].decode("latin1")
+                target = ("name", self.imported_modules()[a - 1], name)
+            else:
+                target = ("osfixup", a, b)
+            # follow the chain of locations sharing this fixup
+            seen = set()
+            loc = off
+            while True:
+                out.append(Relocation(src, loc, target, additive))
+                if additive or loc in seen or loc + 2 > seg.length:
+                    break
+                seen.add(loc)
+                nxt = struct.unpack_from("<H", d, seg.offset + loc)[0]
+                if nxt == 0xFFFF:
+                    break
+                loc = nxt
         return out
 
     # ------------------------------------------------------------------
