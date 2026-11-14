@@ -54,4 +54,24 @@ Method table: `word count, {far ptr, shortstring name}`. Field table: `word coun
 
 ## Ghidra
 
-Ghidra 12.2 at `C:\Tools\ghidra` needs JDK 25, and only JDK 21 is installed, so the Ghidra import is blocked for now. The project goes in `ghidra_project/` (gitignored). `tools/ghidra/ListBlocks.java` is the first headless script: it shows how the loader maps NE segments, which the symbol import needs.
+Requires Ghidra 12.2+ (default `C:\Tools\ghidra`, override with `GHIDRA_HOME`), JDK 25 and `capstone`.
+
+```bash
+python -I tools/delphi_map.py                          # classes, events, symbols
+python -I tools/find_functions.py                      # extra function entry points
+python -I tools/ghidra/headless.py import              # import + names + auto-analysis (~25 s)
+python -I tools/ghidra/headless.py script ExportDecomp.java 1 22   # decompile game code (~15 s)
+```
+
+- **Project location:** `ghidra_project/` (gitignored). Open it in the Ghidra GUI to browse the code interactively.
+- **Settings folder:** `headless.py` points Ghidra's settings folder into `ghidra_project/settings`, because with the default folder under `%APPDATA%` the OSGi framework fails to start ("The data file must be inside the data dir").
+- **Address mapping:** NE segment N is the memory block `CodeN` at selector `0x1000 + (N−1)·8`, so `9:3C8F` is `1040:3c8f` in Ghidra. The data segment is `Data34` at `1108:0000`.
+- **Names applied (`ApplySymbols.java`):** 596 named functions in class namespaces (`TFormMaShop::TillbakaClick`), 206 VMT labels and 57 form globals.
+- **Hidden routines (`find_functions.py`):** many routines are only reached through procedure pointers (scene/hotspot tables), so auto-analysis can't find them. This script seeds entry points from far-pointer relocation targets and from the `55 89 E5` prologue. That raised game-code coverage from as low as 3% in some segments to 57–94%. The rest is string constants and class tables.
+- **Decompiled output (`ExportDecomp.java`):** writes `decomp/segNN.c` plus `decomp/functions.csv`. This covers 2,353 functions in segments 1–22, and only 1 failed to decompile. `decomp/` is gitignored because it is derived from the original code.
+
+### Next steps for readability
+
+- Name the VCL/RTL routines in segments 23–33 that the game calls (e.g. `FUN_10e0_54bd` is called from `TillbakaClick` and is almost certainly `TCustomForm.Close`). This replaces most of the `FUN_*` calls in the game code.
+- Set Delphi's calling convention: Pascal, with Self pushed as a far pointer.
+- Define structs for `TMain` and the `My*` model classes from their field offsets.

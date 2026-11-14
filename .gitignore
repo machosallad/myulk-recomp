@@ -14,3 +14,6 @@ __pycache__/
 
 # Ghidra project (contains the original binary)
 ghidra_project/
+
+# Decompiler output (derived from the original binary)
+decomp/
