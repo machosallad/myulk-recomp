@@ -39,6 +39,13 @@ public class ApplySymbols extends GhidraScript {
                 segs.put(Integer.parseInt(digits), b);
             }
         }
+        // commit decompiler-inferred parameters during auto-analysis, so
+        // ApplyClassTypes can retype Self without dropping the others
+        try {
+            setAnalysisOption(currentProgram, "Decompiler Parameter ID", "true");
+        } catch (Exception e) {
+            println("could not enable Decompiler Parameter ID: " + e.getMessage());
+        }
         int fn = 0, lbl = 0, glob = 0, bad = 0;
         SymbolTable st = currentProgram.getSymbolTable();
 

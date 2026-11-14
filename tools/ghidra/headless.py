@@ -51,7 +51,8 @@ def main() -> int:
     if sys.argv[1] == "import":
         return run(["-import", EXE, "-overwrite",
                     "-preScript", "ApplySymbols.java",
-                    "-postScript", "ApplySymbols.java"])
+                    "-postScript", "ApplySymbols.java",
+                    "-postScript", "ApplyClassTypes.java"])
     if sys.argv[1] == "script":
         return run(["-process", "MYULK.EXE", "-noanalysis",
                     "-postScript"] + sys.argv[2:])

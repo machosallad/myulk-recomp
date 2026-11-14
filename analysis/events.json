@@ -6,243 +6,293 @@
    "AdvForm": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "2:3CED"
+     "addr": "2:3CED",
+     "component_class": "TAdvForm"
     },
     "OnClose": {
      "handler": "FormClose",
-     "addr": "2:3E18"
+     "addr": "2:3E18",
+     "component_class": "TAdvForm"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "2:3ACD"
+     "addr": "2:3ACD",
+     "component_class": "TAdvForm"
     }
    },
    "MImage": {
     "OnMouseDown": {
      "handler": "MImageMouseDown",
-     "addr": "2:402E"
+     "addr": "2:402E",
+     "component_class": "TImage"
     },
     "OnMouseUp": {
      "handler": "MImageMouseUp",
-     "addr": "2:4072"
+     "addr": "2:4072",
+     "component_class": "TImage"
     }
    },
    "InventImage": {
     "OnMouseUp": {
      "handler": "InventImageMouseUp",
-     "addr": "2:40D2"
+     "addr": "2:40D2",
+     "component_class": "TImage"
     }
    },
    "EndImg": {
     "OnMouseMove": {
      "handler": "FirstMouseMove",
-     "addr": "2:3EE1"
+     "addr": "2:3EE1",
+     "component_class": "TImage"
     }
    },
    "TalkPanel": {
     "OnMouseMove": {
      "handler": "TalkPanelMouseMove",
-     "addr": "2:4EBB"
+     "addr": "2:4EBB",
+     "component_class": "TPanel"
     }
    },
    "TalkLabel1": {
     "OnMouseDown": {
      "handler": "TalkLabelMouseDown",
-     "addr": "2:4F34"
+     "addr": "2:4F34",
+     "component_class": "TLabel"
     },
     "OnMouseMove": {
      "handler": "ExitBtnMouseMove",
-     "addr": "2:4E9C"
+     "addr": "2:4E9C",
+     "component_class": "TLabel"
     },
     "OnMouseUp": {
      "handler": "TalkLabel1MouseUp",
-     "addr": "2:4F63"
+     "addr": "2:4F63",
+     "component_class": "TLabel"
     }
    },
    "TalkLabel2": {
     "OnMouseDown": {
      "handler": "TalkLabelMouseDown",
-     "addr": "2:4F34"
+     "addr": "2:4F34",
+     "component_class": "TLabel"
     },
     "OnMouseMove": {
      "handler": "ExitBtnMouseMove",
-     "addr": "2:4E9C"
+     "addr": "2:4E9C",
+     "component_class": "TLabel"
     },
     "OnMouseUp": {
      "handler": "TalkLabel2MouseUp",
-     "addr": "2:4F8C"
+     "addr": "2:4F8C",
+     "component_class": "TLabel"
     }
    },
    "TalkLabel3": {
     "OnMouseDown": {
      "handler": "TalkLabelMouseDown",
-     "addr": "2:4F34"
+     "addr": "2:4F34",
+     "component_class": "TLabel"
     },
     "OnMouseMove": {
      "handler": "ExitBtnMouseMove",
-     "addr": "2:4E9C"
+     "addr": "2:4E9C",
+     "component_class": "TLabel"
     },
     "OnMouseUp": {
      "handler": "TalkLabel3MouseUp",
-     "addr": "2:4FB6"
+     "addr": "2:4FB6",
+     "component_class": "TLabel"
     }
    },
    "TalkLabel4": {
     "OnMouseDown": {
      "handler": "TalkLabelMouseDown",
-     "addr": "2:4F34"
+     "addr": "2:4F34",
+     "component_class": "TLabel"
     },
     "OnMouseMove": {
      "handler": "ExitBtnMouseMove",
-     "addr": "2:4E9C"
+     "addr": "2:4E9C",
+     "component_class": "TLabel"
     },
     "OnMouseUp": {
      "handler": "TalkLabel4MouseUp",
-     "addr": "2:4FE1"
+     "addr": "2:4FE1",
+     "component_class": "TLabel"
     }
    },
    "TalkLabel5": {
     "OnMouseDown": {
      "handler": "TalkLabelMouseDown",
-     "addr": "2:4F34"
+     "addr": "2:4F34",
+     "component_class": "TLabel"
     },
     "OnMouseMove": {
      "handler": "ExitBtnMouseMove",
-     "addr": "2:4E9C"
+     "addr": "2:4E9C",
+     "component_class": "TLabel"
     },
     "OnMouseUp": {
      "handler": "TalkLabel5MouseUp",
-     "addr": "2:500A"
+     "addr": "2:500A",
+     "component_class": "TLabel"
     }
    },
    "TalkLabel6": {
     "OnMouseDown": {
      "handler": "TalkLabelMouseDown",
-     "addr": "2:4F34"
+     "addr": "2:4F34",
+     "component_class": "TLabel"
     },
     "OnMouseMove": {
      "handler": "ExitBtnMouseMove",
-     "addr": "2:4E9C"
+     "addr": "2:4E9C",
+     "component_class": "TLabel"
     },
     "OnMouseUp": {
      "handler": "TalkLabel6MouseUp",
-     "addr": "2:5033"
+     "addr": "2:5033",
+     "component_class": "TLabel"
     }
    },
    "TalkLabel7": {
     "OnMouseDown": {
      "handler": "TalkLabelMouseDown",
-     "addr": "2:4F34"
+     "addr": "2:4F34",
+     "component_class": "TLabel"
     },
     "OnMouseMove": {
      "handler": "ExitBtnMouseMove",
-     "addr": "2:4E9C"
+     "addr": "2:4E9C",
+     "component_class": "TLabel"
     },
     "OnMouseUp": {
      "handler": "TalkLabel7MouseUp",
-     "addr": "2:505D"
+     "addr": "2:505D",
+     "component_class": "TLabel"
     }
    },
    "TalkLabel8": {
     "OnMouseDown": {
      "handler": "TalkLabelMouseDown",
-     "addr": "2:4F34"
+     "addr": "2:4F34",
+     "component_class": "TLabel"
     },
     "OnMouseMove": {
      "handler": "ExitBtnMouseMove",
-     "addr": "2:4E9C"
+     "addr": "2:4E9C",
+     "component_class": "TLabel"
     },
     "OnMouseUp": {
      "handler": "TalkLabel8MouseUp",
-     "addr": "2:5088"
+     "addr": "2:5088",
+     "component_class": "TLabel"
     }
    },
    "TalkLabel9": {
     "OnMouseDown": {
      "handler": "TalkLabelMouseDown",
-     "addr": "2:4F34"
+     "addr": "2:4F34",
+     "component_class": "TLabel"
     },
     "OnMouseMove": {
      "handler": "ExitBtnMouseMove",
-     "addr": "2:4E9C"
+     "addr": "2:4E9C",
+     "component_class": "TLabel"
     },
     "OnMouseUp": {
      "handler": "TalkLabel9MouseUp",
-     "addr": "2:50B3"
+     "addr": "2:50B3",
+     "component_class": "TLabel"
     }
    },
    "TalkLabel10": {
     "OnMouseDown": {
      "handler": "TalkLabelMouseDown",
-     "addr": "2:4F34"
+     "addr": "2:4F34",
+     "component_class": "TLabel"
     },
     "OnMouseMove": {
      "handler": "ExitBtnMouseMove",
-     "addr": "2:4E9C"
+     "addr": "2:4E9C",
+     "component_class": "TLabel"
     },
     "OnMouseUp": {
      "handler": "TalkLabel10MouseUp",
-     "addr": "2:50DC"
+     "addr": "2:50DC",
+     "component_class": "TLabel"
     }
    },
    "TalkLabel11": {
     "OnMouseDown": {
      "handler": "TalkLabelMouseDown",
-     "addr": "2:4F34"
+     "addr": "2:4F34",
+     "component_class": "TLabel"
     },
     "OnMouseMove": {
      "handler": "ExitBtnMouseMove",
-     "addr": "2:4E9C"
+     "addr": "2:4E9C",
+     "component_class": "TLabel"
     },
     "OnMouseUp": {
      "handler": "TalkLabel11MouseUp",
-     "addr": "2:5106"
+     "addr": "2:5106",
+     "component_class": "TLabel"
     }
    },
    "TalkLabel12": {
     "OnMouseDown": {
      "handler": "TalkLabelMouseDown",
-     "addr": "2:4F34"
+     "addr": "2:4F34",
+     "component_class": "TLabel"
     },
     "OnMouseMove": {
      "handler": "ExitBtnMouseMove",
-     "addr": "2:4E9C"
+     "addr": "2:4E9C",
+     "component_class": "TLabel"
     },
     "OnMouseUp": {
      "handler": "TalkLabel12MouseUp",
-     "addr": "2:5130"
+     "addr": "2:5130",
+     "component_class": "TLabel"
     }
    },
    "TalkLabel13": {
     "OnMouseDown": {
      "handler": "TalkLabelMouseDown",
-     "addr": "2:4F34"
+     "addr": "2:4F34",
+     "component_class": "TLabel"
     },
     "OnMouseMove": {
      "handler": "ExitBtnMouseMove",
-     "addr": "2:4E9C"
+     "addr": "2:4E9C",
+     "component_class": "TLabel"
     },
     "OnMouseUp": {
      "handler": "TalkLabel13MouseUp",
-     "addr": "2:515B"
+     "addr": "2:515B",
+     "component_class": "TLabel"
     }
    },
    "MovieTimer": {
     "OnTimer": {
      "handler": "MovieTimerTimer",
-     "addr": "2:545C"
+     "addr": "2:545C",
+     "component_class": "TTimer"
     }
    },
    "EndTimer1": {
     "OnTimer": {
      "handler": "EndTimer1Timer",
-     "addr": "2:5F4E"
+     "addr": "2:5F4E",
+     "component_class": "TTimer"
     }
    },
    "EndTimer2": {
     "OnTimer": {
      "handler": "EndTimer2Timer",
-     "addr": "2:60E2"
+     "addr": "2:60E2",
+     "component_class": "TTimer"
     }
    }
   }
@@ -254,177 +304,208 @@
    "Form1": {
     "OnClose": {
      "handler": "FormClose",
-     "addr": "9:3893"
+     "addr": "9:3893",
+     "component_class": "TForm1"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "9:0747"
+     "addr": "9:0747",
+     "component_class": "TForm1"
     },
     "OnDestroy": {
      "handler": "FormDestroy",
-     "addr": "9:3533"
+     "addr": "9:3533",
+     "component_class": "TForm1"
     },
     "OnShow": {
      "handler": "FormShow",
-     "addr": "9:35DD"
+     "addr": "9:35DD",
+     "component_class": "TForm1"
     }
    },
    "KoHigh": {
     "OnEndDrag": {
      "handler": "KoHighEndDrag",
-     "addr": "9:0CC1"
+     "addr": "9:0CC1",
+     "component_class": "TImage"
     }
    },
    "TraktHigh": {
     "OnEndDrag": {
      "handler": "TraktHighEndDrag",
-     "addr": "9:0DB1"
+     "addr": "9:0DB1",
+     "component_class": "TImage"
     }
    },
    "KontoHigh": {
     "OnEndDrag": {
      "handler": "KontoHighEndDrag",
-     "addr": "9:0E28"
+     "addr": "9:0E28",
+     "component_class": "TImage"
     }
    },
    "MenuHigh": {
     "OnEndDrag": {
      "handler": "MenuHighEndDrag",
-     "addr": "9:0FFE"
+     "addr": "9:0FFE",
+     "component_class": "TImage"
     }
    },
    "TotStatHigh": {
     "OnEndDrag": {
      "handler": "TotStatHighEndDrag",
-     "addr": "9:0DFC"
+     "addr": "9:0DFC",
+     "component_class": "TImage"
     }
    },
    "VSMHigh": {
     "OnEndDrag": {
      "handler": "VSMHighEndDrag",
-     "addr": "9:0D70"
+     "addr": "9:0D70",
+     "component_class": "TImage"
     }
    },
    "LantHigh": {
     "OnEndDrag": {
      "handler": "LantHighEndDrag",
-     "addr": "9:0D0C"
+     "addr": "9:0D0C",
+     "component_class": "TImage"
     }
    },
    "ImgBack": {
     "OnMouseDown": {
      "handler": "ImgBackMouseDown",
-     "addr": "9:0C55"
+     "addr": "9:0C55",
+     "component_class": "TImage"
     },
     "OnMouseMove": {
      "handler": "ImgBackMouseMove",
-     "addr": "9:06E8"
+     "addr": "9:06E8",
+     "component_class": "TImage"
     },
     "OnMouseUp": {
      "handler": "ImgBackMouseUp",
-     "addr": "9:2C23"
+     "addr": "9:2C23",
+     "component_class": "TImage"
     }
    },
    "ImgBostFrame": {
     "OnEndDrag": {
      "handler": "ImgBostFrameEndDrag",
-     "addr": "9:0EB3"
+     "addr": "9:0EB3",
+     "component_class": "TImage"
     }
    },
    "ImgMaskFrame": {
     "OnEndDrag": {
      "handler": "ImgMaskFrameEndDrag",
-     "addr": "9:0F94"
+     "addr": "9:0F94",
+     "component_class": "TImage"
     }
    },
    "ImgLagFrame": {
     "OnEndDrag": {
      "handler": "ImgLagFrameEndDrag",
-     "addr": "9:0F28"
+     "addr": "9:0F28",
+     "component_class": "TImage"
     }
    },
    "ImgMRumFrame": {
     "OnEndDrag": {
      "handler": "ImgMRumFrameEndDrag",
-     "addr": "9:0F4C"
+     "addr": "9:0F4C",
+     "component_class": "TImage"
     }
    },
    "ImgLogeFrame": {
     "OnEndDrag": {
      "handler": "ImgLogeFrameEndDrag",
-     "addr": "9:0E8F"
+     "addr": "9:0E8F",
+     "component_class": "TImage"
     }
    },
    "ImgZoomOut": {
     "OnEndDrag": {
      "handler": "ImgZoomOutEndDrag",
-     "addr": "9:0E6B"
+     "addr": "9:0E6B",
+     "component_class": "TImage"
     }
    },
    "ImgZoomIn": {
     "OnEndDrag": {
      "handler": "ImgZoomInEndDrag",
-     "addr": "9:0E47"
+     "addr": "9:0E47",
+     "component_class": "TImage"
     }
    },
    "ImgFldE": {
     "OnEndDrag": {
      "handler": "ImgFldEEndDrag",
-     "addr": "9:2279"
+     "addr": "9:2279",
+     "component_class": "TImage"
     }
    },
    "ImgFldC": {
     "OnEndDrag": {
      "handler": "ImgFldCEndDrag",
-     "addr": "9:224E"
+     "addr": "9:224E",
+     "component_class": "TImage"
     }
    },
    "ImgFldA": {
     "OnEndDrag": {
      "handler": "ImgFldAEndDrag",
-     "addr": "9:0FD3"
+     "addr": "9:0FD3",
+     "component_class": "TImage"
     }
    },
    "ImgFldH": {
     "OnEndDrag": {
      "handler": "ImgFldHEndDrag",
-     "addr": "9:22A4"
+     "addr": "9:22A4",
+     "component_class": "TImage"
     }
    },
    "ImgFldB": {
     "OnEndDrag": {
      "handler": "ImgFldBEndDrag",
-     "addr": "9:22DE"
+     "addr": "9:22DE",
+     "component_class": "TImage"
     }
    },
    "ImgFldD": {
     "OnEndDrag": {
      "handler": "ImgFldDEndDrag",
-     "addr": "9:2309"
+     "addr": "9:2309",
+     "component_class": "TImage"
     }
    },
    "ImgFldF": {
     "OnEndDrag": {
      "handler": "ImgFldFEndDrag",
-     "addr": "9:2334"
+     "addr": "9:2334",
+     "component_class": "TImage"
     }
    },
    "ImgFldG": {
     "OnEndDrag": {
      "handler": "ImgFldGEndDrag",
-     "addr": "9:235F"
+     "addr": "9:235F",
+     "component_class": "TImage"
     }
    },
    "BlinkTimer": {
     "OnTimer": {
      "handler": "BlinkTimerTimer",
-     "addr": "9:1049"
+     "addr": "9:1049",
+     "component_class": "TTimer"
     }
    },
    "MainTimer": {
     "OnTimer": {
      "handler": "MainTimerTimer",
-     "addr": "9:1A25"
+     "addr": "9:1A25",
+     "component_class": "TTimer"
     }
    }
   }
@@ -436,11 +517,13 @@
    "FormBekKop": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "15:1975"
+     "addr": "15:1975",
+     "component_class": "TFormBekKop"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "15:1937"
+     "addr": "15:1937",
+     "component_class": "TFormBekKop"
     }
    }
   }
@@ -452,7 +535,8 @@
    "FormBekKp2": {
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "15:37C4"
+     "addr": "15:37C4",
+     "component_class": "TFormBekKp2"
     }
    }
   }
@@ -464,7 +548,8 @@
    "FormBekRep": {
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "1:2091"
+     "addr": "1:2091",
+     "component_class": "TFormBekRep"
     }
    }
   }
@@ -476,7 +561,8 @@
    "FormBekSal": {
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "14:2809"
+     "addr": "14:2809",
+     "component_class": "TFormBekSal"
     }
    }
   }
@@ -488,17 +574,20 @@
    "FormBete": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "8:2C49"
+     "addr": "8:2C49",
+     "component_class": "TFormBete"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "8:25AE"
+     "addr": "8:25AE",
+     "component_class": "TFormBete"
     }
    },
    "Tillbaka": {
     "OnClick": {
      "handler": "TillbakaClick",
-     "addr": "8:25C0"
+     "addr": "8:25C0",
+     "component_class": "TLabel"
     }
    }
   }
@@ -510,33 +599,39 @@
    "FormBost1": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "10:3E4F"
+     "addr": "10:3E4F",
+     "component_class": "TFormBost1"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "10:3D7F"
+     "addr": "10:3D7F",
+     "component_class": "TFormBost1"
     }
    },
    "ImgOfficeHigh": {
     "OnEndDrag": {
      "handler": "ImgOfficeHighEndDrag",
-     "addr": "10:3DDF"
+     "addr": "10:3DDF",
+     "component_class": "TImage"
     }
    },
    "ImgBack": {
     "OnMouseDown": {
      "handler": "ImgBackMouseDown",
-     "addr": "10:3E37"
+     "addr": "10:3E37",
+     "component_class": "TImage"
     },
     "OnMouseMove": {
      "handler": "ImgBackMouseMove",
-     "addr": "10:3DC5"
+     "addr": "10:3DC5",
+     "component_class": "TImage"
     }
    },
    "Tillbaka": {
     "OnClick": {
      "handler": "TillbakaClick",
-     "addr": "10:3D54"
+     "addr": "10:3D54",
+     "component_class": "TLabel"
     }
    }
   }
@@ -548,73 +643,85 @@
    "FormBost2": {
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "11:1E41"
+     "addr": "11:1E41",
+     "component_class": "TFormBost2"
     }
    },
    "ImgBack": {
     "OnClick": {
      "handler": "ImgBackClick",
-     "addr": "11:213E"
+     "addr": "11:213E",
+     "component_class": "TImage"
     }
    },
    "ImgBokFrame": {
     "OnClick": {
      "handler": "ImgBokFrameClick",
-     "addr": "11:1E94"
+     "addr": "11:1E94",
+     "component_class": "TImage"
     }
    },
    "ImgTelBok": {
     "OnClick": {
      "handler": "ImgTelBokClick",
-     "addr": "11:1EBC"
+     "addr": "11:1EBC",
+     "component_class": "TImage"
     }
    },
    "Tillbaka": {
     "OnClick": {
      "handler": "TillbakaClick",
-     "addr": "11:1E5D"
+     "addr": "11:1E5D",
+     "component_class": "TLabel"
     }
    },
    "ImgBrev": {
     "OnClick": {
      "handler": "ImgBrevClick",
-     "addr": "11:20C4"
+     "addr": "11:20C4",
+     "component_class": "TImage"
     }
    },
    "Image1": {
     "OnClick": {
      "handler": "Image1Click",
-     "addr": "11:21ED"
+     "addr": "11:21ED",
+     "component_class": "TImage"
     }
    },
    "Image2": {
     "OnClick": {
      "handler": "Image2Click",
-     "addr": "11:222E"
+     "addr": "11:222E",
+     "component_class": "TImage"
     }
    },
    "Image3": {
     "OnClick": {
      "handler": "Image3Click",
-     "addr": "11:227C"
+     "addr": "11:227C",
+     "component_class": "TImage"
     }
    },
    "Image4": {
     "OnClick": {
      "handler": "Image4Click",
-     "addr": "11:22D8"
+     "addr": "11:22D8",
+     "component_class": "TImage"
     }
    },
    "Image5": {
     "OnClick": {
      "handler": "Image5Click",
-     "addr": "11:2326"
+     "addr": "11:2326",
+     "component_class": "TImage"
     }
    },
    "Timer1": {
     "OnTimer": {
      "handler": "Timer1Timer",
-     "addr": "11:20AD"
+     "addr": "11:20AD",
+     "component_class": "TTimer"
     }
    }
   }
@@ -631,17 +738,20 @@
    "FormHayShp": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "10:12ED"
+     "addr": "10:12ED",
+     "component_class": "TFormHayShp"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "10:1226"
+     "addr": "10:1226",
+     "component_class": "TFormHayShp"
     }
    },
    "ImgTillbaka": {
     "OnClick": {
      "handler": "ImgTillbakaClick",
-     "addr": "10:1238"
+     "addr": "10:1238",
+     "component_class": "TImage"
     }
    }
   }
@@ -653,17 +763,20 @@
    "FormHShop": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "10:2025"
+     "addr": "10:2025",
+     "component_class": "TFormHShop"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "10:1F4B"
+     "addr": "10:1F4B",
+     "component_class": "TFormHShop"
     }
    },
    "ImgTillbaka": {
     "OnClick": {
      "handler": "ImgTillbakaClick",
-     "addr": "10:1F5D"
+     "addr": "10:1F5D",
+     "component_class": "TImage"
     }
    }
   }
@@ -675,17 +788,20 @@
    "FormHVShop": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "10:15F8"
+     "addr": "10:15F8",
+     "component_class": "TFormHVShop"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "10:153E"
+     "addr": "10:153E",
+     "component_class": "TFormHVShop"
     }
    },
    "ImgTillbaka": {
     "OnClick": {
      "handler": "ImgTillbakaClick",
-     "addr": "10:151E"
+     "addr": "10:151E",
+     "component_class": "TImage"
     }
    }
   }
@@ -697,17 +813,20 @@
    "FormKonto": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "10:30FD"
+     "addr": "10:30FD",
+     "component_class": "TFormKonto"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "10:30C6"
+     "addr": "10:30C6",
+     "component_class": "TFormKonto"
     }
    },
    "Label1": {
     "OnClick": {
      "handler": "Label1Click",
-     "addr": "10:30A6"
+     "addr": "10:30A6",
+     "component_class": "TLabel"
     }
    }
   }
@@ -719,17 +838,20 @@
    "FormKopAvb": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "13:3D06"
+     "addr": "13:3D06",
+     "component_class": "TFormKopAvb"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "13:3BFD"
+     "addr": "13:3BFD",
+     "component_class": "TFormKopAvb"
     }
    },
    "Tillbaka": {
     "OnClick": {
      "handler": "TillbakaClick",
-     "addr": "13:3BDD"
+     "addr": "13:3BDD",
+     "component_class": "TLabel"
     }
    }
   }
@@ -741,27 +863,32 @@
    "FormKopHan": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "14:0617"
+     "addr": "14:0617",
+     "component_class": "TFormKopHan"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "14:05F4"
+     "addr": "14:05F4",
+     "component_class": "TFormKopHan"
     }
    },
    "Tillbaka": {
     "OnClick": {
      "handler": "TillbakaClick",
-     "addr": "14:05D4"
+     "addr": "14:05D4",
+     "component_class": "TLabel"
     }
    },
    "LbMaskiner": {
     "OnClick": {
      "handler": "LbMaskinerClick",
-     "addr": "14:084F"
+     "addr": "14:084F",
+     "component_class": "TListBox"
     },
     "OnDblClick": {
      "handler": "LbMaskinerDblClick",
-     "addr": "14:082D"
+     "addr": "14:082D",
+     "component_class": "TListBox"
     }
    }
   }
@@ -773,17 +900,20 @@
    "FormKopSem": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "14:01F3"
+     "addr": "14:01F3",
+     "component_class": "TFormKopSem"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "14:0190"
+     "addr": "14:0190",
+     "component_class": "TFormKopSem"
     }
    },
    "Tillbaka": {
     "OnClick": {
      "handler": "TillbakaClick",
-     "addr": "14:0170"
+     "addr": "14:0170",
+     "component_class": "TLabel"
     }
    }
   }
@@ -795,37 +925,43 @@
    "FormKopSni": {
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "13:3ECA"
+     "addr": "13:3ECA",
+     "component_class": "TFormKopSni"
     }
    },
    "Tillbaka": {
     "OnClick": {
      "handler": "TillbakaClick",
-     "addr": "13:3EDC"
+     "addr": "13:3EDC",
+     "component_class": "TLabel"
     }
    },
    "LblBostad": {
     "OnClick": {
      "handler": "LblBostadClick",
-     "addr": "13:3F34"
+     "addr": "13:3F34",
+     "component_class": "TLabel"
     }
    },
    "LblLagard": {
     "OnClick": {
      "handler": "LblLagardClick",
-     "addr": "13:3F40"
+     "addr": "13:3F40",
+     "component_class": "TLabel"
     }
    },
    "LblLoge": {
     "OnClick": {
      "handler": "LblLogeClick",
-     "addr": "13:3F4C"
+     "addr": "13:3F4C",
+     "component_class": "TLabel"
     }
    },
    "LblMaskHall": {
     "OnClick": {
      "handler": "LblMaskHallClick",
-     "addr": "13:3F58"
+     "addr": "13:3F58",
+     "component_class": "TLabel"
     }
    }
   }
@@ -837,17 +973,20 @@
    "FormKopVet": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "14:0433"
+     "addr": "14:0433",
+     "component_class": "TFormKopVet"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "14:038C"
+     "addr": "14:038C",
+     "component_class": "TFormKopVet"
     }
    },
    "Tillbaka": {
     "OnClick": {
      "handler": "TillbakaClick",
-     "addr": "14:036C"
+     "addr": "14:036C",
+     "component_class": "TLabel"
     }
    }
   }
@@ -859,37 +998,44 @@
    "FormLag1": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "14:1134"
+     "addr": "14:1134",
+     "component_class": "TFormLag1"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "14:108C"
+     "addr": "14:108C",
+     "component_class": "TFormLag1"
     },
     "OnDestroy": {
      "handler": "FormDestroy",
-     "addr": "14:124A"
+     "addr": "14:124A",
+     "component_class": "TFormLag1"
     }
    },
    "Image1": {
     "OnEndDrag": {
      "handler": "Image1EndDrag",
-     "addr": "14:110A"
+     "addr": "14:110A",
+     "component_class": "TImage"
     }
    },
    "ImgBack": {
     "OnMouseDown": {
      "handler": "ImgBackMouseDown",
-     "addr": "14:111C"
+     "addr": "14:111C",
+     "component_class": "TImage"
     },
     "OnMouseMove": {
      "handler": "ImgBackMouseMove",
-     "addr": "14:10F2"
+     "addr": "14:10F2",
+     "component_class": "TImage"
     }
    },
    "Tillbaka": {
     "OnClick": {
      "handler": "TillbakaClick",
-     "addr": "14:10D2"
+     "addr": "14:10D2",
+     "component_class": "TLabel"
     }
    }
   }
@@ -901,29 +1047,34 @@
    "FormLag2": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "14:198B"
+     "addr": "14:198B",
+     "component_class": "TFormLag2"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "14:14C6"
+     "addr": "14:14C6",
+     "component_class": "TFormLag2"
     }
    },
    "Tillbaka": {
     "OnClick": {
      "handler": "TillbakaClick",
-     "addr": "14:14A6"
+     "addr": "14:14A6",
+     "component_class": "TLabel"
     }
    },
    "ImgRight": {
     "OnClick": {
      "handler": "ImgRightClick",
-     "addr": "14:195D"
+     "addr": "14:195D",
+     "component_class": "TImage"
     }
    },
    "ImgLeft": {
     "OnClick": {
      "handler": "ImgLeftClick",
-     "addr": "14:1915"
+     "addr": "14:1915",
+     "component_class": "TImage"
     }
    }
   }
@@ -935,43 +1086,51 @@
    "FormLantM1": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "15:1D99"
+     "addr": "15:1D99",
+     "component_class": "TFormLantM1"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "15:1B78"
+     "addr": "15:1B78",
+     "component_class": "TFormLantM1"
     },
     "OnDestroy": {
      "handler": "FormDestroy",
-     "addr": "15:1DAA"
+     "addr": "15:1DAA",
+     "component_class": "TFormLantM1"
     }
    },
    "ImgUtHigh": {
     "OnEndDrag": {
      "handler": "ImgUtHighEndDrag",
-     "addr": "15:1D87"
+     "addr": "15:1D87",
+     "component_class": "TImage"
     }
    },
    "ImgFoodHigh": {
     "OnEndDrag": {
      "handler": "ImgFoodHighEndDrag",
-     "addr": "15:1D75"
+     "addr": "15:1D75",
+     "component_class": "TImage"
     }
    },
    "ImgBack": {
     "OnMouseDown": {
      "handler": "ImgBackMouseDown",
-     "addr": "15:1D5D"
+     "addr": "15:1D5D",
+     "component_class": "TImage"
     },
     "OnMouseMove": {
      "handler": "ImgBackMouseMove",
-     "addr": "15:1D21"
+     "addr": "15:1D21",
+     "component_class": "TImage"
     }
    },
    "Tillbaka": {
     "OnClick": {
      "handler": "TillbakaClick",
-     "addr": "15:1CEC"
+     "addr": "15:1CEC",
+     "component_class": "TLabel"
     }
    }
   }
@@ -983,43 +1142,50 @@
    "FormLantM2": {
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "15:31A4"
+     "addr": "15:31A4",
+     "component_class": "TFormLantM2"
     }
    },
    "ImgHay": {
     "OnClick": {
      "handler": "ImgHayClick",
-     "addr": "15:2F3B"
+     "addr": "15:2F3B",
+     "component_class": "TImage"
     }
    },
    "Tillbaka": {
     "OnClick": {
      "handler": "TillbakaClick",
-     "addr": "15:2F1B"
+     "addr": "15:2F1B",
+     "component_class": "TLabel"
     }
    },
    "Image1": {
     "OnClick": {
      "handler": "Image1Click",
-     "addr": "15:31E1"
+     "addr": "15:31E1",
+     "component_class": "TImage"
     }
    },
    "ImgKraft": {
     "OnClick": {
      "handler": "ImgKraftClick",
-     "addr": "15:2F51"
+     "addr": "15:2F51",
+     "component_class": "TImage"
     }
    },
    "Label1": {
     "OnClick": {
      "handler": "TillbakaClick",
-     "addr": "15:2F1B"
+     "addr": "15:2F1B",
+     "component_class": "TLabel"
     }
    },
    "Image2": {
     "OnClick": {
      "handler": "Image2Click",
-     "addr": "15:3210"
+     "addr": "15:3210",
+     "component_class": "TImage"
     }
    }
   }
@@ -1031,41 +1197,48 @@
    "FormLantM3": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "15:27FE"
+     "addr": "15:27FE",
+     "component_class": "TFormLantM3"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "15:2319"
+     "addr": "15:2319",
+     "component_class": "TFormLantM3"
     }
    },
    "Tillbaka": {
     "OnClick": {
      "handler": "TillbakaClick",
-     "addr": "15:233A"
+     "addr": "15:233A",
+     "component_class": "TLabel"
     }
    },
    "Image2": {
     "OnClick": {
      "handler": "Image2Click",
-     "addr": "15:279E"
+     "addr": "15:279E",
+     "component_class": "TImage"
     }
    },
    "ImgBytSad": {
     "OnClick": {
      "handler": "ImgBytSadClick",
-     "addr": "15:2751"
+     "addr": "15:2751",
+     "component_class": "TImage"
     }
    },
    "Label2": {
     "OnClick": {
      "handler": "TillbakaClick",
-     "addr": "15:233A"
+     "addr": "15:233A",
+     "component_class": "TLabel"
     }
    },
    "Image1": {
     "OnClick": {
      "handler": "Image1Click",
-     "addr": "15:27D9"
+     "addr": "15:27D9",
+     "component_class": "TImage"
     }
    }
   }
@@ -1077,45 +1250,53 @@
    "FormLivDj1": {
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "15:08D3"
+     "addr": "15:08D3",
+     "component_class": "TFormLivDj1"
     },
     "OnDestroy": {
      "handler": "FormDestroy",
-     "addr": "15:09A5"
+     "addr": "15:09A5",
+     "component_class": "TFormLivDj1"
     }
    },
    "ImgKo": {
     "OnEndDrag": {
      "handler": "ImgKoEndDrag",
-     "addr": "15:0963"
+     "addr": "15:0963",
+     "component_class": "TImage"
     }
    },
    "ImgTj": {
     "OnEndDrag": {
      "handler": "ImgTjEndDrag",
-     "addr": "15:097F"
+     "addr": "15:097F",
+     "component_class": "TImage"
     }
    },
    "ImgKv": {
     "OnEndDrag": {
      "handler": "ImgKvEndDrag",
-     "addr": "15:0971"
+     "addr": "15:0971",
+     "component_class": "TImage"
     }
    },
    "ImgBack": {
     "OnMouseDown": {
      "handler": "ImgBackMouseDown",
-     "addr": "15:098D"
+     "addr": "15:098D",
+     "component_class": "TImage"
     },
     "OnMouseMove": {
      "handler": "ImgBackMouseMove",
-     "addr": "15:0941"
+     "addr": "15:0941",
+     "component_class": "TImage"
     }
    },
    "Tillbaka": {
     "OnClick": {
      "handler": "TillbakaClick",
-     "addr": "15:08A9"
+     "addr": "15:08A9",
+     "component_class": "TLabel"
     }
    }
   }
@@ -1127,37 +1308,44 @@
    "FormLoge1": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "10:39C5"
+     "addr": "10:39C5",
+     "component_class": "TFormLoge1"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "10:392B"
+     "addr": "10:392B",
+     "component_class": "TFormLoge1"
     },
     "OnDestroy": {
      "handler": "FormDestroy",
-     "addr": "10:3AD9"
+     "addr": "10:3AD9",
+     "component_class": "TFormLoge1"
     }
    },
    "Image1": {
     "OnEndDrag": {
      "handler": "Image1EndDrag",
-     "addr": "10:398C"
+     "addr": "10:398C",
+     "component_class": "TImage"
     }
    },
    "ImgBack": {
     "OnMouseDown": {
      "handler": "ImgBackMouseDown",
-     "addr": "10:39AD"
+     "addr": "10:39AD",
+     "component_class": "TImage"
     },
     "OnMouseMove": {
      "handler": "ImgBackMouseMove",
-     "addr": "10:3971"
+     "addr": "10:3971",
+     "component_class": "TImage"
     }
    },
    "Tillbaka": {
     "OnClick": {
      "handler": "TillbakaClick",
-     "addr": "10:38FB"
+     "addr": "10:38FB",
+     "component_class": "TLabel"
     }
    }
   }
@@ -1169,17 +1357,20 @@
    "FormLoge2": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "11:11F5"
+     "addr": "11:11F5",
+     "component_class": "TFormLoge2"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "11:11B2"
+     "addr": "11:11B2",
+     "component_class": "TFormLoge2"
     }
    },
    "Tillbaka": {
     "OnClick": {
      "handler": "TillbakaClick",
-     "addr": "11:11C4"
+     "addr": "11:11C4",
+     "component_class": "TLabel"
     }
    }
   }
@@ -1191,81 +1382,95 @@
    "FormMaShop": {
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "9:3CA0"
+     "addr": "9:3CA0",
+     "component_class": "TFormMaShop"
     },
     "OnDestroy": {
      "handler": "FormDestroy",
-     "addr": "9:3F57"
+     "addr": "9:3F57",
+     "component_class": "TFormMaShop"
     }
    },
    "Image1": {
     "OnEndDrag": {
      "handler": "Image1EndDrag",
-     "addr": "9:3E9D"
+     "addr": "9:3E9D",
+     "component_class": "TImage"
     }
    },
    "Image3": {
     "OnEndDrag": {
      "handler": "Image3EndDrag",
-     "addr": "9:3EC7"
+     "addr": "9:3EC7",
+     "component_class": "TImage"
     }
    },
    "Image4": {
     "OnEndDrag": {
      "handler": "Image4EndDrag",
-     "addr": "9:3ED9"
+     "addr": "9:3ED9",
+     "component_class": "TImage"
     }
    },
    "Image5": {
     "OnEndDrag": {
      "handler": "Image5EndDrag",
-     "addr": "9:3F45"
+     "addr": "9:3F45",
+     "component_class": "TImage"
     }
    },
    "Image6": {
     "OnEndDrag": {
      "handler": "Image6EndDrag",
-     "addr": "9:3EEB"
+     "addr": "9:3EEB",
+     "component_class": "TImage"
     }
    },
    "Image7": {
     "OnEndDrag": {
      "handler": "Image7EndDrag",
-     "addr": "9:3EFD"
+     "addr": "9:3EFD",
+     "component_class": "TImage"
     }
    },
    "Image8": {
     "OnEndDrag": {
      "handler": "Image8EndDrag",
-     "addr": "9:3F0F"
+     "addr": "9:3F0F",
+     "component_class": "TImage"
     }
    },
    "Image9": {
     "OnEndDrag": {
      "handler": "Image9EndDrag",
-     "addr": "9:3F21"
+     "addr": "9:3F21",
+     "component_class": "TImage"
     }
    },
    "Image10": {
     "OnEndDrag": {
      "handler": "Image10EndDrag",
-     "addr": "9:3F33"
+     "addr": "9:3F33",
+     "component_class": "TImage"
     }
    },
    "ImgBack": {
     "OnMouseDown": {
      "handler": "ImgBackMouseDown",
-     "addr": "9:3EAF"
+     "addr": "9:3EAF",
+     "component_class": "TImage"
     },
     "OnMouseMove": {
      "handler": "ImgBackMouseMove",
-     "addr": "9:3E82"
+     "addr": "9:3E82",
+     "component_class": "TImage"
     }
    },
    "ImgTillbaka": {
     "OnClick": {
      "handler": "ImgTillbakaClick",
-     "addr": "9:3DFA"
+     "addr": "9:3DFA",
+     "component_class": "TImage"
     }
    }
   }
@@ -1277,111 +1482,130 @@
    "FormMaskArb": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "14:34DA"
+     "addr": "14:34DA",
+     "component_class": "TFormMaskArb"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "14:3176"
+     "addr": "14:3176",
+     "component_class": "TFormMaskArb"
     },
     "OnDestroy": {
      "handler": "FormDestroy",
-     "addr": "14:3A1C"
+     "addr": "14:3A1C",
+     "component_class": "TFormMaskArb"
     }
    },
    "ImgE": {
     "OnEndDrag": {
      "handler": "ImgEEndDrag",
-     "addr": "14:393A"
+     "addr": "14:393A",
+     "component_class": "TImage"
     }
    },
    "ImgD": {
     "OnEndDrag": {
      "handler": "ImgDEndDrag",
-     "addr": "14:395D"
+     "addr": "14:395D",
+     "component_class": "TImage"
     }
    },
    "ImgC": {
     "OnEndDrag": {
      "handler": "ImgCEndDrag",
-     "addr": "14:3980"
+     "addr": "14:3980",
+     "component_class": "TImage"
     }
    },
    "ImgG": {
     "OnEndDrag": {
      "handler": "ImgGEndDrag",
-     "addr": "14:39A3"
+     "addr": "14:39A3",
+     "component_class": "TImage"
     }
    },
    "ImgF": {
     "OnEndDrag": {
      "handler": "ImgFEndDrag",
-     "addr": "14:3917"
+     "addr": "14:3917",
+     "component_class": "TImage"
     }
    },
    "ImgA": {
     "OnEndDrag": {
      "handler": "ImgAEndDrag",
-     "addr": "14:38F4"
+     "addr": "14:38F4",
+     "component_class": "TImage"
     }
    },
    "ImgH": {
     "OnEndDrag": {
      "handler": "ImgHEndDrag",
-     "addr": "14:39C6"
+     "addr": "14:39C6",
+     "component_class": "TImage"
     }
    },
    "ImgB": {
     "OnEndDrag": {
      "handler": "ImgBEndDrag",
-     "addr": "14:38D1"
+     "addr": "14:38D1",
+     "component_class": "TImage"
     }
    },
    "ImgBack": {
     "OnMouseDown": {
      "handler": "ImgBackMouseDown",
-     "addr": "14:3237"
+     "addr": "14:3237",
+     "component_class": "TImage"
     }
    },
    "Tillbaka": {
     "OnClick": {
      "handler": "TillbakaClick",
-     "addr": "14:3156"
+     "addr": "14:3156",
+     "component_class": "TLabel"
     }
    },
    "ImgTrLeft": {
     "OnClick": {
      "handler": "ImgTrLeftClick",
-     "addr": "14:3268"
+     "addr": "14:3268",
+     "component_class": "TImage"
     }
    },
    "ImgTrRight": {
     "OnClick": {
      "handler": "ImgTrRightClick",
-     "addr": "14:32F7"
+     "addr": "14:32F7",
+     "component_class": "TImage"
     }
    },
    "ImgMaskLeft": {
     "OnClick": {
      "handler": "ImgMaskLeftClick",
-     "addr": "14:357B"
+     "addr": "14:357B",
+     "component_class": "TImage"
     }
    },
    "ImgMaskRight": {
     "OnClick": {
      "handler": "ImgMaskRightClick",
-     "addr": "14:358E"
+     "addr": "14:358E",
+     "component_class": "TImage"
     }
    },
    "BtnAvbrytTrak": {
     "OnClick": {
      "handler": "BtnAvbrytTrakClick",
-     "addr": "14:39DC"
+     "addr": "14:39DC",
+     "component_class": "TButton"
     }
    },
    "BtnAvbrytMask": {
     "OnClick": {
      "handler": "BtnAvbrytMaskClick",
-     "addr": "14:39FC"
+     "addr": "14:39FC",
+     "component_class": "TButton"
     }
    }
   }
@@ -1393,37 +1617,44 @@
    "FormMaskHall": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "10:354E"
+     "addr": "10:354E",
+     "component_class": "TFormMaskHall"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "10:343A"
+     "addr": "10:343A",
+     "component_class": "TFormMaskHall"
     },
     "OnDestroy": {
      "handler": "FormDestroy",
-     "addr": "10:3662"
+     "addr": "10:3662",
+     "component_class": "TFormMaskHall"
     }
    },
    "Image1": {
     "OnEndDrag": {
      "handler": "Image1EndDrag",
-     "addr": "10:353C"
+     "addr": "10:353C",
+     "component_class": "TImage"
     }
    },
    "ImgBack": {
     "OnMouseDown": {
      "handler": "ImgBackMouseDown",
-     "addr": "10:350C"
+     "addr": "10:350C",
+     "component_class": "TImage"
     },
     "OnMouseMove": {
      "handler": "ImgBackMouseMove",
-     "addr": "10:3524"
+     "addr": "10:3524",
+     "component_class": "TImage"
     }
    },
    "Tillbaka": {
     "OnClick": {
      "handler": "TillbakaClick",
-     "addr": "10:341A"
+     "addr": "10:341A",
+     "component_class": "TLabel"
     }
    }
   }
@@ -1435,41 +1666,48 @@
    "FormMiShop": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "10:1054"
+     "addr": "10:1054",
+     "component_class": "TFormMiShop"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "10:0DC2"
+     "addr": "10:0DC2",
+     "component_class": "TFormMiShop"
     }
    },
    "ImgTillbaka": {
     "OnClick": {
      "handler": "ImgTillbakaClick",
-     "addr": "10:0DA2"
+     "addr": "10:0DA2",
+     "component_class": "TImage"
     }
    },
    "Image6": {
     "OnClick": {
      "handler": "Image6Click",
-     "addr": "10:0DF9"
+     "addr": "10:0DF9",
+     "component_class": "TImage"
     }
    },
    "Image7": {
     "OnClick": {
      "handler": "Image7Click",
-     "addr": "10:0E11"
+     "addr": "10:0E11",
+     "component_class": "TImage"
     }
    },
    "Image8": {
     "OnClick": {
      "handler": "Image8Click",
-     "addr": "10:0E29"
+     "addr": "10:0E29",
+     "component_class": "TImage"
     }
    },
    "Image9": {
     "OnClick": {
      "handler": "Image9Click",
-     "addr": "10:0E41"
+     "addr": "10:0E41",
+     "component_class": "TImage"
     }
    }
   }
@@ -1481,37 +1719,44 @@
    "FormMRum1": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "14:1E1C"
+     "addr": "14:1E1C",
+     "component_class": "TFormMRum1"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "14:1D94"
+     "addr": "14:1D94",
+     "component_class": "TFormMRum1"
     },
     "OnDestroy": {
      "handler": "FormDestroy",
-     "addr": "14:1F32"
+     "addr": "14:1F32",
+     "component_class": "TFormMRum1"
     }
    },
    "Image1": {
     "OnEndDrag": {
      "handler": "Image1EndDrag",
-     "addr": "14:1DF2"
+     "addr": "14:1DF2",
+     "component_class": "TImage"
     }
    },
    "ImgBack": {
     "OnMouseDown": {
      "handler": "ImgBackMouseDown",
-     "addr": "14:1E04"
+     "addr": "14:1E04",
+     "component_class": "TImage"
     },
     "OnMouseMove": {
      "handler": "ImgBackMouseMove",
-     "addr": "14:1DDA"
+     "addr": "14:1DDA",
+     "component_class": "TImage"
     }
    },
    "Tillbaka": {
     "OnClick": {
      "handler": "TillbakaClick",
-     "addr": "14:1D74"
+     "addr": "14:1D74",
+     "component_class": "TLabel"
     }
    }
   }
@@ -1523,29 +1768,34 @@
    "FormMRum2": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "14:22C6"
+     "addr": "14:22C6",
+     "component_class": "TFormMRum2"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "14:2125"
+     "addr": "14:2125",
+     "component_class": "TFormMRum2"
     }
    },
    "Tillbaka": {
     "OnClick": {
      "handler": "TillbakaClick",
-     "addr": "14:2105"
+     "addr": "14:2105",
+     "component_class": "TLabel"
     }
    },
    "ImgRight": {
     "OnClick": {
      "handler": "ImgRightClick",
-     "addr": "14:242B"
+     "addr": "14:242B",
+     "component_class": "TImage"
     }
    },
    "ImgLeft": {
     "OnClick": {
      "handler": "ImgLeftClick",
-     "addr": "14:241F"
+     "addr": "14:241F",
+     "component_class": "TImage"
     }
    }
   }
@@ -1557,41 +1807,48 @@
    "FormMskFsg": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "11:09F2"
+     "addr": "11:09F2",
+     "component_class": "TFormMskFsg"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "11:07EC"
+     "addr": "11:07EC",
+     "component_class": "TFormMskFsg"
     }
    },
    "Tillbaka": {
     "OnClick": {
      "handler": "TillbakaClick",
-     "addr": "11:07FE"
+     "addr": "11:07FE",
+     "component_class": "TLabel"
     }
    },
    "ImgTrLeft": {
     "OnClick": {
      "handler": "ImgTrLeftClick",
-     "addr": "11:0838"
+     "addr": "11:0838",
+     "component_class": "TImage"
     }
    },
    "ImgTrRight": {
     "OnClick": {
      "handler": "ImgTrRightClick",
-     "addr": "11:089D"
+     "addr": "11:089D",
+     "component_class": "TImage"
     }
    },
    "ImgMaskLeft": {
     "OnClick": {
      "handler": "ImgMaskLeftClick",
-     "addr": "11:0912"
+     "addr": "11:0912",
+     "component_class": "TImage"
     }
    },
    "ImgMaskRight": {
     "OnClick": {
      "handler": "ImgMaskRightClick",
-     "addr": "11:0977"
+     "addr": "11:0977",
+     "component_class": "TImage"
     }
    }
   }
@@ -1603,7 +1860,8 @@
    "FormOkDlg": {
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "1:2500"
+     "addr": "1:2500",
+     "component_class": "TFormOkDlg"
     }
    }
   }
@@ -1615,7 +1873,8 @@
    "FormOkKoSj": {
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "15:3CBD"
+     "addr": "15:3CBD",
+     "component_class": "TFormOkKoSj"
     }
    }
   }
@@ -1627,7 +1886,8 @@
    "FormOkMask": {
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "15:3EE2"
+     "addr": "15:3EE2",
+     "component_class": "TFormOkMask"
     }
    }
   }
@@ -1639,17 +1899,20 @@
    "FormPShop": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "10:242C"
+     "addr": "10:242C",
+     "component_class": "TFormPShop"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "10:22D2"
+     "addr": "10:22D2",
+     "component_class": "TFormPShop"
     }
    },
    "ImgTillbaka": {
     "OnClick": {
      "handler": "ImgTillbakaClick",
-     "addr": "10:22B2"
+     "addr": "10:22B2",
+     "component_class": "TImage"
     }
    }
   }
@@ -1661,17 +1924,20 @@
    "FormSaljUt": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "11:187A"
+     "addr": "11:187A",
+     "component_class": "TFormSaljUt"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "11:1916"
+     "addr": "11:1916",
+     "component_class": "TFormSaljUt"
     }
    },
    "Tillbaka": {
     "OnClick": {
      "handler": "TillbakaClick",
-     "addr": "11:188B"
+     "addr": "11:188B",
+     "component_class": "TLabel"
     }
    }
   }
@@ -1683,35 +1949,41 @@
    "FormSalKoA": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "15:12CF"
+     "addr": "15:12CF",
+     "component_class": "TFormSalKoA"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "15:11BF"
+     "addr": "15:11BF",
+     "component_class": "TFormSalKoA"
     }
    },
    "ImgBack": {
     "OnClick": {
      "handler": "ImgBackClick",
-     "addr": "15:11E2"
+     "addr": "15:11E2",
+     "component_class": "TImage"
     }
    },
    "Tillbaka": {
     "OnClick": {
      "handler": "TillbakaClick",
-     "addr": "15:117D"
+     "addr": "15:117D",
+     "component_class": "TLabel"
     }
    },
    "ImgLeft": {
     "OnClick": {
      "handler": "ImgLeftClick",
-     "addr": "15:1219"
+     "addr": "15:1219",
+     "component_class": "TImage"
     }
    },
    "ImgRight": {
     "OnClick": {
      "handler": "ImgRightClick",
-     "addr": "15:1272"
+     "addr": "15:1272",
+     "component_class": "TImage"
     }
    }
   }
@@ -1723,13 +1995,15 @@
    "FormSetWor": {
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "15:04F4"
+     "addr": "15:04F4",
+     "component_class": "TFormSetWor"
     }
    },
    "Tillbaka": {
     "OnClick": {
      "handler": "TillbakaClick",
-     "addr": "15:0469"
+     "addr": "15:0469",
+     "component_class": "TLabel"
     }
    }
   }
@@ -1741,17 +2015,20 @@
    "FormSkShop": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "7:3F1B"
+     "addr": "7:3F1B",
+     "component_class": "TFormSkShop"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "7:3D73"
+     "addr": "7:3D73",
+     "component_class": "TFormSkShop"
     }
    },
    "ImgTillbaka": {
     "OnClick": {
      "handler": "ImgTillbakaClick",
-     "addr": "7:3D85"
+     "addr": "7:3D85",
+     "component_class": "TImage"
     }
    }
   }
@@ -1763,17 +2040,20 @@
    "FormSlaShp": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "10:19D7"
+     "addr": "10:19D7",
+     "component_class": "TFormSlaShp"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "10:189F"
+     "addr": "10:189F",
+     "component_class": "TFormSlaShp"
     }
    },
    "ImgTillbaka": {
     "OnClick": {
      "handler": "ImgTillbakaClick",
-     "addr": "10:187F"
+     "addr": "10:187F",
+     "component_class": "TImage"
     }
    }
   }
@@ -1785,7 +2065,8 @@
    "FormSounds": {
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "1:091E"
+     "addr": "1:091E",
+     "component_class": "TFormSounds"
     }
    }
   }
@@ -1797,17 +2078,20 @@
    "FormSSHop": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "10:1D12"
+     "addr": "10:1D12",
+     "component_class": "TFormSSHop"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "10:1C0A"
+     "addr": "10:1C0A",
+     "component_class": "TFormSSHop"
     }
    },
    "ImgTillbaka": {
     "OnClick": {
      "handler": "ImgTillbakaClick",
-     "addr": "10:1C1C"
+     "addr": "10:1C1C",
+     "component_class": "TImage"
     }
    }
   }
@@ -1819,17 +2103,20 @@
    "FormTotSta": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "10:2F5F"
+     "addr": "10:2F5F",
+     "component_class": "TFormTotSta"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "10:2BC4"
+     "addr": "10:2BC4",
+     "component_class": "TFormTotSta"
     }
    },
    "Tillbaka": {
     "OnClick": {
      "handler": "TillbakaClick",
-     "addr": "10:2C05"
+     "addr": "10:2C05",
+     "component_class": "TLabel"
     }
    }
   }
@@ -1841,17 +2128,20 @@
    "FormTShop": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "10:2902"
+     "addr": "10:2902",
+     "component_class": "TFormTShop"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "10:2700"
+     "addr": "10:2700",
+     "component_class": "TFormTShop"
     }
    },
    "ImgTillbaka": {
     "OnClick": {
      "handler": "ImgTillbakaClick",
-     "addr": "10:26E0"
+     "addr": "10:26E0",
+     "component_class": "TImage"
     }
    }
   }
@@ -1863,27 +2153,32 @@
    "FormValRep": {
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "14:0D82"
+     "addr": "14:0D82",
+     "component_class": "TFormValRep"
     },
     "OnDestroy": {
      "handler": "FormDestroy",
-     "addr": "14:0DF6"
+     "addr": "14:0DF6",
+     "component_class": "TFormValRep"
     }
    },
    "Tillbaka": {
     "OnClick": {
      "handler": "TillbakaClick",
-     "addr": "14:0CD3"
+     "addr": "14:0CD3",
+     "component_class": "TLabel"
     }
    },
    "LbReps": {
     "OnClick": {
      "handler": "LbRepsClick",
-     "addr": "14:0CF8"
+     "addr": "14:0CF8",
+     "component_class": "TListBox"
     },
     "OnDblClick": {
      "handler": "LbRepsDblClick",
-     "addr": "14:0D6E"
+     "addr": "14:0D6E",
+     "component_class": "TListBox"
     }
    }
   }
@@ -1895,47 +2190,55 @@
    "FormValSad": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "14:3D8A"
+     "addr": "14:3D8A",
+     "component_class": "TFormValSad"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "14:3E0D"
+     "addr": "14:3E0D",
+     "component_class": "TFormValSad"
     }
    },
    "Tillbaka": {
     "OnClick": {
      "handler": "TillbakaClick",
-     "addr": "14:3D74"
+     "addr": "14:3D74",
+     "component_class": "TLabel"
     }
    },
    "rbVete": {
     "OnClick": {
      "handler": "rbVeteClick",
-     "addr": "14:3DC1"
+     "addr": "14:3DC1",
+     "component_class": "TRadioButton"
     }
    },
    "rbHavre": {
     "OnClick": {
      "handler": "rbHavreClick",
-     "addr": "14:3DE7"
+     "addr": "14:3DE7",
+     "component_class": "TRadioButton"
     }
    },
    "rbRag": {
     "OnClick": {
      "handler": "rbRagClick",
-     "addr": "14:3DFA"
+     "addr": "14:3DFA",
+     "component_class": "TRadioButton"
     }
    },
    "rbKorn": {
     "OnClick": {
      "handler": "rbKornClick",
-     "addr": "14:3DD4"
+     "addr": "14:3DD4",
+     "component_class": "TRadioButton"
     }
    },
    "rbVall": {
     "OnClick": {
      "handler": "rbVallClick",
-     "addr": "14:3DAE"
+     "addr": "14:3DAE",
+     "component_class": "TRadioButton"
     }
    }
   }
@@ -1947,23 +2250,27 @@
    "FormVSM": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "10:0921"
+     "addr": "10:0921",
+     "component_class": "TFormVSM"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "10:02E3"
+     "addr": "10:02E3",
+     "component_class": "TFormVSM"
     }
    },
    "Tillbaka": {
     "OnClick": {
      "handler": "TillbakaClick",
-     "addr": "10:04BF"
+     "addr": "10:04BF",
+     "component_class": "TLabel"
     }
    },
    "Timer1": {
     "OnTimer": {
      "handler": "Timer1Timer",
-     "addr": "10:0889"
+     "addr": "10:0889",
+     "component_class": "TTimer"
     }
    }
   }
@@ -1975,21 +2282,25 @@
    "FormYul": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "7:31AF"
+     "addr": "7:31AF",
+     "component_class": "TFormYul"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "7:3053"
+     "addr": "7:3053",
+     "component_class": "TFormYul"
     },
     "OnShow": {
      "handler": "FormShow",
-     "addr": "7:33CD"
+     "addr": "7:33CD",
+     "component_class": "TFormYul"
     }
    },
    "Timer1": {
     "OnTimer": {
      "handler": "Timer1Timer",
-     "addr": "7:338C"
+     "addr": "7:338C",
+     "component_class": "TTimer"
     }
    }
   }
@@ -2001,17 +2312,20 @@
    "FormYul2": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "16:3178"
+     "addr": "16:3178",
+     "component_class": "TFormYul2"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "16:30E6"
+     "addr": "16:30E6",
+     "component_class": "TFormYul2"
     }
    },
    "Tillbaka": {
     "OnClick": {
      "handler": "TillbakaClick",
-     "addr": "16:3119"
+     "addr": "16:3119",
+     "component_class": "TLabel"
     }
    }
   }
@@ -2023,21 +2337,25 @@
    "LoadForm": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "4:3D23"
+     "addr": "4:3D23",
+     "component_class": "TLoadForm"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "4:3D42"
+     "addr": "4:3D42",
+     "component_class": "TLoadForm"
     },
     "OnMouseMove": {
      "handler": "FormMouseMove",
-     "addr": "4:3C8A"
+     "addr": "4:3C8A",
+     "component_class": "TLoadForm"
     }
    },
    "BtnOk": {
     "OnClick": {
      "handler": "BtnOkClick",
-     "addr": "4:3CC2"
+     "addr": "4:3CC2",
+     "component_class": "TButton"
     }
    }
   }
@@ -2049,35 +2367,41 @@
    "Main": {
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "5:3EA1"
+     "addr": "5:3EA1",
+     "component_class": "TMain"
     },
     "OnShow": {
      "handler": "FormShow",
-     "addr": "5:3EF0"
+     "addr": "5:3EF0",
+     "component_class": "TMain"
     }
    },
    "Image": {
     "OnMouseDown": {
      "handler": "ImageMouseDown",
-     "addr": "5:01F4"
+     "addr": "5:01F4",
+     "component_class": "TImage"
     }
    },
    "Timer": {
     "OnTimer": {
      "handler": "TimerTimeOut",
-     "addr": "5:01D2"
+     "addr": "5:01D2",
+     "component_class": "TTimer"
     }
    },
    "HitBoxTimer": {
     "OnTimer": {
      "handler": "HitBoxTimeOut",
-     "addr": "5:01E3"
+     "addr": "5:01E3",
+     "component_class": "TTimer"
     }
    },
    "StartupTimer": {
     "OnTimer": {
      "handler": "StartupTimerTimer",
-     "addr": "5:3E63"
+     "addr": "5:3E63",
+     "component_class": "TTimer"
     }
    }
   }
@@ -2089,17 +2413,20 @@
    "MenuForm": {
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "6:3A1A"
+     "addr": "6:3A1A",
+     "component_class": "TMenuForm"
     },
     "OnMouseMove": {
      "handler": "FormMouseMove",
-     "addr": "6:3A69"
+     "addr": "6:3A69",
+     "component_class": "TMenuForm"
     }
    },
    "MainPanel": {
     "OnMouseMove": {
      "handler": "FormMouseMove",
-     "addr": "6:3A69"
+     "addr": "6:3A69",
+     "component_class": "TPanel"
     }
    }
   }
@@ -2111,7 +2438,8 @@
    "QuestionForm": {
     "OnMouseMove": {
      "handler": "FormMouseMove",
-     "addr": "4:3AD8"
+     "addr": "4:3AD8",
+     "component_class": "TQuestionForm"
     }
    }
   }
@@ -2123,21 +2451,25 @@
    "SaveForm": {
     "OnActivate": {
      "handler": "FormActivate",
-     "addr": "7:2EE0"
+     "addr": "7:2EE0",
+     "component_class": "TSaveForm"
     },
     "OnCreate": {
      "handler": "FormCreate",
-     "addr": "7:2EFF"
+     "addr": "7:2EFF",
+     "component_class": "TSaveForm"
     },
     "OnMouseMove": {
      "handler": "FormMouseMove",
-     "addr": "7:2E1F"
+     "addr": "7:2E1F",
+     "component_class": "TSaveForm"
     }
    },
    "BtnOk": {
     "OnClick": {
      "handler": "BtnOkClick",
-     "addr": "7:2E38"
+     "addr": "7:2E38",
+     "component_class": "TButton"
     }
    }
   }

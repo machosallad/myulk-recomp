@@ -57,6 +57,7 @@ class DelphiImage:
         self.d = self.ne.data
         self.segs = {s.index: s for s in self.ne.segments()}
         # (seg, offset) -> relocation target for far pointers
+        self.method_types: dict[str, dict] = {}   # event type name -> signature
         self.far: dict[tuple[int, int], tuple] = {}
         # (seg, offset) -> target for 16-bit segment fixups
         self.segfix: dict[tuple[int, int], tuple] = {}
@@ -200,6 +201,25 @@ class DelphiImage:
             return {"kind": "const", "value": bool(lo)}
         return {"kind": "raw", "value": f"{hi:04X}:{lo:04X}"}
 
+    def read_method_type(self, seg: int, off: int) -> dict:
+        """tkMethod TypeInfo: kind, name, byte MethodKind, byte ParamCount,
+        { byte Flags, shortstring Name, shortstring TypeName }, [ResultType]."""
+        p = off + 2 + self.b(seg, off + 1)
+        kind, count = self.b(seg, p), self.b(seg, p + 1)
+        p += 2
+        params = []
+        for _ in range(count):
+            flags = self.b(seg, p)
+            name = self.sstr(seg, p + 1)
+            p += 2 + len(name)
+            tname = self.sstr(seg, p)
+            p += 1 + len(tname)
+            params.append({"name": name, "type": tname,
+                           "var": bool(flags & 1), "const": bool(flags & 2)})
+        result = self.sstr(seg, p) if kind == 1 else None
+        return {"kind": "function" if kind == 1 else "procedure",
+                "params": params, "result": result}
+
     def read_props(self, seg: int, v: int) -> list[dict]:
         """Published properties declared by this class (not inherited).
 
@@ -219,6 +239,8 @@ class DelphiImage:
             ptype = None
             if isinstance(pt, tuple) and len(pt) == 2 and pt[0] in self.segs:
                 ptype = self.sstr(pt[0], pt[1] + 1)
+                if self.b(pt[0], pt[1]) == 8:      # tkMethod: remember signature
+                    self.method_types.setdefault(ptype, self.read_method_type(*pt))
             idx = struct.unpack_from("<h", self.d, self.segs[seg].offset + p + 16)[0]
             name = self.sstr(seg, p + 24)
             props.append({"name": name, "type": ptype,
@@ -339,7 +361,8 @@ def walk_events(comp: dict, cls_methods: dict, out: dict, form_cls: str):
         if k.startswith("On") and isinstance(v, dict) and "ident" in v:
             h = v["ident"]
             out.setdefault(comp["name"] or form_cls, {})[k] = {
-                "handler": h, "addr": cls_methods.get(h.upper())}
+                "handler": h, "addr": cls_methods.get(h.upper()),
+                "component_class": comp["class"]}
     for c in comp["children"]:
         walk_events(c, cls_methods, out, form_cls)
 
@@ -464,6 +487,17 @@ def main() -> int:
         for dm in c["dynamic"]:
             if dm["addr"] and ":" in dm["addr"]:
                 syms.setdefault(dm["addr"], f"{c['name']}.{dm['msg']}")
+    # user virtual methods: name each slot after the class that first fills it
+    # with a new address (base classes first)
+    for c in sorted(classes, key=depth):
+        parent = by_name.get(c["parent"]) if c.get("parent") else None
+        inherited = {v["slot"]: v["addr"] for v in parent["virtuals"]} if parent else {}
+        for vm in c["virtuals"]:
+            a = vm["addr"]
+            if vm.get("std") or not a or ":" not in a or inherited.get(vm["slot"]) == a:
+                continue
+            syms.setdefault(a, f"{c['name']}.Virtual_{vm['slot']:02X}")
+
     # hand-identified library routines override generated names
     lib = os.path.join(out, "library_names.csv")
     if os.path.isfile(lib):
@@ -477,6 +511,77 @@ def main() -> int:
         for a, nm in sorted(syms.items(), key=lambda x: (int(x[0].split(":")[0]), int(x[0].split(":")[1], 16))):
             s, o = a.split(":")
             wr.writerow([s, o, nm])
+
+    # full signatures for event handlers, from the event property's tkMethod RTTI
+    def prop_type(cls_name: str, prop: str):
+        k = by_name.get(cls_name)
+        while k:
+            for pr in k.get("properties", []):
+                if pr["name"] == prop:
+                    return pr["type"]
+            k = by_name.get(k["parent"]) if k.get("parent") else None
+        return None
+
+    def param_sig(p: dict) -> str:
+        t = p["type"]
+        if p["var"]:
+            gt = f"ptr:{t}" if t in by_name else f"ptr:{t}"
+        elif t in by_name:
+            gt = f"ptr:{t}"
+        elif t.lower() in ("string", "pchar", "pointer") or t in ("TRect",):
+            gt = f"ptr:{t}"
+        elif t in ("Longint", "LongInt", "TColor", "TPoint"):
+            gt = f"dword:{t}"
+        else:
+            gt = f"word:{t}"
+        return f"{p['name']}:{gt}"
+
+    handler_sigs: dict[str, tuple[str, str]] = {}   # addr -> (class, sig)
+    for form_cls, fe in events.items():
+        for comp, evs in fe["events"].items():
+            for ev, info in evs.items():
+                if not info["addr"]:
+                    continue
+                mt = img.method_types.get(prop_type(info["component_class"], ev) or "")
+                if not mt or mt["kind"] != "procedure":
+                    continue
+                owner_cls = syms.get(info["addr"], form_cls).split(".")[0]
+                if owner_cls not in by_name:
+                    owner_cls = form_cls
+                # Pascal pushes left to right and Self last, so in Ghidra's
+                # stdcall16far order: Self, then the declared params reversed
+                sig = [f"Self:ptr:{owner_cls}"] + [param_sig(p) for p in reversed(mt["params"])]
+                handler_sigs.setdefault(info["addr"], (owner_cls, ";".join(sig)))
+    with open(os.path.join(out, "event_types.json"), "w", encoding="utf-8") as f:
+        json.dump(img.method_types, f, ensure_ascii=False, indent=1)
+
+    # class layouts for Ghidra structs: C = class, F = field (flattened with
+    # inherited published fields), M = function whose Self is that class,
+    # S = full signature (event handlers)
+    with open(os.path.join(out, "class_layouts.csv"), "w", newline="", encoding="utf-8") as f:
+        wr = csv.writer(f)
+        wr.writerow(["kind", "a", "b", "c", "d"])
+        for c in sorted(classes, key=lambda c: c["name"]):
+            wr.writerow(["C", c["name"], c["instance_size"], c.get("parent") or "", ""])
+            chain, k = [], c
+            while k:
+                chain.append(k)
+                k = by_name.get(k["parent"]) if k.get("parent") else None
+            seen = set()
+            for k in reversed(chain):
+                for fld in k["fields"]:
+                    if fld["offset"] in seen or fld["offset"] + 4 > c["instance_size"]:
+                        continue
+                    seen.add(fld["offset"])
+                    wr.writerow(["F", c["name"], fld["offset"], fld["name"], fld["class"] or ""])
+        for a, nm in sorted(syms.items()):
+            cls = nm.split(".")[0]
+            if "." in nm and cls in by_name and a not in handler_sigs:
+                s, o = a.split(":")
+                wr.writerow(["M", s, o, cls, nm])
+        for a, (cls, sig) in sorted(handler_sigs.items()):
+            s, o = a.split(":")
+            wr.writerow(["S", s, o, cls, sig])
 
     n_ev = sum(len(e) for f in events.values() for e in f["events"].values())
     n_res = sum(1 for f in events.values() for e in f["events"].values()

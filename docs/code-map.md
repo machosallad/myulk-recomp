@@ -82,8 +82,18 @@ The game makes 3,846 calls into the VCL/RTL (segments 23–33). Of those calls, 
 
 **Notable finding:** the game does arithmetic in Turbo Pascal's 6-byte `Real` type (`System.RealLoad` converts it for the FPU). To get bit-identical results, the C++ port needs a Real48 emulation, or at least to match its rounding.
 
+### Class structs and signatures
+
+`delphi_map.py` writes `analysis/class_layouts.csv`, and `ApplyClassTypes.java` (run automatically on import) applies it:
+
+- **Structs:** one struct per class in the Ghidra category `/Delphi`, sized to the instance size, with `vmt` at offset 0 and every published component field as a typed far pointer. `param_1 + 0x184` now reads `Self->ImgTillbaka`, and `FormSounds->Media_ST_TILLB` is the media player that plays `ST_TILLB.WAV`.
+- **`Self` parameters:** the first parameter of every known method is named `Self` and typed with its class. This covers published methods, property accessors, message handlers and virtual overrides (now named `Class.Virtual_XX` after the first class that fills the slot).
+- **Event handler signatures:** all 305 handlers get their exact Delphi signature from the event type's RTTI (`analysis/event_types.json`, 14 event types). Delphi 1 uses the Pascal convention: arguments are pushed left to right with Self last, so in Ghidra's `__stdcall16far` order a `TMouseEvent` handler is `(Self, Y, X, Shift, Button, Sender)`.
+- **Form globals:** typed as far pointers to their form struct.
+- **Decompiler Parameter ID:** `ApplySymbols.java` enables this analyzer. Without it, many functions have no stored parameter list, and setting `Self` alone would drop the rest.
+- **Known gap:** the 47 KB of game state in `TMain` and the `My*` model classes have no published fields, so their offsets (`Self + 0x1b6`) are still raw.
+
 ### Next steps for readability
 
-- Create Ghidra structs for each form class from its field table, so `param_1 + 0x184` reads as `this->ImgTillbaka`. Do the same for `TMain` and the `My*` model classes as their fields are worked out.
-- Set Delphi's calling convention: Pascal, with Self pushed as a far pointer.
 - Name the game's own routines (the remaining `FUN_*` calls in segments 1–22), starting from the event handlers.
+- Work out the `TMain` and `My*` field layouts. Add them to the structs as they become clear, e.g. through a hand-maintained layout file merged by `ApplyClassTypes`.

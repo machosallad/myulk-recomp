@@ -1,0 +1,356 @@
+{
+ "TNotifyEvent": {
+  "kind": "procedure",
+  "params": [
+   {
+    "name": "Sender",
+    "type": "TObject",
+    "var": false,
+    "const": false
+   }
+  ],
+  "result": null
+ },
+ "TMouseMoveEvent": {
+  "kind": "procedure",
+  "params": [
+   {
+    "name": "Sender",
+    "type": "TObject",
+    "var": false,
+    "const": false
+   },
+   {
+    "name": "Shift",
+    "type": "TShiftState",
+    "var": false,
+    "const": false
+   },
+   {
+    "name": "X",
+    "type": "Integer",
+    "var": false,
+    "const": false
+   },
+   {
+    "name": "Y",
+    "type": "Integer",
+    "var": false,
+    "const": false
+   }
+  ],
+  "result": null
+ },
+ "TMouseEvent": {
+  "kind": "procedure",
+  "params": [
+   {
+    "name": "Sender",
+    "type": "TObject",
+    "var": false,
+    "const": false
+   },
+   {
+    "name": "Button",
+    "type": "TMouseButton",
+    "var": false,
+    "const": false
+   },
+   {
+    "name": "Shift",
+    "type": "TShiftState",
+    "var": false,
+    "const": false
+   },
+   {
+    "name": "X",
+    "type": "Integer",
+    "var": false,
+    "const": false
+   },
+   {
+    "name": "Y",
+    "type": "Integer",
+    "var": false,
+    "const": false
+   }
+  ],
+  "result": null
+ },
+ "EMPNotify": {
+  "kind": "procedure",
+  "params": [
+   {
+    "name": "Sender",
+    "type": "TObject",
+    "var": false,
+    "const": false
+   },
+   {
+    "name": "Button",
+    "type": "TMPBtnType",
+    "var": false,
+    "const": false
+   },
+   {
+    "name": "DoDefault",
+    "type": "Boolean",
+    "var": true,
+    "const": false
+   }
+  ],
+  "result": null
+ },
+ "EMPPostNotify": {
+  "kind": "procedure",
+  "params": [
+   {
+    "name": "Sender",
+    "type": "TObject",
+    "var": false,
+    "const": false
+   },
+   {
+    "name": "Button",
+    "type": "TMPBtnType",
+    "var": false,
+    "const": false
+   }
+  ],
+  "result": null
+ },
+ "TDragDropEvent": {
+  "kind": "procedure",
+  "params": [
+   {
+    "name": "Sender",
+    "type": "TObject",
+    "var": false,
+    "const": false
+   },
+   {
+    "name": "Source",
+    "type": "TObject",
+    "var": false,
+    "const": false
+   },
+   {
+    "name": "X",
+    "type": "Integer",
+    "var": false,
+    "const": false
+   },
+   {
+    "name": "Y",
+    "type": "Integer",
+    "var": false,
+    "const": false
+   }
+  ],
+  "result": null
+ },
+ "TDragOverEvent": {
+  "kind": "procedure",
+  "params": [
+   {
+    "name": "Sender",
+    "type": "TObject",
+    "var": false,
+    "const": false
+   },
+   {
+    "name": "Source",
+    "type": "TObject",
+    "var": false,
+    "const": false
+   },
+   {
+    "name": "X",
+    "type": "Integer",
+    "var": false,
+    "const": false
+   },
+   {
+    "name": "Y",
+    "type": "Integer",
+    "var": false,
+    "const": false
+   },
+   {
+    "name": "State",
+    "type": "TDragState",
+    "var": false,
+    "const": false
+   },
+   {
+    "name": "Accept",
+    "type": "Boolean",
+    "var": true,
+    "const": false
+   }
+  ],
+  "result": null
+ },
+ "TEndDragEvent": {
+  "kind": "procedure",
+  "params": [
+   {
+    "name": "Sender",
+    "type": "TObject",
+    "var": false,
+    "const": false
+   },
+   {
+    "name": "Target",
+    "type": "TObject",
+    "var": false,
+    "const": false
+   },
+   {
+    "name": "X",
+    "type": "Integer",
+    "var": false,
+    "const": false
+   },
+   {
+    "name": "Y",
+    "type": "Integer",
+    "var": false,
+    "const": false
+   }
+  ],
+  "result": null
+ },
+ "TKeyEvent": {
+  "kind": "procedure",
+  "params": [
+   {
+    "name": "Sender",
+    "type": "TObject",
+    "var": false,
+    "const": false
+   },
+   {
+    "name": "Key",
+    "type": "Word",
+    "var": true,
+    "const": false
+   },
+   {
+    "name": "Shift",
+    "type": "TShiftState",
+    "var": false,
+    "const": false
+   }
+  ],
+  "result": null
+ },
+ "TKeyPressEvent": {
+  "kind": "procedure",
+  "params": [
+   {
+    "name": "Sender",
+    "type": "TObject",
+    "var": false,
+    "const": false
+   },
+   {
+    "name": "Key",
+    "type": "Char",
+    "var": true,
+    "const": false
+   }
+  ],
+  "result": null
+ },
+ "TDrawItemEvent": {
+  "kind": "procedure",
+  "params": [
+   {
+    "name": "Control",
+    "type": "TWinControl",
+    "var": false,
+    "const": false
+   },
+   {
+    "name": "Index",
+    "type": "Integer",
+    "var": false,
+    "const": false
+   },
+   {
+    "name": "Rect",
+    "type": "TRect",
+    "var": false,
+    "const": false
+   },
+   {
+    "name": "State",
+    "type": "TOwnerDrawState",
+    "var": false,
+    "const": false
+   }
+  ],
+  "result": null
+ },
+ "TMeasureItemEvent": {
+  "kind": "procedure",
+  "params": [
+   {
+    "name": "Control",
+    "type": "TWinControl",
+    "var": false,
+    "const": false
+   },
+   {
+    "name": "Index",
+    "type": "Integer",
+    "var": false,
+    "const": false
+   },
+   {
+    "name": "Height",
+    "type": "Integer",
+    "var": true,
+    "const": false
+   }
+  ],
+  "result": null
+ },
+ "TCloseEvent": {
+  "kind": "procedure",
+  "params": [
+   {
+    "name": "Sender",
+    "type": "TObject",
+    "var": false,
+    "const": false
+   },
+   {
+    "name": "Action",
+    "type": "TCloseAction",
+    "var": true,
+    "const": false
+   }
+  ],
+  "result": null
+ },
+ "TCloseQueryEvent": {
+  "kind": "procedure",
+  "params": [
+   {
+    "name": "Sender",
+    "type": "TObject",
+    "var": false,
+    "const": false
+   },
+   {
+    "name": "CanClose",
+    "type": "Boolean",
+    "var": true,
+    "const": false
+   }
+  ],
+  "result": null
+ }
+}
