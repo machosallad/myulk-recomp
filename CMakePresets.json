@@ -1,0 +1,35 @@
+{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "native",
+      "displayName": "Native (Ninja, Release)",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/native",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" }
+    },
+    {
+      "name": "native-debug",
+      "inherits": "native",
+      "displayName": "Native (Ninja, Debug)",
+      "binaryDir": "${sourceDir}/build/native-debug",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" }
+    },
+    {
+      "name": "web",
+      "displayName": "Web (Emscripten)",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/web",
+      "toolchainFile": "$env{EMSDK}/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release", "MYULK_BUILD_TESTS": "OFF" }
+    }
+  ],
+  "buildPresets": [
+    { "name": "native", "configurePreset": "native" },
+    { "name": "native-debug", "configurePreset": "native-debug" },
+    { "name": "web", "configurePreset": "web" }
+  ],
+  "testPresets": [
+    { "name": "native", "configurePreset": "native", "output": { "outputOnFailure": true } }
+  ]
+}

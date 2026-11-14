@@ -8,4 +8,5 @@ Goal: run on modern desktops and in the browser (C++20 + SDL, planned), using th
 
 - [docs/extraction.md](docs/extraction.md) – how assets are extracted and what the original game is made of
 - [docs/code-map.md](docs/code-map.md) – recovered class structure, event handlers and program layout of the original EXE
+- [docs/building.md](docs/building.md) – building and running the C++ port (desktop and browser)
 - [docs/game-outline.md](docs/game-outline.md) – how the game works: screens, calendar, save format, state, adventure engine, plan for the port
