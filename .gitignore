@@ -1,0 +1,13 @@
+# Original copyrighted game data — never commit
+iso/
+extracted/
+
+# Build output
+build/
+out/
+
+__pycache__/
+*.pyc
+
+# Local Claude Code settings
+.claude/settings.local.json
