@@ -11,6 +11,28 @@ You take over **Öppanäng**, a dairy farm that has stood empty for about twenty
 
 After three years the farm's finances are settled: if your net worth has grown, you have succeeded (manual, topic *Ikoner → VÄRDE*).
 
+## Game flow
+
+The two parts **alternate**. Each farm period runs one year, from 1 March to the end of February:
+
+```
+new game ─► Chapter 1 (adventure) ─► Farm year 1  day 61..420   (1 Mar Y1 – end Feb Y2)
+                                   ─► Chapter 2 ─► Farm year 2  day 421..780
+                                   ─► Chapter 3 ─► Farm year 3  day 781..1140
+                                   ─► final evaluation ─► success / failure ending
+```
+
+| Step | Code |
+|---|---|
+| New game: reset adventure state, mode 1 | `2:0B42`, from `TAdvForm.FormCreate` and the "new game" buttons |
+| Chapter 2 / 3 start: load the chapter's picture DLL, reset chapter state, mode 2 / 3 | `2:10B6` / `2:1216` |
+| Chapter end → farm: set the start day, open `TForm1` modally | `7:2B03` (ch 1, day stays 61 from the farm reset `1:0ABF`), `11:3C1A` (ch 2, day 421), `5:3F21` (ch 3, day 781) |
+| Farm open: mode 4 | `TForm1.FormShow` |
+| Farm period end: on the last day of winter, by year: 2 → chapter 2, 3 → chapter 3, 4 → evaluation (total value > 0 plus two more checks) | `9:1E61`, called from `MainTimerTimer` |
+| Endings | `TAdvForm.EndTimer1/2`, `SuccessTimer` (26-frame sequence) |
+
+The farm runs as a modal form on top of the adventure form. A save game records the mode (1–3 adventure chapter, 4 farm) and resumes in the right part.
+
 ## Screens
 
 All 57 forms are created at startup (`program.json`). They group into:
@@ -82,13 +104,29 @@ Known status fields: `+0` balance (32-bit), `+6` yearly cost factor, `+8` flag, 
 
 `TAdvForm` (seg 2) is a small scene engine that the scene code in segments 3, 4, 6, 7, 8, 11, 12, 13, 17–20 calls (about 2,000 calls):
 
-| Routine | Calls | What it does |
-|---|---|---|
-| `2:1584` | 1,213 | show a scene bitmap by resource name (e.g. `VM0BS`) from the current picture DLL |
-| `2:184F`, `2:18DF` | ~110 each | (to identify) |
-| `2:1940` | 74 | play a media file from the current folder (`DS:52C0`) with a completion callback |
-| `2:1A37`, `2:1C23`, `2:1ED4`, `2:264A` | 49–64 | set up hotspots/exits: a set of procedure pointers + image names per scene |
-| `2:24AF` | 50 | dialogue/text helper |
+The engine uses these `TAdvForm` components: `SoundPlayer1–4` (media players for WAV), `MoviePlayer1` (AVI overlay), `PicTimer`, `GImage` (scene picture), `ExitBtn`, the inventory (`+0x301`, a `TInventory`) and a sprite list (`+0x305`). It works by **continuation passing**: a step that takes time (a sound, a movie, a delay, a dialogue choice) is given the procedure to call when it finishes.
+
+| Routine | Calls | Proposed name | What it does |
+|---|---|---|---|
+| `2:1584` | 1,213 | `ShowPicture(name)` | draw a bitmap resource from the chapter's picture DLL into `GImage` |
+| `2:1646` | | `ClearPicture()` | fill `GImage` with the brush colour |
+| `2:184F` | 113 | `OpenSound(name)` | `SoundPlayer1.FileName := folder + name; Open` |
+| `2:18DF` | 111 | `PlaySound(wait)` | play `SoundPlayer1`; when it finishes, the engine continues (`OnNotify` = `2:5217`) |
+| `2:1940` | 74 | `PlaySoundThen(proc, name)` | open and play, then call `proc` |
+| `2:182C` | | `StopSound()` | `sndPlaySound(nil)` |
+| `2:224A` | 49 | `OpenMovie(proc, x, y, name)` | load an AVI into `MoviePlayer1` at a position in the scene |
+| `2:234C` | 32 | `PlayMovie(wait, keep)` | play the movie, optionally continuing when done |
+| `2:1A37` / `2:1C23` / `2:1ED4` | ≈50 | `Say2/Say3/Say4(proc, sound…, picture…)` | a speech sequence: 2, 3 or 4 sound clips with matching portrait pictures, then `proc` |
+| `2:264A` | 49 | `Choose(proc1..4, text1..4)` | dialogue menu: up to 4 lines in `TalkLabel*`, each with its own continuation |
+| `2:24AF` | 50 | `ShowText(text)` | text overlay |
+| `2:241B` | 64 | `After(ms, proc)` | `PicTimer` one-shot callback |
+| `2:19D2`, `2:1B7F` | 70 / 22 | `EndStep()` / `EndStepWithPicture()` | mark busy, stop sound, continue on next notify |
+| `2:2573` | 41 | `RemoveItem(name)` | remove an item from the inventory by name |
+| `2:25C5` | 54 | `ClearSprites()` | free the sprite list |
+| `2:2602` | 46 | `ShowExit()` | show `ExitBtn` |
+| `2:2489` | | `ResetPos(p)` | set a position record to (1500, 1500) |
+
+Port note: keep this API as it is in C++ and port each scene procedure as a function calling it, with lambdas as continuations. This mirrors the original closely, so scene code can be translated nearly line by line from the decompiled output.
 
 - **Scene procedures:** each scene is a procedure that loads the right `PICTDLL\NB*.DLL` (e.g. `nbstvm1.dll`), shows images, plays `ae1_*`/`ae2_*`/`ae3_*` sounds (chapter 1–3) or AVIs, and registers hotspots pointing at the next scene procedures. This is why about 900 functions are only reachable through pointers.
 - **Dialogue:** up to 13 choices (`TalkLabel1–13`). The lines are Swedish string constants in the scene code (e.g. seg 12 bank/valuation, seg 13 dairy).
@@ -115,7 +153,7 @@ Known status fields: `+0` balance (32-bit), `+6` yearly cost factor, `+8` flag, 
 ## Implications for the C++ port
 
 1. **Simulation core:** plain C++ with no UI dependency. Calendar, status, fields, cows, machines and buildings are ported routine by routine from segs 1 and 14–19, with a deterministic `tick()` that matches `MainTimerTimer`'s order and Real48-compatible math. It's testable without graphics.
-2. **Adventure:** turn the scene procedures into data (scene → images, sounds, hotspots → next scene, dialogue). The engine API is small (table above), so a scene table plus a few scripted special cases should cover it.
+2. **Adventure:** re-implement the small engine API above and port the scene procedures as C++ functions using continuations (lambdas). Turning scenes into data can come later, once the behaviour matches.
 3. **UI:** forms are rendered from the extracted form JSON at 640×480 and scaled. A widget set covering what the forms use: Image, Label, Panel, Shape, Timer, autoButton, Gauge, drag-highlight, media player.
 4. **Saves:** keep the 4,199-byte `.mlk` layout as the import format, so original save games load. Use a modern format of our own for new saves.
 5. **Platforms:** SDL for desktop, Emscripten for the browser. Videos converted with ffmpeg; WAVs play as is.
@@ -123,8 +161,7 @@ Known status fields: `+0` balance (32-bit), `+6` yearly cost factor, `+8` flag, 
 ## Open questions
 
 - The full layout of the 3,335-byte farm block, and of the adventure blocks at `DS:502E`/`526E`/`5294`.
-- The adventure engine routines `2:184F`, `2:18DF`, `2:241B`, `2:25C5`, `2:224A`, `2:2602`, `2:2573`.
-- How the adventure hands over to the farm sim: does chapter 3 end by starting `TForm1`, and do they alternate?
+- Hotspot registration: how clickable regions in `GImage` map to scene procedures (the `TMain` hitbox table set up in `5:024E`), and how item pick-up adds to the inventory.
 - The pricing, growth, milk yield and health formulas inside segs 14–19.
 - What `Yul` is (`TFormYul`, `TFormYul2`, the `yul\` art folder).
 
