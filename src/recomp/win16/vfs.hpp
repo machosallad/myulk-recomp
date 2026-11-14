@@ -13,6 +13,9 @@
 namespace win16::vfs {
 
 void init(const std::string& hostRoot, const std::string& gameSubdir);
+// Host folder for files the game creates or modifies (saves, INI files);
+// the game data itself is never written.
+void set_overlay(const std::string& hostDir);
 
 // DOS path (absolute, or relative to the current directory) -> host path.
 // Returns empty if a path component doesn't exist (except the last one when

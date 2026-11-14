@@ -3,6 +3,7 @@
 
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <string>
 #include <vector>
 
@@ -98,6 +99,45 @@ void automation(uint64_t now) {
             input_mouse_move(c.x, c.y);
             input_mouse_button(c.x, c.y, 0, true);
             input_mouse_button(c.x, c.y, 0, false);
+        }
+    }
+    // MYULK_KEYS="ms:text;ms:text": typed characters; {enter} {esc} {bs} {tab}
+    struct Keys { uint64_t at; std::string text; bool done; };
+    static std::vector<Keys> keys;
+    static bool keysInit = false;
+    if (!keysInit) {
+        keysInit = true;
+        if (const char* kl = SDL_getenv("MYULK_KEYS")) {
+            std::string s = kl;
+            size_t p = 0;
+            while (p < s.size()) {
+                size_t semi = s.find(';', p);
+                std::string item = s.substr(p, semi == std::string::npos ? std::string::npos : semi - p);
+                size_t colon = item.find(':');
+                if (colon != std::string::npos) keys.push_back({uint64_t(std::atoi(item.c_str())), item.substr(colon + 1), false});
+                if (semi == std::string::npos) break;
+                p = semi + 1;
+            }
+        }
+    }
+    for (auto& k : keys) {
+        if (k.done || now < k.at) continue;
+        k.done = true;
+        for (size_t i = 0; i < k.text.size(); ++i) {
+            static const std::pair<const char*, int> named[] = {{"{enter}", 0x0D}, {"{esc}", 0x1B}, {"{bs}", 0x08}, {"{tab}", 0x09}};
+            bool special = false;
+            for (auto& [name, vk] : named) {
+                size_t n = std::strlen(name);
+                if (k.text.compare(i, n, name) == 0) {
+                    input_key(vk, true);
+                    input_char(vk);
+                    input_key(vk, false);
+                    i += n - 1;
+                    special = true;
+                    break;
+                }
+            }
+            if (!special) input_char(static_cast<unsigned char>(k.text[i]));
         }
     }
     // MYULK_CALL="ms:seg:off": call a parameterless routine of the game once

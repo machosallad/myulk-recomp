@@ -210,6 +210,8 @@ void dos_int21(Cpu& c) {
             auto& st = g_find[g_dta];
             st.entries = vfs::find(recomp::read_cstr(c, dsdx), c.cx());
             st.next = 0;
+            if (std::getenv("MYULK_TRACE_FILES"))
+                recomp::log("findfirst %s attr %04X -> %zu entries", recomp::read_cstr(c, dsdx).c_str(), c.cx(), st.entries.size());
             if (st.entries.empty()) { dos_error(c, 18); break; }
             fill_dta(c, st.entries[st.next++]);
             break;

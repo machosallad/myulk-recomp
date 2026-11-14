@@ -94,8 +94,39 @@ std::string normalize(const std::string& dosPath) {
     return out;
 }
 
+// Writable overlay: files the game creates or writes live under g_overlay
+// (same DOS path, upper-case names); reads prefer the overlay.
+std::string g_overlay;
+
+fs::path overlay_path(const std::string& normalized) {
+    fs::path p(g_overlay);
+    for (const auto& c : split(normalized.substr(2))) p /= c;
+    return p;
+}
+
+std::string base_host(const std::string& n, bool forCreate);
+
 std::string to_host(const std::string& dosPath, bool forCreate) {
     std::string n = normalize(dosPath);
+    if (g_overlay.empty()) return base_host(n, forCreate);
+    std::error_code ec;
+    fs::path o = overlay_path(n);
+    if (!forCreate) {
+        if (fs::exists(o, ec)) return o.string();
+        return base_host(n, false);
+    }
+    // for writing: copy an existing base file into the overlay first
+    fs::create_directories(o.parent_path(), ec);
+    if (!fs::exists(o, ec)) {
+        std::string b = base_host(n, false);
+        if (!b.empty() && fs::is_regular_file(b, ec)) fs::copy_file(b, o, ec);
+    }
+    return o.string();
+}
+
+void set_overlay(const std::string& hostDir) { g_overlay = hostDir; }
+
+std::string base_host(const std::string& n, bool forCreate) {
     fs::path cur(g_root);
     auto parts = split(n.substr(2));
     for (size_t i = 0; i < parts.size(); ++i) {
@@ -129,6 +160,7 @@ int open(const std::string& dosPath, int mode, int* error) {
         *error = 2;
         return -1;
     }
+    if ((mode & 3) != 0) h = to_host(dosPath, true);   // writes go to the overlay
     const char* m = (mode & 3) == 0 ? "rb" : (mode & 3) == 1 ? "r+b" : "r+b";
     std::FILE* f = std::fopen(h.c_str(), m);
     if (!f) {
@@ -202,13 +234,15 @@ long size(int h) {
 }
 
 bool remove(const std::string& dosPath) {
-    std::string h = to_host(dosPath);
     std::error_code ec;
+    if (!g_overlay.empty()) return fs::remove(overlay_path(normalize(dosPath)), ec);   // never touch the game data
+    std::string h = to_host(dosPath);
     return !h.empty() && fs::remove(h, ec);
 }
 
 bool rename(const std::string& from, const std::string& to) {
-    std::string a = to_host(from), b = to_host(to, true);
+    if (to_host(from).empty()) return false;
+    std::string a = to_host(from, true), b = to_host(to, true);
     std::error_code ec;
     if (a.empty() || b.empty()) return false;
     fs::rename(a, b, ec);
@@ -221,21 +255,25 @@ std::vector<FindEntry> find(const std::string& dosPattern, int attrMask) {
     auto slash = n.rfind('\\');
     std::string dir = n.substr(0, slash), pat = n.substr(slash + 1);
     if (dir.size() == 2) dir += "\\";
-    std::string h = to_host(dir);
-    if (h.empty()) return out;
     std::error_code ec;
-    for (const auto& e : fs::directory_iterator(h, ec)) {
-        std::string name = upper(e.path().filename().string());
-        bool isdir = e.is_directory(ec);
-        if (isdir && !(attrMask & 0x10)) continue;
-        if (!wildmatch(pat, name)) continue;
-        FindEntry fe;
-        fe.name = name;
-        fe.dir = isdir;
-        fe.size = isdir ? 0 : uint32_t(e.file_size(ec));
-        out.push_back(fe);
-    }
-    std::sort(out.begin(), out.end(), [](const FindEntry& a, const FindEntry& b) { return a.name < b.name; });
+    std::map<std::string, FindEntry> found;   // overlay entries replace base ones
+    auto scan = [&](const std::string& h) {
+        if (h.empty() || !fs::is_directory(h, ec)) return;
+        for (const auto& e : fs::directory_iterator(h, ec)) {
+            std::string name = upper(e.path().filename().string());
+            bool isdir = e.is_directory(ec);
+            if (isdir && !(attrMask & 0x10)) continue;
+            if (!wildmatch(pat, name)) continue;
+            FindEntry fe;
+            fe.name = name;
+            fe.dir = isdir;
+            fe.size = isdir ? 0 : uint32_t(e.file_size(ec));
+            found[name] = fe;
+        }
+    };
+    scan(base_host(normalize(dir), false));
+    if (!g_overlay.empty()) scan(overlay_path(normalize(dir)).string());
+    for (auto& [k, v] : found) out.push_back(v);
     return out;
 }
 

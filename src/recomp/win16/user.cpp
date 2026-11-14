@@ -667,14 +667,66 @@ void user_init() {
     g_cursor = g_arrow;
     Runtime::get().register_api("HOST", 1, &api_default_proc_thunk, "DefWindowProc");
     (void)host_proc_far_off;
-    // predefined control classes use the default procedure for now
+    controls_init();
+    // predefined control classes: native procedures from controls.cpp
     for (const char* n : {"BUTTON", "EDIT", "LISTBOX", "COMBOBOX", "STATIC", "SCROLLBAR", "MDICLIENT"}) {
         WndClass wc;
         wc.name = n;
-        wc.proc = default_proc_far();
-        wc.hbrBackground = 6;   // COLOR_WINDOW + 1
+        wc.proc = control_proc(n);
+        if (!wc.proc) wc.proc = default_proc_far();
+        wc.hbrBackground = 0;   // controls paint their own background
         g_classes[n] = wc;
     }
+}
+
+// ---- window internals for controls.cpp ----
+bool wnd_info(uint16_t h, WndInfo& out) {
+    Window* w = wnd(h);
+    if (!w) return false;
+    out.parent = w->parent;
+    out.id = w->id;
+    out.style = w->style;
+    out.w = w->rect.w();
+    out.h = w->rect.h();
+    out.enabled = enabled_chain(h);
+    out.visible = really_visible(h);
+    return true;
+}
+std::string wnd_text(uint16_t h) { Window* w = wnd(h); return w ? w->text : std::string(); }
+void wnd_set_text(uint16_t h, const std::string& text) { if (Window* w = wnd(h)) w->text = text; }
+void wnd_invalidate(uint16_t h) {
+    if (Window* w = wnd(h)) invalidate(h, Rect{0, 0, w->rect.w(), w->rect.h()}, false);
+}
+uint16_t wnd_paint_begin(uint16_t h) {
+    Window* w = wnd(h);
+    if (!w) return 0;
+    int ox, oy;
+    screen_origin(h, &ox, &oy);
+    w->update = Rect{};
+    w->erase = false;
+    return dc_create_window(h, ox, oy, visible_rect(h));
+}
+void wnd_paint_end(uint16_t hdc) { dc_delete(hdc); }
+uint16_t wnd_focus() { return g_focus; }
+void wnd_set_focus(uint16_t h) {
+    uint16_t old = g_focus;
+    if (h == old) return;
+    g_focus = h;
+    if (old && wnd(old)) send_message(old, WM_KILLFOCUS, h, 0);
+    if (h && wnd(h)) send_message(h, WM_SETFOCUS, old, 0);
+}
+uint16_t wnd_capture() { return g_capture; }
+void wnd_set_capture(uint16_t h) { g_capture = h; }
+std::vector<uint16_t> wnd_children(uint16_t h) {
+    Window* w = wnd(h);
+    return w ? w->children : std::vector<uint16_t>{};
+}
+uint32_t wnd_default_proc(uint16_t h, uint16_t msg, uint16_t wp, uint32_t lp) { return default_proc(h, msg, wp, lp); }
+void screen_to_client(uint16_t h, int* x, int* y) {
+    int ox, oy;
+    screen_origin(h, &ox, &oy);
+    *x -= ox;
+    *y -= oy;
 }
 
 }  // namespace win16

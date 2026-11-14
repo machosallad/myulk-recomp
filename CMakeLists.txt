@@ -96,7 +96,7 @@ if(EXISTS "${MYULK_EXE}")
         COMMENT "Recompiling MYULK.EXE"
         VERBATIM)
 
-    file(GLOB WIN16_SOURCES "${CMAKE_SOURCE_DIR}/src/recomp/win16/*.cpp")
+    file(GLOB WIN16_SOURCES CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/src/recomp/win16/*.cpp")
     add_executable(myulk_recomp
         src/recomp/main.cpp
         src/recomp/runtime/cpu.cpp

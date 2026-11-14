@@ -1,6 +1,9 @@
 #include "recomp/win16/win16.hpp"
 
+#include <SDL3/SDL.h>
+
 #include <cstdio>
+#include <cstdlib>
 #include <filesystem>
 #include <vector>
 
@@ -43,6 +46,15 @@ void install_all(recomp::Runtime& rt) {
 void install(recomp::Runtime& rt, const std::string& gameDir) {
     fs::path g = fs::absolute(gameDir);
     vfs::init(g.parent_path().string(), g.filename().string());
+    // saves and other files the game writes: MYULK_SAVE_DIR or the user's
+    // application data folder (the game data is never modified)
+    std::string overlay;
+    if (const char* d = std::getenv("MYULK_SAVE_DIR")) overlay = d;
+    else if (char* p = SDL_GetPrefPath("myulk-recomp", "Myulk")) { overlay = std::string(p) + "drive_c"; SDL_free(p); }
+    if (!overlay.empty()) {
+        vfs::set_overlay(overlay);
+        recomp::log("writable files go to %s", overlay.c_str());
+    }
     kernel_setup(rt, gameDir);
     display_init();
     gdi_init();

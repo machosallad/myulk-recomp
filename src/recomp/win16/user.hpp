@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "recomp/win16/gdi.hpp"
 
@@ -52,5 +53,31 @@ void host_pump(int blockMs);
 
 void user_init();
 void dump_windows();   // log visible windows (debugging)
+
+// ---- window internals for the predefined control classes (controls.cpp) ----
+struct WndInfo {
+    uint16_t parent = 0, id = 0;
+    uint32_t style = 0;
+    int w = 0, h = 0;
+    bool enabled = true, visible = false;
+};
+bool wnd_info(uint16_t h, WndInfo& out);
+std::string wnd_text(uint16_t h);
+void wnd_set_text(uint16_t h, const std::string& text);
+void wnd_invalidate(uint16_t h);
+uint16_t wnd_paint_begin(uint16_t h);   // DC for the client area; validates it
+void wnd_paint_end(uint16_t hdc);
+uint16_t wnd_focus();
+void wnd_set_focus(uint16_t h);
+uint16_t wnd_capture();
+void wnd_set_capture(uint16_t h);
+std::vector<uint16_t> wnd_children(uint16_t h);   // front to back
+uint32_t wnd_default_proc(uint16_t h, uint16_t msg, uint16_t wp, uint32_t lp);
+void screen_to_client(uint16_t h, int* x, int* y);
+
+// controls.cpp: registers the native window procedures; returns the far
+// procedure address of a predefined class ("BUTTON", ...) or 0.
+void controls_init();
+uint32_t control_proc(const std::string& cls);
 
 }  // namespace win16
