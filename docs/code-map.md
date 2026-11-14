@@ -70,8 +70,20 @@ python -I tools/ghidra/headless.py script ExportDecomp.java 1 22   # decompile g
 - **Hidden routines (`find_functions.py`):** many routines are only reached through procedure pointers (scene/hotspot tables), so auto-analysis can't find them. This script seeds entry points from far-pointer relocation targets and from the `55 89 E5` prologue. That raised game-code coverage from as low as 3% in some segments to 57–94%. The rest is string constants and class tables.
 - **Decompiled output (`ExportDecomp.java`):** writes `decomp/segNN.c` plus `decomp/functions.csv`. This covers 2,353 functions in segments 1–22, and only 1 failed to decompile. `decomp/` is gitignored because it is derived from the original code.
 
+### Library routine names
+
+The game makes 3,846 calls into the VCL/RTL (segments 23–33). Of those calls, 3,473 (90%) now go to named routines. The names come from three sources:
+
+1. **RTTI property accessors** (automatic, `delphi_map.py`): every published property's static or virtual getter and setter, e.g. `TControl.SetVisible`, `TGauge.SetProgress`, `TautoButton.SetBitMapUp`. A property that a subclass re-publishes is credited to the most basic ancestor whose code is in that segment.
+2. **Dynamic tables** (automatic): Windows message handlers (`TCustomPanel.WMSize`, ...). VCL-internal messages are left generic (`CM_B00B`).
+3. **Hand-identified routines** in `analysis/library_names.csv`: the most-called routines, each recognized from its decompiled body (the `evidence` column says how). This covers string helpers, `Move`, `Copy`, `Pos`, `Random`, `Round`, the `as` cast, constructor/destructor helpers, `TObject.Free`, `IntToStr`, `Format`, `TForm.Close`/`ShowModal`, canvas and picture routines, `TControl.Show`/`Hide`, and more. These names override generated ones.
+
+`tools/ghidra/TopCallees.java` ranks the still-unnamed library routines by how often game code calls them and dumps their bodies to `decomp/top_callees.txt`. Use it to extend `library_names.csv`.
+
+**Notable finding:** the game does arithmetic in Turbo Pascal's 6-byte `Real` type (`System.RealLoad` converts it for the FPU). To get bit-identical results, the C++ port needs a Real48 emulation, or at least to match its rounding.
+
 ### Next steps for readability
 
-- Name the VCL/RTL routines in segments 23–33 that the game calls (e.g. `FUN_10e0_54bd` is called from `TillbakaClick` and is almost certainly `TCustomForm.Close`). This replaces most of the `FUN_*` calls in the game code.
+- Create Ghidra structs for each form class from its field table, so `param_1 + 0x184` reads as `this->ImgTillbaka`. Do the same for `TMain` and the `My*` model classes as their fields are worked out.
 - Set Delphi's calling convention: Pascal, with Self pushed as a far pointer.
-- Define structs for `TMain` and the `My*` model classes from their field offsets.
+- Name the game's own routines (the remaining `FUN_*` calls in segments 1–22), starting from the event handlers.

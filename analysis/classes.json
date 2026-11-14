@@ -181,6 +181,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -213,6 +214,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TObject"
  },
  {
@@ -425,6 +427,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -608,6 +611,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -1412,6 +1416,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -1591,6 +1596,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -1817,6 +1823,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -2050,6 +2057,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -2273,6 +2281,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -2499,6 +2508,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -2685,6 +2695,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -2717,6 +2728,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TObject"
  },
  {
@@ -2749,6 +2761,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "Visare"
  },
  {
@@ -2781,6 +2794,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "Visare"
  },
  {
@@ -2999,6 +3013,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -3444,6 +3459,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -3566,6 +3582,229 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [
+   {
+    "name": "Align",
+    "type": "TAlign",
+    "get": {
+     "kind": "field",
+     "offset": 45
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1672"
+    },
+    "index": null
+   },
+   {
+    "name": "Color",
+    "type": "TColor",
+    "get": {
+     "kind": "field",
+     "offset": 56
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1ED5"
+    },
+    "index": null
+   },
+   {
+    "name": "Enabled",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 42
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1CB8"
+    },
+    "index": null
+   },
+   {
+    "name": "Kind",
+    "type": "TGaugeKind",
+    "get": {
+     "kind": "field",
+     "offset": 154
+    },
+    "set": {
+     "kind": "static",
+     "addr": "8:3E01"
+    },
+    "index": null
+   },
+   {
+    "name": "ShowText",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 155
+    },
+    "set": {
+     "kind": "static",
+     "addr": "8:3E24"
+    },
+    "index": null
+   },
+   {
+    "name": "Font",
+    "type": "TFont",
+    "get": {
+     "kind": "field",
+     "offset": 52
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1DEB"
+    },
+    "index": null
+   },
+   {
+    "name": "BorderStyle",
+    "type": "TBorderStyle",
+    "get": {
+     "kind": "field",
+     "offset": 156
+    },
+    "set": {
+     "kind": "static",
+     "addr": "8:3E47"
+    },
+    "index": null
+   },
+   {
+    "name": "ForeColor",
+    "type": "TColor",
+    "get": {
+     "kind": "field",
+     "offset": 157
+    },
+    "set": {
+     "kind": "static",
+     "addr": "8:3E6A"
+    },
+    "index": null
+   },
+   {
+    "name": "BackColor",
+    "type": "TColor",
+    "get": {
+     "kind": "field",
+     "offset": 161
+    },
+    "set": {
+     "kind": "static",
+     "addr": "8:3EA2"
+    },
+    "index": null
+   },
+   {
+    "name": "MinValue",
+    "type": "Longint",
+    "get": {
+     "kind": "field",
+     "offset": 142
+    },
+    "set": {
+     "kind": "static",
+     "addr": "8:3EDA"
+    },
+    "index": null
+   },
+   {
+    "name": "MaxValue",
+    "type": "Longint",
+    "get": {
+     "kind": "field",
+     "offset": 146
+    },
+    "set": {
+     "kind": "static",
+     "addr": "8:3F12"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentColor",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 44
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1F32"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentFont",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 43
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1E3E"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 73
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1EA1"
+    },
+    "index": null
+   },
+   {
+    "name": "Progress",
+    "type": "Longint",
+    "get": {
+     "kind": "field",
+     "offset": 150
+    },
+    "set": {
+     "kind": "static",
+     "addr": "8:3F4A"
+    },
+    "index": null
+   },
+   {
+    "name": "ShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 72
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1E72"
+    },
+    "index": null
+   },
+   {
+    "name": "Visible",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 41
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1C77"
+    },
+    "index": null
+   }
+  ],
   "parent": "TGraphicControl"
  },
  {
@@ -3677,6 +3916,7 @@
   ],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TBitmap"
  },
  {
@@ -4188,6 +4428,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -4463,6 +4704,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -4734,6 +4976,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -5021,6 +5264,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -5212,6 +5456,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -5412,6 +5657,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -5621,6 +5867,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -5821,6 +6068,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -6021,6 +6269,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -6239,6 +6488,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -6466,6 +6716,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -6788,6 +7039,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -6980,6 +7232,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -7308,6 +7561,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -7610,6 +7864,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -7908,6 +8163,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -8170,6 +8426,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -8555,6 +8812,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -8789,6 +9047,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -9122,6 +9381,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -9351,6 +9611,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -9575,6 +9836,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -9786,6 +10048,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -9992,6 +10255,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -10201,6 +10465,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -10410,6 +10675,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -10712,6 +10978,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -11001,6 +11268,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -11303,6 +11571,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -11542,6 +11811,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -11754,6 +12024,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -12124,6 +12395,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -12370,6 +12642,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -12600,6 +12873,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -12822,6 +13096,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -13162,6 +13437,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -13383,6 +13659,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -13608,6 +13885,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -14071,6 +14349,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -14409,6 +14688,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -14621,6 +14901,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -14653,6 +14934,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TObject"
  },
  {
@@ -14840,6 +15122,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -15028,6 +15311,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -15108,6 +15392,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TObject"
  },
  {
@@ -15188,6 +15473,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "MyField"
  },
  {
@@ -15268,6 +15554,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "MyField"
  },
  {
@@ -15450,6 +15737,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -15482,6 +15770,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TObject"
  },
  {
@@ -15514,6 +15803,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "MyImgList"
  },
  {
@@ -15546,6 +15836,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "MyImgList"
  },
  {
@@ -15578,6 +15869,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "MyHighLighter"
  },
  {
@@ -15747,6 +16039,7 @@
    }
   ],
   "dynamic": [],
+  "properties": [],
   "parent": "TForm"
  },
  {
@@ -15779,6 +16072,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TObject"
  },
  {
@@ -15811,6 +16105,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TObject"
  },
  {
@@ -15843,6 +16138,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TObject"
  },
  {
@@ -15875,6 +16171,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TObject"
  },
  {
@@ -15907,6 +16204,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TObject"
  },
  {
@@ -15939,6 +16237,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TObject"
  },
  {
@@ -15971,6 +16270,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TObject"
  },
  {
@@ -16003,6 +16303,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TObject"
  },
  {
@@ -16127,23 +16428,342 @@
   "dynamic": [
    {
     "index": 65534,
-    "addr": "19:3B66"
+    "addr": "19:3B66",
+    "msg": "Dynamic_FFFE"
    },
    {
     "index": 20,
-    "addr": "19:34A7"
+    "addr": "19:34A7",
+    "msg": "WMEraseBkgnd"
    },
    {
     "index": 65530,
-    "addr": "19:3C17"
+    "addr": "19:3C17",
+    "msg": "Dynamic_FFFA"
    },
    {
     "index": 65528,
-    "addr": "19:3CC0"
+    "addr": "19:3CC0",
+    "msg": "Dynamic_FFF8"
    },
    {
     "index": 65529,
-    "addr": "19:3E0A"
+    "addr": "19:3E0A",
+    "msg": "Dynamic_FFF9"
+   }
+  ],
+  "properties": [
+   {
+    "name": "About",
+    "type": "TStringList",
+    "get": {
+     "kind": "field",
+     "offset": 176
+    },
+    "set": {
+     "kind": "static",
+     "addr": "19:34AE"
+    },
+    "index": null
+   },
+   {
+    "name": "BitMapUp",
+    "type": "TBitmap",
+    "get": {
+     "kind": "field",
+     "offset": 142
+    },
+    "set": {
+     "kind": "static",
+     "addr": "19:3537"
+    },
+    "index": null
+   },
+   {
+    "name": "BitMapDown",
+    "type": "TBitmap",
+    "get": {
+     "kind": "field",
+     "offset": 146
+    },
+    "set": {
+     "kind": "static",
+     "addr": "19:355F"
+    },
+    "index": null
+   },
+   {
+    "name": "BitMapAlt",
+    "type": "TBitmap",
+    "get": {
+     "kind": "field",
+     "offset": 150
+    },
+    "set": {
+     "kind": "static",
+     "addr": "19:357D"
+    },
+    "index": null
+   },
+   {
+    "name": "BitMapMask",
+    "type": "TBitmap",
+    "get": {
+     "kind": "field",
+     "offset": 154
+    },
+    "set": {
+     "kind": "static",
+     "addr": "19:35BC"
+    },
+    "index": null
+   },
+   {
+    "name": "BitMapLocking",
+    "type": "TBitmap",
+    "get": {
+     "kind": "field",
+     "offset": 158
+    },
+    "set": {
+     "kind": "static",
+     "addr": "19:35E6"
+    },
+    "index": null
+   },
+   {
+    "name": "BitMapLocked",
+    "type": "TBitmap",
+    "get": {
+     "kind": "field",
+     "offset": 162
+    },
+    "set": {
+     "kind": "static",
+     "addr": "19:3604"
+    },
+    "index": null
+   },
+   {
+    "name": "BitMapSpare",
+    "type": "TBitmap",
+    "get": {
+     "kind": "field",
+     "offset": 166
+    },
+    "set": {
+     "kind": "static",
+     "addr": "19:3622"
+    },
+    "index": null
+   },
+   {
+    "name": "DisplayAlt",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 175
+    },
+    "set": {
+     "kind": "static",
+     "addr": "19:3E93"
+    },
+    "index": null
+   },
+   {
+    "name": "AutoSize",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 174
+    },
+    "set": {
+     "kind": "static",
+     "addr": "19:3640"
+    },
+    "index": null
+   },
+   {
+    "name": "LockMode",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 180
+    },
+    "set": {
+     "kind": "field",
+     "offset": 180
+    },
+    "index": null
+   },
+   {
+    "name": "Left",
+    "type": "Integer",
+    "get": {
+     "kind": "field",
+     "offset": 30
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:177B"
+    },
+    "index": null
+   },
+   {
+    "name": "Top",
+    "type": "Integer",
+    "get": {
+     "kind": "field",
+     "offset": 32
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:179D"
+    },
+    "index": null
+   },
+   {
+    "name": "Width",
+    "type": "Integer",
+    "get": {
+     "kind": "field",
+     "offset": 34
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:17BF"
+    },
+    "index": null
+   },
+   {
+    "name": "Height",
+    "type": "Integer",
+    "get": {
+     "kind": "field",
+     "offset": 36
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:17E1"
+    },
+    "index": null
+   },
+   {
+    "name": "Visible",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 41
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1C77"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 73
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1EA1"
+    },
+    "index": null
+   },
+   {
+    "name": "ShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 72
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1E72"
+    },
+    "index": null
+   },
+   {
+    "name": "onClick",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 122
+    },
+    "set": {
+     "kind": "field",
+     "offset": 122
+    },
+    "index": null
+   },
+   {
+    "name": "onMouseMove",
+    "type": "TMouseMoveEvent",
+    "get": {
+     "kind": "field",
+     "offset": 82
+    },
+    "set": {
+     "kind": "field",
+     "offset": 82
+    },
+    "index": null
+   },
+   {
+    "name": "onMouseUp",
+    "type": "TMouseEvent",
+    "get": {
+     "kind": "field",
+     "offset": 90
+    },
+    "set": {
+     "kind": "field",
+     "offset": 90
+    },
+    "index": null
+   },
+   {
+    "name": "onMouseDown",
+    "type": "TMouseEvent",
+    "get": {
+     "kind": "field",
+     "offset": 74
+    },
+    "set": {
+     "kind": "field",
+     "offset": 74
+    },
+    "index": null
+   },
+   {
+    "name": "onLocked",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 183
+    },
+    "set": {
+     "kind": "field",
+     "offset": 183
+    },
+    "index": null
+   },
+   {
+    "name": "onUnLocked",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 191
+    },
+    "set": {
+     "kind": "field",
+     "offset": 191
+    },
+    "index": null
    }
   ],
   "parent": "TGraphicControl"
@@ -16190,6 +16810,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "THandleStream"
  },
  {
@@ -16234,6 +16855,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TResourceStream"
  },
  {
@@ -16266,6 +16888,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TObject"
  },
  {
@@ -16298,6 +16921,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "Exception"
  },
  {
@@ -16462,59 +17086,348 @@
   "dynamic": [
    {
     "index": 513,
-    "addr": "21:1C68"
+    "addr": "21:1C68",
+    "msg": "WMLButtonDown"
    },
    {
     "index": 515,
-    "addr": "21:1C84"
+    "addr": "21:1C84",
+    "msg": "WMLButtonDblClk"
    },
    {
     "index": 512,
-    "addr": "21:1CA0"
+    "addr": "21:1CA0",
+    "msg": "WMMouseMove"
    },
    {
     "index": 514,
-    "addr": "21:1DFB"
+    "addr": "21:1DFB",
+    "msg": "WMLButtonUp"
    },
    {
     "index": 7,
-    "addr": "21:1E8B"
+    "addr": "21:1E8B",
+    "msg": "WMSetFocus"
    },
    {
     "index": 8,
-    "addr": "21:1E9E"
+    "addr": "21:1E9E",
+    "msg": "WMKillFocus"
    },
    {
     "index": 135,
-    "addr": "21:1EB1"
+    "addr": "21:1EB1",
+    "msg": "WMGetDlgCode"
    },
    {
     "index": 5,
-    "addr": "21:146D"
+    "addr": "21:146D",
+    "msg": "WMSize"
    },
    {
     "index": 65521,
-    "addr": "21:1EC7"
+    "addr": "21:1EC7",
+    "msg": "Dynamic_FFF1"
    },
    {
     "index": 65518,
-    "addr": "21:1996"
+    "addr": "21:1996",
+    "msg": "Dynamic_FFEE"
    },
    {
     "index": 953,
-    "addr": "21:1FE0"
+    "addr": "21:1FE0",
+    "msg": "MMMCINotify"
    },
    {
     "index": 65517,
-    "addr": "21:20C0"
+    "addr": "21:20C0",
+    "msg": "Dynamic_FFED"
    },
    {
     "index": 65516,
-    "addr": "21:20F4"
+    "addr": "21:20F4",
+    "msg": "Dynamic_FFEC"
    },
    {
     "index": 65515,
-    "addr": "21:2120"
+    "addr": "21:2120",
+    "msg": "Dynamic_FFEB"
+   }
+  ],
+  "properties": [
+   {
+    "name": "ColoredButtons",
+    "type": "TButtonSet",
+    "get": {
+     "kind": "field",
+     "offset": 368
+    },
+    "set": {
+     "kind": "static",
+     "addr": "21:133E"
+    },
+    "index": null
+   },
+   {
+    "name": "Enabled",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 42
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1CB8"
+    },
+    "index": null
+   },
+   {
+    "name": "EnabledButtons",
+    "type": "TButtonSet",
+    "get": {
+     "kind": "field",
+     "offset": 366
+    },
+    "set": {
+     "kind": "static",
+     "addr": "21:128D"
+    },
+    "index": null
+   },
+   {
+    "name": "VisibleButtons",
+    "type": "TButtonSet",
+    "get": {
+     "kind": "field",
+     "offset": 364
+    },
+    "set": {
+     "kind": "static",
+     "addr": "21:139C"
+    },
+    "index": null
+   },
+   {
+    "name": "AutoEnable",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 715
+    },
+    "set": {
+     "kind": "static",
+     "addr": "21:1251"
+    },
+    "index": null
+   },
+   {
+    "name": "AutoOpen",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 716
+    },
+    "set": {
+     "kind": "field",
+     "offset": 716
+    },
+    "index": null
+   },
+   {
+    "name": "AutoRewind",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 717
+    },
+    "set": {
+     "kind": "field",
+     "offset": 717
+    },
+    "index": null
+   },
+   {
+    "name": "DeviceType",
+    "type": "TMPDeviceTypes",
+    "get": {
+     "kind": "field",
+     "offset": 433
+    },
+    "set": {
+     "kind": "static",
+     "addr": "21:33D4"
+    },
+    "index": null
+   },
+   {
+    "name": "Display",
+    "type": "TWinControl",
+    "get": {
+     "kind": "field",
+     "offset": 451
+    },
+    "set": {
+     "kind": "static",
+     "addr": "21:343D"
+    },
+    "index": null
+   },
+   {
+    "name": "FileName",
+    "type": "String",
+    "get": {
+     "kind": "field",
+     "offset": 459
+    },
+    "set": {
+     "kind": "field",
+     "offset": 459
+    },
+    "index": null
+   },
+   {
+    "name": "Shareable",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 718
+    },
+    "set": {
+     "kind": "field",
+     "offset": 718
+    },
+    "index": null
+   },
+   {
+    "name": "Visible",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 41
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1C77"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 73
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1EA1"
+    },
+    "index": null
+   },
+   {
+    "name": "ShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 72
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1E72"
+    },
+    "index": null
+   },
+   {
+    "name": "TabOrder",
+    "type": "TTabOrder",
+    "get": {
+     "kind": "static",
+     "addr": "28:63D8"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:6492"
+    },
+    "index": null
+   },
+   {
+    "name": "TabStop",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 164
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:64BA"
+    },
+    "index": null
+   },
+   {
+    "name": "OnClick",
+    "type": "EMPNotify",
+    "get": {
+     "kind": "field",
+     "offset": 389
+    },
+    "set": {
+     "kind": "field",
+     "offset": 389
+    },
+    "index": null
+   },
+   {
+    "name": "OnEnter",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 200
+    },
+    "set": {
+     "kind": "field",
+     "offset": 200
+    },
+    "index": null
+   },
+   {
+    "name": "OnExit",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 208
+    },
+    "set": {
+     "kind": "field",
+     "offset": 208
+    },
+    "index": null
+   },
+   {
+    "name": "OnPostClick",
+    "type": "EMPPostNotify",
+    "get": {
+     "kind": "field",
+     "offset": 397
+    },
+    "set": {
+     "kind": "field",
+     "offset": 397
+    },
+    "index": null
+   },
+   {
+    "name": "OnNotify",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 405
+    },
+    "set": {
+     "kind": "field",
+     "offset": 405
+    },
+    "index": null
    }
   ],
   "parent": "TCustomControl"
@@ -16705,11 +17618,496 @@
   "dynamic": [
    {
     "index": 3854,
-    "addr": "22:3B9D"
+    "addr": "22:3B9D",
+    "msg": "Msg_0F0E"
    },
    {
     "index": 65534,
-    "addr": "22:3683"
+    "addr": "22:3683",
+    "msg": "Dynamic_FFFE"
+   }
+  ],
+  "properties": [
+   {
+    "name": "Align",
+    "type": "TAlign",
+    "get": {
+     "kind": "field",
+     "offset": 45
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1672"
+    },
+    "index": null
+   },
+   {
+    "name": "Color",
+    "type": "TColor",
+    "get": {
+     "kind": "field",
+     "offset": 56
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1ED5"
+    },
+    "index": null
+   },
+   {
+    "name": "Ctl3D",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 165
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:6354"
+    },
+    "index": null
+   },
+   {
+    "name": "DragCursor",
+    "type": "TCursor",
+    "get": {
+     "kind": "field",
+     "offset": 62
+    },
+    "set": {
+     "kind": "field",
+     "offset": 62
+    },
+    "index": null
+   },
+   {
+    "name": "DragMode",
+    "type": "TDragMode",
+    "get": {
+     "kind": "field",
+     "offset": 46
+    },
+    "set": {
+     "kind": "field",
+     "offset": 46
+    },
+    "index": null
+   },
+   {
+    "name": "Enabled",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 42
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1CB8"
+    },
+    "index": null
+   },
+   {
+    "name": "FileEdit",
+    "type": "TEdit",
+    "get": {
+     "kind": "field",
+     "offset": 519
+    },
+    "set": {
+     "kind": "static",
+     "addr": "22:38D4"
+    },
+    "index": null
+   },
+   {
+    "name": "FileType",
+    "type": "TFileType",
+    "get": {
+     "kind": "static",
+     "addr": "22:32E0"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "22:3B0C"
+    },
+    "index": null
+   },
+   {
+    "name": "Font",
+    "type": "TFont",
+    "get": {
+     "kind": "field",
+     "offset": 52
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1DEB"
+    },
+    "index": null
+   },
+   {
+    "name": "IntegralHeight",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 230
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:4812"
+    },
+    "index": null
+   },
+   {
+    "name": "ItemHeight",
+    "type": "Integer",
+    "get": {
+     "kind": "static",
+     "addr": "25:4835"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:4870"
+    },
+    "index": null
+   },
+   {
+    "name": "Mask",
+    "type": "String",
+    "get": {
+     "kind": "static",
+     "addr": "22:32F6"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "22:3B32"
+    },
+    "index": null
+   },
+   {
+    "name": "MultiSelect",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 231
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:4899"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentColor",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 44
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1F32"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentCtl3D",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 166
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:63A2"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentFont",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 43
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1E3E"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 73
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1EA1"
+    },
+    "index": null
+   },
+   {
+    "name": "PopupMenu",
+    "type": "TPopupMenu",
+    "get": {
+     "kind": "field",
+     "offset": 64
+    },
+    "set": {
+     "kind": "field",
+     "offset": 64
+    },
+    "index": null
+   },
+   {
+    "name": "ShowGlyphs",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 531
+    },
+    "set": {
+     "kind": "static",
+     "addr": "22:3762"
+    },
+    "index": null
+   },
+   {
+    "name": "ShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 72
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1E72"
+    },
+    "index": null
+   },
+   {
+    "name": "TabOrder",
+    "type": "TTabOrder",
+    "get": {
+     "kind": "static",
+     "addr": "28:63D8"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:6492"
+    },
+    "index": null
+   },
+   {
+    "name": "TabStop",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 164
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:64BA"
+    },
+    "index": null
+   },
+   {
+    "name": "Visible",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 41
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1C77"
+    },
+    "index": null
+   },
+   {
+    "name": "OnChange",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 544
+    },
+    "set": {
+     "kind": "field",
+     "offset": 544
+    },
+    "index": null
+   },
+   {
+    "name": "OnClick",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 122
+    },
+    "set": {
+     "kind": "field",
+     "offset": 122
+    },
+    "index": null
+   },
+   {
+    "name": "OnDblClick",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 130
+    },
+    "set": {
+     "kind": "field",
+     "offset": 130
+    },
+    "index": null
+   },
+   {
+    "name": "OnDragDrop",
+    "type": "TDragDropEvent",
+    "get": {
+     "kind": "field",
+     "offset": 98
+    },
+    "set": {
+     "kind": "field",
+     "offset": 98
+    },
+    "index": null
+   },
+   {
+    "name": "OnDragOver",
+    "type": "TDragOverEvent",
+    "get": {
+     "kind": "field",
+     "offset": 106
+    },
+    "set": {
+     "kind": "field",
+     "offset": 106
+    },
+    "index": null
+   },
+   {
+    "name": "OnEndDrag",
+    "type": "TEndDragEvent",
+    "get": {
+     "kind": "field",
+     "offset": 114
+    },
+    "set": {
+     "kind": "field",
+     "offset": 114
+    },
+    "index": null
+   },
+   {
+    "name": "OnEnter",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 200
+    },
+    "set": {
+     "kind": "field",
+     "offset": 200
+    },
+    "index": null
+   },
+   {
+    "name": "OnExit",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 208
+    },
+    "set": {
+     "kind": "field",
+     "offset": 208
+    },
+    "index": null
+   },
+   {
+    "name": "OnKeyDown",
+    "type": "TKeyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 176
+    },
+    "set": {
+     "kind": "field",
+     "offset": 176
+    },
+    "index": null
+   },
+   {
+    "name": "OnKeyPress",
+    "type": "TKeyPressEvent",
+    "get": {
+     "kind": "field",
+     "offset": 184
+    },
+    "set": {
+     "kind": "field",
+     "offset": 184
+    },
+    "index": null
+   },
+   {
+    "name": "OnKeyUp",
+    "type": "TKeyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 192
+    },
+    "set": {
+     "kind": "field",
+     "offset": 192
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseDown",
+    "type": "TMouseEvent",
+    "get": {
+     "kind": "field",
+     "offset": 74
+    },
+    "set": {
+     "kind": "field",
+     "offset": 74
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseMove",
+    "type": "TMouseMoveEvent",
+    "get": {
+     "kind": "field",
+     "offset": 82
+    },
+    "set": {
+     "kind": "field",
+     "offset": 82
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseUp",
+    "type": "TMouseEvent",
+    "get": {
+     "kind": "field",
+     "offset": 90
+    },
+    "set": {
+     "kind": "field",
+     "offset": 90
+    },
+    "index": null
    }
   ],
   "parent": "TCustomListBox"
@@ -16818,6 +18216,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TBitmap"
  },
  {
@@ -17002,15 +18401,475 @@
   "dynamic": [
    {
     "index": 3854,
-    "addr": "22:2ED8"
+    "addr": "22:2ED8",
+    "msg": "Msg_0F0E"
    },
    {
     "index": 65533,
-    "addr": "22:2A8C"
+    "addr": "22:2A8C",
+    "msg": "Dynamic_FFFD"
    },
    {
     "index": 65519,
-    "addr": "22:3039"
+    "addr": "22:3039",
+    "msg": "Dynamic_FFEF"
+   }
+  ],
+  "properties": [
+   {
+    "name": "Align",
+    "type": "TAlign",
+    "get": {
+     "kind": "field",
+     "offset": 45
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1672"
+    },
+    "index": null
+   },
+   {
+    "name": "Color",
+    "type": "TColor",
+    "get": {
+     "kind": "field",
+     "offset": 56
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1ED5"
+    },
+    "index": null
+   },
+   {
+    "name": "Columns",
+    "type": "Integer",
+    "get": {
+     "kind": "field",
+     "offset": 225
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:4742"
+    },
+    "index": null
+   },
+   {
+    "name": "Ctl3D",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 165
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:6354"
+    },
+    "index": null
+   },
+   {
+    "name": "DirLabel",
+    "type": "TLabel",
+    "get": {
+     "kind": "field",
+     "offset": 266
+    },
+    "set": {
+     "kind": "static",
+     "addr": "22:25F5"
+    },
+    "index": null
+   },
+   {
+    "name": "DragCursor",
+    "type": "TCursor",
+    "get": {
+     "kind": "field",
+     "offset": 62
+    },
+    "set": {
+     "kind": "field",
+     "offset": 62
+    },
+    "index": null
+   },
+   {
+    "name": "DragMode",
+    "type": "TDragMode",
+    "get": {
+     "kind": "field",
+     "offset": 46
+    },
+    "set": {
+     "kind": "field",
+     "offset": 46
+    },
+    "index": null
+   },
+   {
+    "name": "Enabled",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 42
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1CB8"
+    },
+    "index": null
+   },
+   {
+    "name": "FileList",
+    "type": "TFileListBox",
+    "get": {
+     "kind": "field",
+     "offset": 258
+    },
+    "set": {
+     "kind": "static",
+     "addr": "22:259A"
+    },
+    "index": null
+   },
+   {
+    "name": "Font",
+    "type": "TFont",
+    "get": {
+     "kind": "field",
+     "offset": 52
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1DEB"
+    },
+    "index": null
+   },
+   {
+    "name": "IntegralHeight",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 230
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:4812"
+    },
+    "index": null
+   },
+   {
+    "name": "ItemHeight",
+    "type": "Integer",
+    "get": {
+     "kind": "static",
+     "addr": "25:4835"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:4870"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentColor",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 44
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1F32"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentCtl3D",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 166
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:63A2"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentFont",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 43
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1E3E"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 73
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1EA1"
+    },
+    "index": null
+   },
+   {
+    "name": "PopupMenu",
+    "type": "TPopupMenu",
+    "get": {
+     "kind": "field",
+     "offset": 64
+    },
+    "set": {
+     "kind": "field",
+     "offset": 64
+    },
+    "index": null
+   },
+   {
+    "name": "ShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 72
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1E72"
+    },
+    "index": null
+   },
+   {
+    "name": "TabOrder",
+    "type": "TTabOrder",
+    "get": {
+     "kind": "static",
+     "addr": "28:63D8"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:6492"
+    },
+    "index": null
+   },
+   {
+    "name": "TabStop",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 164
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:64BA"
+    },
+    "index": null
+   },
+   {
+    "name": "Visible",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 41
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1C77"
+    },
+    "index": null
+   },
+   {
+    "name": "OnChange",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 539
+    },
+    "set": {
+     "kind": "field",
+     "offset": 539
+    },
+    "index": null
+   },
+   {
+    "name": "OnClick",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 122
+    },
+    "set": {
+     "kind": "field",
+     "offset": 122
+    },
+    "index": null
+   },
+   {
+    "name": "OnDblClick",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 130
+    },
+    "set": {
+     "kind": "field",
+     "offset": 130
+    },
+    "index": null
+   },
+   {
+    "name": "OnDragDrop",
+    "type": "TDragDropEvent",
+    "get": {
+     "kind": "field",
+     "offset": 98
+    },
+    "set": {
+     "kind": "field",
+     "offset": 98
+    },
+    "index": null
+   },
+   {
+    "name": "OnDragOver",
+    "type": "TDragOverEvent",
+    "get": {
+     "kind": "field",
+     "offset": 106
+    },
+    "set": {
+     "kind": "field",
+     "offset": 106
+    },
+    "index": null
+   },
+   {
+    "name": "OnEndDrag",
+    "type": "TEndDragEvent",
+    "get": {
+     "kind": "field",
+     "offset": 114
+    },
+    "set": {
+     "kind": "field",
+     "offset": 114
+    },
+    "index": null
+   },
+   {
+    "name": "OnEnter",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 200
+    },
+    "set": {
+     "kind": "field",
+     "offset": 200
+    },
+    "index": null
+   },
+   {
+    "name": "OnExit",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 208
+    },
+    "set": {
+     "kind": "field",
+     "offset": 208
+    },
+    "index": null
+   },
+   {
+    "name": "OnKeyDown",
+    "type": "TKeyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 176
+    },
+    "set": {
+     "kind": "field",
+     "offset": 176
+    },
+    "index": null
+   },
+   {
+    "name": "OnKeyPress",
+    "type": "TKeyPressEvent",
+    "get": {
+     "kind": "field",
+     "offset": 184
+    },
+    "set": {
+     "kind": "field",
+     "offset": 184
+    },
+    "index": null
+   },
+   {
+    "name": "OnKeyUp",
+    "type": "TKeyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 192
+    },
+    "set": {
+     "kind": "field",
+     "offset": 192
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseDown",
+    "type": "TMouseEvent",
+    "get": {
+     "kind": "field",
+     "offset": 74
+    },
+    "set": {
+     "kind": "field",
+     "offset": 74
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseMove",
+    "type": "TMouseMoveEvent",
+    "get": {
+     "kind": "field",
+     "offset": 82
+    },
+    "set": {
+     "kind": "field",
+     "offset": 82
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseUp",
+    "type": "TMouseEvent",
+    "get": {
+     "kind": "field",
+     "offset": 90
+    },
+    "set": {
+     "kind": "field",
+     "offset": 90
+    },
+    "index": null
    }
   ],
   "parent": "TCustomListBox"
@@ -17189,15 +19048,397 @@
   "dynamic": [
    {
     "index": 3854,
-    "addr": "22:206E"
+    "addr": "22:206E",
+    "msg": "Msg_0F0E"
    },
    {
     "index": 65534,
-    "addr": "22:201A"
+    "addr": "22:201A",
+    "msg": "Dynamic_FFFE"
    },
    {
     "index": 65516,
-    "addr": "22:225B"
+    "addr": "22:225B",
+    "msg": "Dynamic_FFEC"
+   }
+  ],
+  "properties": [
+   {
+    "name": "Color",
+    "type": "TColor",
+    "get": {
+     "kind": "field",
+     "offset": 56
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1ED5"
+    },
+    "index": null
+   },
+   {
+    "name": "Ctl3D",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 165
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:6354"
+    },
+    "index": null
+   },
+   {
+    "name": "DirList",
+    "type": "TDirectoryListBox",
+    "get": {
+     "kind": "field",
+     "offset": 290
+    },
+    "set": {
+     "kind": "static",
+     "addr": "22:1E13"
+    },
+    "index": null
+   },
+   {
+    "name": "DragMode",
+    "type": "TDragMode",
+    "get": {
+     "kind": "field",
+     "offset": 46
+    },
+    "set": {
+     "kind": "field",
+     "offset": 46
+    },
+    "index": null
+   },
+   {
+    "name": "DragCursor",
+    "type": "TCursor",
+    "get": {
+     "kind": "field",
+     "offset": 62
+    },
+    "set": {
+     "kind": "field",
+     "offset": 62
+    },
+    "index": null
+   },
+   {
+    "name": "Enabled",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 42
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1CB8"
+    },
+    "index": null
+   },
+   {
+    "name": "Font",
+    "type": "TFont",
+    "get": {
+     "kind": "field",
+     "offset": 52
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1DEB"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentColor",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 44
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1F32"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentCtl3D",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 166
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:63A2"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentFont",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 43
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1E3E"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 73
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1EA1"
+    },
+    "index": null
+   },
+   {
+    "name": "PopupMenu",
+    "type": "TPopupMenu",
+    "get": {
+     "kind": "field",
+     "offset": 64
+    },
+    "set": {
+     "kind": "field",
+     "offset": 64
+    },
+    "index": null
+   },
+   {
+    "name": "ShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 72
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1E72"
+    },
+    "index": null
+   },
+   {
+    "name": "TabOrder",
+    "type": "TTabOrder",
+    "get": {
+     "kind": "static",
+     "addr": "28:63D8"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:6492"
+    },
+    "index": null
+   },
+   {
+    "name": "TabStop",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 164
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:64BA"
+    },
+    "index": null
+   },
+   {
+    "name": "TextCase",
+    "type": "TTextCase",
+    "get": {
+     "kind": "static",
+     "addr": "22:1DCA"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "22:1DE0"
+    },
+    "index": null
+   },
+   {
+    "name": "Visible",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 41
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1C77"
+    },
+    "index": null
+   },
+   {
+    "name": "OnChange",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 316
+    },
+    "set": {
+     "kind": "field",
+     "offset": 316
+    },
+    "index": null
+   },
+   {
+    "name": "OnClick",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 122
+    },
+    "set": {
+     "kind": "field",
+     "offset": 122
+    },
+    "index": null
+   },
+   {
+    "name": "OnDblClick",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 130
+    },
+    "set": {
+     "kind": "field",
+     "offset": 130
+    },
+    "index": null
+   },
+   {
+    "name": "OnDragDrop",
+    "type": "TDragDropEvent",
+    "get": {
+     "kind": "field",
+     "offset": 98
+    },
+    "set": {
+     "kind": "field",
+     "offset": 98
+    },
+    "index": null
+   },
+   {
+    "name": "OnDragOver",
+    "type": "TDragOverEvent",
+    "get": {
+     "kind": "field",
+     "offset": 106
+    },
+    "set": {
+     "kind": "field",
+     "offset": 106
+    },
+    "index": null
+   },
+   {
+    "name": "OnDropDown",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 254
+    },
+    "set": {
+     "kind": "field",
+     "offset": 254
+    },
+    "index": null
+   },
+   {
+    "name": "OnEndDrag",
+    "type": "TEndDragEvent",
+    "get": {
+     "kind": "field",
+     "offset": 114
+    },
+    "set": {
+     "kind": "field",
+     "offset": 114
+    },
+    "index": null
+   },
+   {
+    "name": "OnEnter",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 200
+    },
+    "set": {
+     "kind": "field",
+     "offset": 200
+    },
+    "index": null
+   },
+   {
+    "name": "OnExit",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 208
+    },
+    "set": {
+     "kind": "field",
+     "offset": 208
+    },
+    "index": null
+   },
+   {
+    "name": "OnKeyDown",
+    "type": "TKeyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 176
+    },
+    "set": {
+     "kind": "field",
+     "offset": 176
+    },
+    "index": null
+   },
+   {
+    "name": "OnKeyPress",
+    "type": "TKeyPressEvent",
+    "get": {
+     "kind": "field",
+     "offset": 184
+    },
+    "set": {
+     "kind": "field",
+     "offset": 184
+    },
+    "index": null
+   },
+   {
+    "name": "OnKeyUp",
+    "type": "TKeyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 192
+    },
+    "set": {
+     "kind": "field",
+     "offset": 192
+    },
+    "index": null
    }
   ],
   "parent": "TCustomComboBox"
@@ -17240,6 +19481,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TList"
  },
  {
@@ -17404,31 +19646,287 @@
   "dynamic": [
    {
     "index": 8236,
-    "addr": "23:2643"
+    "addr": "23:2643",
+    "msg": "Msg_202C"
    },
    {
     "index": 8235,
-    "addr": "23:2674"
+    "addr": "23:2674",
+    "msg": "Msg_202B"
    },
    {
     "index": 3854,
-    "addr": "23:28D7"
+    "addr": "23:28D7",
+    "msg": "Msg_0F0E"
    },
    {
     "index": 3852,
-    "addr": "23:28FA"
+    "addr": "23:28FA",
+    "msg": "Msg_0F0C"
    },
    {
     "index": 515,
-    "addr": "23:291D"
+    "addr": "23:291D",
+    "msg": "WMLButtonDblClk"
    },
    {
     "index": 65531,
-    "addr": "23:2940"
+    "addr": "23:2940",
+    "msg": "Dynamic_FFFB"
    },
    {
     "index": 65534,
-    "addr": "23:258C"
+    "addr": "23:258C",
+    "msg": "Dynamic_FFFE"
+   }
+  ],
+  "properties": [
+   {
+    "name": "Cancel",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 219
+    },
+    "set": {
+     "kind": "field",
+     "offset": 219
+    },
+    "index": null
+   },
+   {
+    "name": "Caption",
+    "type": "TCaption",
+    "get": {
+     "kind": "static",
+     "addr": "28:1D53"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1D8C"
+    },
+    "index": null
+   },
+   {
+    "name": "Default",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 218
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:3DC8"
+    },
+    "index": null
+   },
+   {
+    "name": "Enabled",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 42
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1CB8"
+    },
+    "index": null
+   },
+   {
+    "name": "Glyph",
+    "type": "TBitmap",
+    "get": {
+     "kind": "static",
+     "addr": "23:29A0"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "23:2963"
+    },
+    "index": null
+   },
+   {
+    "name": "Kind",
+    "type": "TBitBtnKind",
+    "get": {
+     "kind": "static",
+     "addr": "23:2B67"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "23:2A1B"
+    },
+    "index": null
+   },
+   {
+    "name": "Layout",
+    "type": "TButtonLayout",
+    "get": {
+     "kind": "field",
+     "offset": 234
+    },
+    "set": {
+     "kind": "static",
+     "addr": "23:2BE7"
+    },
+    "index": null
+   },
+   {
+    "name": "Margin",
+    "type": "Integer",
+    "get": {
+     "kind": "field",
+     "offset": 237
+    },
+    "set": {
+     "kind": "static",
+     "addr": "23:2C98"
+    },
+    "index": null
+   },
+   {
+    "name": "ModalResult",
+    "type": "TModalResult",
+    "get": {
+     "kind": "field",
+     "offset": 222
+    },
+    "set": {
+     "kind": "field",
+     "offset": 222
+    },
+    "index": null
+   },
+   {
+    "name": "NumGlyphs",
+    "type": "TNumGlyphs",
+    "get": {
+     "kind": "static",
+     "addr": "23:2C0C"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "23:2C26"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 73
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1EA1"
+    },
+    "index": null
+   },
+   {
+    "name": "ShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 72
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1E72"
+    },
+    "index": null
+   },
+   {
+    "name": "Style",
+    "type": "TButtonStyle",
+    "get": {
+     "kind": "field",
+     "offset": 232
+    },
+    "set": {
+     "kind": "static",
+     "addr": "23:29F6"
+    },
+    "index": null
+   },
+   {
+    "name": "Spacing",
+    "type": "Integer",
+    "get": {
+     "kind": "field",
+     "offset": 235
+    },
+    "set": {
+     "kind": "static",
+     "addr": "23:2C73"
+    },
+    "index": null
+   },
+   {
+    "name": "TabOrder",
+    "type": "TTabOrder",
+    "get": {
+     "kind": "static",
+     "addr": "28:63D8"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:6492"
+    },
+    "index": null
+   },
+   {
+    "name": "TabStop",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 164
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:64BA"
+    },
+    "index": null
+   },
+   {
+    "name": "Visible",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 41
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1C77"
+    },
+    "index": null
+   },
+   {
+    "name": "OnEnter",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 200
+    },
+    "set": {
+     "kind": "field",
+     "offset": 200
+    },
+    "index": null
+   },
+   {
+    "name": "OnExit",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 208
+    },
+    "set": {
+     "kind": "field",
+     "offset": 208
+    },
+    "index": null
    }
   ],
   "parent": "TButton"
@@ -17463,6 +19961,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TObject"
  },
  {
@@ -17495,6 +19994,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TImageList"
  },
  {
@@ -17527,6 +20027,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TObject"
  },
  {
@@ -17559,6 +20060,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TObject"
  },
  {
@@ -17686,6 +20188,203 @@
   ],
   "fields": [],
   "dynamic": [],
+  "properties": [
+   {
+    "name": "Brush",
+    "type": "TBrush",
+    "get": {
+     "kind": "field",
+     "offset": 148
+    },
+    "set": {
+     "kind": "static",
+     "addr": "24:17AE"
+    },
+    "index": null
+   },
+   {
+    "name": "DragCursor",
+    "type": "TCursor",
+    "get": {
+     "kind": "field",
+     "offset": 62
+    },
+    "set": {
+     "kind": "field",
+     "offset": 62
+    },
+    "index": null
+   },
+   {
+    "name": "DragMode",
+    "type": "TDragMode",
+    "get": {
+     "kind": "field",
+     "offset": 46
+    },
+    "set": {
+     "kind": "field",
+     "offset": 46
+    },
+    "index": null
+   },
+   {
+    "name": "Enabled",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 42
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1CB8"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 73
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1EA1"
+    },
+    "index": null
+   },
+   {
+    "name": "Pen",
+    "type": "TPen",
+    "get": {
+     "kind": "field",
+     "offset": 144
+    },
+    "set": {
+     "kind": "static",
+     "addr": "24:17CC"
+    },
+    "index": null
+   },
+   {
+    "name": "Shape",
+    "type": "TShapeType",
+    "get": {
+     "kind": "field",
+     "offset": 142
+    },
+    "set": {
+     "kind": "static",
+     "addr": "24:17EA"
+    },
+    "index": null
+   },
+   {
+    "name": "ShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 72
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1E72"
+    },
+    "index": null
+   },
+   {
+    "name": "Visible",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 41
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1C77"
+    },
+    "index": null
+   },
+   {
+    "name": "OnDragDrop",
+    "type": "TDragDropEvent",
+    "get": {
+     "kind": "field",
+     "offset": 98
+    },
+    "set": {
+     "kind": "field",
+     "offset": 98
+    },
+    "index": null
+   },
+   {
+    "name": "OnDragOver",
+    "type": "TDragOverEvent",
+    "get": {
+     "kind": "field",
+     "offset": 106
+    },
+    "set": {
+     "kind": "field",
+     "offset": 106
+    },
+    "index": null
+   },
+   {
+    "name": "OnEndDrag",
+    "type": "TEndDragEvent",
+    "get": {
+     "kind": "field",
+     "offset": 114
+    },
+    "set": {
+     "kind": "field",
+     "offset": 114
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseDown",
+    "type": "TMouseEvent",
+    "get": {
+     "kind": "field",
+     "offset": 74
+    },
+    "set": {
+     "kind": "field",
+     "offset": 74
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseMove",
+    "type": "TMouseMoveEvent",
+    "get": {
+     "kind": "field",
+     "offset": 82
+    },
+    "set": {
+     "kind": "field",
+     "offset": 82
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseUp",
+    "type": "TMouseEvent",
+    "get": {
+     "kind": "field",
+     "offset": 90
+    },
+    "set": {
+     "kind": "field",
+     "offset": 90
+    },
+    "index": null
+   }
+  ],
   "parent": "TGraphicControl"
  },
  {
@@ -17810,7 +20509,270 @@
   "dynamic": [
    {
     "index": 65531,
-    "addr": "24:18CA"
+    "addr": "24:18CA",
+    "msg": "Dynamic_FFFB"
+   }
+  ],
+  "properties": [
+   {
+    "name": "Align",
+    "type": "TAlign",
+    "get": {
+     "kind": "field",
+     "offset": 45
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1672"
+    },
+    "index": null
+   },
+   {
+    "name": "AutoSize",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 146
+    },
+    "set": {
+     "kind": "static",
+     "addr": "24:1B72"
+    },
+    "index": null
+   },
+   {
+    "name": "Center",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 148
+    },
+    "set": {
+     "kind": "static",
+     "addr": "24:1B91"
+    },
+    "index": null
+   },
+   {
+    "name": "DragCursor",
+    "type": "TCursor",
+    "get": {
+     "kind": "field",
+     "offset": 62
+    },
+    "set": {
+     "kind": "field",
+     "offset": 62
+    },
+    "index": null
+   },
+   {
+    "name": "DragMode",
+    "type": "TDragMode",
+    "get": {
+     "kind": "field",
+     "offset": 46
+    },
+    "set": {
+     "kind": "field",
+     "offset": 46
+    },
+    "index": null
+   },
+   {
+    "name": "Enabled",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 42
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1CB8"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 73
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1EA1"
+    },
+    "index": null
+   },
+   {
+    "name": "Picture",
+    "type": "TPicture",
+    "get": {
+     "kind": "field",
+     "offset": 142
+    },
+    "set": {
+     "kind": "static",
+     "addr": "24:1BB6"
+    },
+    "index": null
+   },
+   {
+    "name": "PopupMenu",
+    "type": "TPopupMenu",
+    "get": {
+     "kind": "field",
+     "offset": 64
+    },
+    "set": {
+     "kind": "field",
+     "offset": 64
+    },
+    "index": null
+   },
+   {
+    "name": "ShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 72
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1E72"
+    },
+    "index": null
+   },
+   {
+    "name": "Stretch",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 147
+    },
+    "set": {
+     "kind": "static",
+     "addr": "24:1BD4"
+    },
+    "index": null
+   },
+   {
+    "name": "Visible",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 41
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1C77"
+    },
+    "index": null
+   },
+   {
+    "name": "OnClick",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 122
+    },
+    "set": {
+     "kind": "field",
+     "offset": 122
+    },
+    "index": null
+   },
+   {
+    "name": "OnDblClick",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 130
+    },
+    "set": {
+     "kind": "field",
+     "offset": 130
+    },
+    "index": null
+   },
+   {
+    "name": "OnDragDrop",
+    "type": "TDragDropEvent",
+    "get": {
+     "kind": "field",
+     "offset": 98
+    },
+    "set": {
+     "kind": "field",
+     "offset": 98
+    },
+    "index": null
+   },
+   {
+    "name": "OnDragOver",
+    "type": "TDragOverEvent",
+    "get": {
+     "kind": "field",
+     "offset": 106
+    },
+    "set": {
+     "kind": "field",
+     "offset": 106
+    },
+    "index": null
+   },
+   {
+    "name": "OnEndDrag",
+    "type": "TEndDragEvent",
+    "get": {
+     "kind": "field",
+     "offset": 114
+    },
+    "set": {
+     "kind": "field",
+     "offset": 114
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseDown",
+    "type": "TMouseEvent",
+    "get": {
+     "kind": "field",
+     "offset": 74
+    },
+    "set": {
+     "kind": "field",
+     "offset": 74
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseMove",
+    "type": "TMouseMoveEvent",
+    "get": {
+     "kind": "field",
+     "offset": 82
+    },
+    "set": {
+     "kind": "field",
+     "offset": 82
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseUp",
+    "type": "TMouseEvent",
+    "get": {
+     "kind": "field",
+     "offset": 90
+    },
+    "set": {
+     "kind": "field",
+     "offset": 90
+    },
+    "index": null
    }
   ],
   "parent": "TGraphicControl"
@@ -17897,7 +20859,49 @@
   "dynamic": [
    {
     "index": 65535,
-    "addr": "24:1EC0"
+    "addr": "24:1EC0",
+    "msg": "Dynamic_FFFF"
+   }
+  ],
+  "properties": [
+   {
+    "name": "Enabled",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 26
+    },
+    "set": {
+     "kind": "static",
+     "addr": "24:1E58"
+    },
+    "index": null
+   },
+   {
+    "name": "Interval",
+    "type": "Word",
+    "get": {
+     "kind": "field",
+     "offset": 28
+    },
+    "set": {
+     "kind": "static",
+     "addr": "24:1E79"
+    },
+    "index": null
+   },
+   {
+    "name": "OnTimer",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 32
+    },
+    "set": {
+     "kind": "static",
+     "addr": "24:1E9A"
+    },
+    "index": null
    }
   ],
   "parent": "TComponent"
@@ -18064,17 +21068,21 @@
   "dynamic": [
    {
     "index": 3858,
-    "addr": "24:1FC7"
+    "addr": "24:1FC7",
+    "msg": "Msg_0F12"
    },
    {
     "index": 5,
-    "addr": "24:2002"
+    "addr": "24:2002",
+    "msg": "WMSize"
    },
    {
     "index": 65518,
-    "addr": "24:1FDA"
+    "addr": "24:1FDA",
+    "msg": "Dynamic_FFEE"
    }
   ],
+  "properties": [],
   "parent": "TCustomControl"
  },
  {
@@ -18237,6 +21245,463 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [
+   {
+    "name": "Align",
+    "type": "TAlign",
+    "get": {
+     "kind": "field",
+     "offset": 45
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1672"
+    },
+    "index": null
+   },
+   {
+    "name": "Alignment",
+    "type": "TAlignment",
+    "get": {
+     "kind": "field",
+     "offset": 236
+    },
+    "set": {
+     "kind": "static",
+     "addr": "24:230D"
+    },
+    "index": null
+   },
+   {
+    "name": "BevelInner",
+    "type": "TPanelBevel",
+    "get": {
+     "kind": "field",
+     "offset": 220
+    },
+    "set": {
+     "kind": "static",
+     "addr": "24:2328"
+    },
+    "index": null
+   },
+   {
+    "name": "BevelOuter",
+    "type": "TPanelBevel",
+    "get": {
+     "kind": "field",
+     "offset": 221
+    },
+    "set": {
+     "kind": "static",
+     "addr": "24:234D"
+    },
+    "index": null
+   },
+   {
+    "name": "BevelWidth",
+    "type": "TBevelWidth",
+    "get": {
+     "kind": "field",
+     "offset": 222
+    },
+    "set": {
+     "kind": "static",
+     "addr": "24:2372"
+    },
+    "index": null
+   },
+   {
+    "name": "BorderWidth",
+    "type": "TBorderWidth",
+    "get": {
+     "kind": "field",
+     "offset": 224
+    },
+    "set": {
+     "kind": "static",
+     "addr": "24:2397"
+    },
+    "index": null
+   },
+   {
+    "name": "BorderStyle",
+    "type": "TBorderStyle",
+    "get": {
+     "kind": "field",
+     "offset": 226
+    },
+    "set": {
+     "kind": "static",
+     "addr": "24:23BC"
+    },
+    "index": null
+   },
+   {
+    "name": "DragCursor",
+    "type": "TCursor",
+    "get": {
+     "kind": "field",
+     "offset": 62
+    },
+    "set": {
+     "kind": "field",
+     "offset": 62
+    },
+    "index": null
+   },
+   {
+    "name": "DragMode",
+    "type": "TDragMode",
+    "get": {
+     "kind": "field",
+     "offset": 46
+    },
+    "set": {
+     "kind": "field",
+     "offset": 46
+    },
+    "index": null
+   },
+   {
+    "name": "Enabled",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 42
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1CB8"
+    },
+    "index": null
+   },
+   {
+    "name": "Caption",
+    "type": "TCaption",
+    "get": {
+     "kind": "static",
+     "addr": "28:1D53"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1D8C"
+    },
+    "index": null
+   },
+   {
+    "name": "Color",
+    "type": "TColor",
+    "get": {
+     "kind": "field",
+     "offset": 56
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1ED5"
+    },
+    "index": null
+   },
+   {
+    "name": "Ctl3D",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 165
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:6354"
+    },
+    "index": null
+   },
+   {
+    "name": "Font",
+    "type": "TFont",
+    "get": {
+     "kind": "field",
+     "offset": 52
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1DEB"
+    },
+    "index": null
+   },
+   {
+    "name": "Locked",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 227
+    },
+    "set": {
+     "kind": "field",
+     "offset": 227
+    },
+    "index": null
+   },
+   {
+    "name": "ParentColor",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 44
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1F32"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentCtl3D",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 166
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:63A2"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentFont",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 43
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1E3E"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 73
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1EA1"
+    },
+    "index": null
+   },
+   {
+    "name": "PopupMenu",
+    "type": "TPopupMenu",
+    "get": {
+     "kind": "field",
+     "offset": 64
+    },
+    "set": {
+     "kind": "field",
+     "offset": 64
+    },
+    "index": null
+   },
+   {
+    "name": "ShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 72
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1E72"
+    },
+    "index": null
+   },
+   {
+    "name": "TabOrder",
+    "type": "TTabOrder",
+    "get": {
+     "kind": "static",
+     "addr": "28:63D8"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:6492"
+    },
+    "index": null
+   },
+   {
+    "name": "TabStop",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 164
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:64BA"
+    },
+    "index": null
+   },
+   {
+    "name": "Visible",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 41
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1C77"
+    },
+    "index": null
+   },
+   {
+    "name": "OnClick",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 122
+    },
+    "set": {
+     "kind": "field",
+     "offset": 122
+    },
+    "index": null
+   },
+   {
+    "name": "OnDblClick",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 130
+    },
+    "set": {
+     "kind": "field",
+     "offset": 130
+    },
+    "index": null
+   },
+   {
+    "name": "OnDragDrop",
+    "type": "TDragDropEvent",
+    "get": {
+     "kind": "field",
+     "offset": 98
+    },
+    "set": {
+     "kind": "field",
+     "offset": 98
+    },
+    "index": null
+   },
+   {
+    "name": "OnDragOver",
+    "type": "TDragOverEvent",
+    "get": {
+     "kind": "field",
+     "offset": 106
+    },
+    "set": {
+     "kind": "field",
+     "offset": 106
+    },
+    "index": null
+   },
+   {
+    "name": "OnEndDrag",
+    "type": "TEndDragEvent",
+    "get": {
+     "kind": "field",
+     "offset": 114
+    },
+    "set": {
+     "kind": "field",
+     "offset": 114
+    },
+    "index": null
+   },
+   {
+    "name": "OnEnter",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 200
+    },
+    "set": {
+     "kind": "field",
+     "offset": 200
+    },
+    "index": null
+   },
+   {
+    "name": "OnExit",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 208
+    },
+    "set": {
+     "kind": "field",
+     "offset": 208
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseDown",
+    "type": "TMouseEvent",
+    "get": {
+     "kind": "field",
+     "offset": 74
+    },
+    "set": {
+     "kind": "field",
+     "offset": 74
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseMove",
+    "type": "TMouseMoveEvent",
+    "get": {
+     "kind": "field",
+     "offset": 82
+    },
+    "set": {
+     "kind": "field",
+     "offset": 82
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseUp",
+    "type": "TMouseEvent",
+    "get": {
+     "kind": "field",
+     "offset": 90
+    },
+    "set": {
+     "kind": "field",
+     "offset": 90
+    },
+    "index": null
+   },
+   {
+    "name": "OnResize",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 228
+    },
+    "set": {
+     "kind": "field",
+     "offset": 228
+    },
+    "index": null
+   }
+  ],
   "parent": "TCustomPanel"
  },
  {
@@ -18401,7 +21866,75 @@
   "dynamic": [
    {
     "index": 132,
-    "addr": "24:28F5"
+    "addr": "24:28F5",
+    "msg": "WMNCHitTest"
+   }
+  ],
+  "properties": [
+   {
+    "name": "Caption",
+    "type": "TCaption",
+    "get": {
+     "kind": "static",
+     "addr": "28:1D53"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1D8C"
+    },
+    "index": null
+   },
+   {
+    "name": "Height",
+    "type": "Integer",
+    "get": {
+     "kind": "field",
+     "offset": 36
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:17E1"
+    },
+    "index": null
+   },
+   {
+    "name": "TabOrder",
+    "type": "TTabOrder",
+    "get": {
+     "kind": "static",
+     "addr": "28:63D8"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:6492"
+    },
+    "index": null
+   },
+   {
+    "name": "Visible",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 41
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1C77"
+    },
+    "index": null
+   },
+   {
+    "name": "Width",
+    "type": "Integer",
+    "get": {
+     "kind": "field",
+     "offset": 34
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:17BF"
+    },
+    "index": null
    }
   ],
   "parent": "TCustomControl"
@@ -18566,6 +22099,398 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [
+   {
+    "name": "ActivePage",
+    "type": "String",
+    "get": {
+     "kind": "static",
+     "addr": "24:2DC6"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "24:2D9E"
+    },
+    "index": null
+   },
+   {
+    "name": "Align",
+    "type": "TAlign",
+    "get": {
+     "kind": "field",
+     "offset": 45
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1672"
+    },
+    "index": null
+   },
+   {
+    "name": "Color",
+    "type": "TColor",
+    "get": {
+     "kind": "field",
+     "offset": 56
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1ED5"
+    },
+    "index": null
+   },
+   {
+    "name": "Ctl3D",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 165
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:6354"
+    },
+    "index": null
+   },
+   {
+    "name": "DragCursor",
+    "type": "TCursor",
+    "get": {
+     "kind": "field",
+     "offset": 62
+    },
+    "set": {
+     "kind": "field",
+     "offset": 62
+    },
+    "index": null
+   },
+   {
+    "name": "DragMode",
+    "type": "TDragMode",
+    "get": {
+     "kind": "field",
+     "offset": 46
+    },
+    "set": {
+     "kind": "field",
+     "offset": 46
+    },
+    "index": null
+   },
+   {
+    "name": "Font",
+    "type": "TFont",
+    "get": {
+     "kind": "field",
+     "offset": 52
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1DEB"
+    },
+    "index": null
+   },
+   {
+    "name": "Enabled",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 42
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1CB8"
+    },
+    "index": null
+   },
+   {
+    "name": "PageIndex",
+    "type": "Integer",
+    "get": {
+     "kind": "field",
+     "offset": 228
+    },
+    "set": {
+     "kind": "static",
+     "addr": "24:2C47"
+    },
+    "index": null
+   },
+   {
+    "name": "Pages",
+    "type": "TStrings",
+    "get": {
+     "kind": "field",
+     "offset": 224
+    },
+    "set": {
+     "kind": "static",
+     "addr": "24:2C29"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentColor",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 44
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1F32"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentCtl3D",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 166
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:63A2"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentFont",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 43
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1E3E"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 73
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1EA1"
+    },
+    "index": null
+   },
+   {
+    "name": "PopupMenu",
+    "type": "TPopupMenu",
+    "get": {
+     "kind": "field",
+     "offset": 64
+    },
+    "set": {
+     "kind": "field",
+     "offset": 64
+    },
+    "index": null
+   },
+   {
+    "name": "ShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 72
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1E72"
+    },
+    "index": null
+   },
+   {
+    "name": "TabOrder",
+    "type": "TTabOrder",
+    "get": {
+     "kind": "static",
+     "addr": "28:63D8"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:6492"
+    },
+    "index": null
+   },
+   {
+    "name": "TabStop",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 164
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:64BA"
+    },
+    "index": null
+   },
+   {
+    "name": "Visible",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 41
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1C77"
+    },
+    "index": null
+   },
+   {
+    "name": "OnClick",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 122
+    },
+    "set": {
+     "kind": "field",
+     "offset": 122
+    },
+    "index": null
+   },
+   {
+    "name": "OnDblClick",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 130
+    },
+    "set": {
+     "kind": "field",
+     "offset": 130
+    },
+    "index": null
+   },
+   {
+    "name": "OnDragDrop",
+    "type": "TDragDropEvent",
+    "get": {
+     "kind": "field",
+     "offset": 98
+    },
+    "set": {
+     "kind": "field",
+     "offset": 98
+    },
+    "index": null
+   },
+   {
+    "name": "OnDragOver",
+    "type": "TDragOverEvent",
+    "get": {
+     "kind": "field",
+     "offset": 106
+    },
+    "set": {
+     "kind": "field",
+     "offset": 106
+    },
+    "index": null
+   },
+   {
+    "name": "OnEndDrag",
+    "type": "TEndDragEvent",
+    "get": {
+     "kind": "field",
+     "offset": 114
+    },
+    "set": {
+     "kind": "field",
+     "offset": 114
+    },
+    "index": null
+   },
+   {
+    "name": "OnEnter",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 200
+    },
+    "set": {
+     "kind": "field",
+     "offset": 200
+    },
+    "index": null
+   },
+   {
+    "name": "OnExit",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 208
+    },
+    "set": {
+     "kind": "field",
+     "offset": 208
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseDown",
+    "type": "TMouseEvent",
+    "get": {
+     "kind": "field",
+     "offset": 74
+    },
+    "set": {
+     "kind": "field",
+     "offset": 74
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseMove",
+    "type": "TMouseMoveEvent",
+    "get": {
+     "kind": "field",
+     "offset": 82
+    },
+    "set": {
+     "kind": "field",
+     "offset": 82
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseUp",
+    "type": "TMouseEvent",
+    "get": {
+     "kind": "field",
+     "offset": 90
+    },
+    "set": {
+     "kind": "field",
+     "offset": 90
+    },
+    "index": null
+   },
+   {
+    "name": "OnPageChanged",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 234
+    },
+    "set": {
+     "kind": "field",
+     "offset": 234
+    },
+    "index": null
+   }
+  ],
   "parent": "TCustomControl"
  },
  {
@@ -18688,6 +22613,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TStrings"
  },
  {
@@ -18812,17 +22738,21 @@
   "dynamic": [
    {
     "index": 3858,
-    "addr": "25:251D"
+    "addr": "25:251D",
+    "msg": "Msg_0F12"
    },
    {
     "index": 3854,
-    "addr": "25:253A"
+    "addr": "25:253A",
+    "msg": "Msg_0F0E"
    },
    {
     "index": 3846,
-    "addr": "25:255B"
+    "addr": "25:255B",
+    "msg": "Msg_0F06"
    }
   ],
+  "properties": [],
   "parent": "TGraphicControl"
  },
  {
@@ -18945,6 +22875,359 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [
+   {
+    "name": "Align",
+    "type": "TAlign",
+    "get": {
+     "kind": "field",
+     "offset": 45
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1672"
+    },
+    "index": null
+   },
+   {
+    "name": "Alignment",
+    "type": "TAlignment",
+    "get": {
+     "kind": "field",
+     "offset": 146
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:23E8"
+    },
+    "index": null
+   },
+   {
+    "name": "AutoSize",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 147
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:240D"
+    },
+    "index": null
+   },
+   {
+    "name": "Caption",
+    "type": "TCaption",
+    "get": {
+     "kind": "static",
+     "addr": "28:1D53"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1D8C"
+    },
+    "index": null
+   },
+   {
+    "name": "Color",
+    "type": "TColor",
+    "get": {
+     "kind": "field",
+     "offset": 56
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1ED5"
+    },
+    "index": null
+   },
+   {
+    "name": "DragCursor",
+    "type": "TCursor",
+    "get": {
+     "kind": "field",
+     "offset": 62
+    },
+    "set": {
+     "kind": "field",
+     "offset": 62
+    },
+    "index": null
+   },
+   {
+    "name": "DragMode",
+    "type": "TDragMode",
+    "get": {
+     "kind": "field",
+     "offset": 46
+    },
+    "set": {
+     "kind": "field",
+     "offset": 46
+    },
+    "index": null
+   },
+   {
+    "name": "Enabled",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 42
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1CB8"
+    },
+    "index": null
+   },
+   {
+    "name": "FocusControl",
+    "type": "TWinControl",
+    "get": {
+     "kind": "field",
+     "offset": 142
+    },
+    "set": {
+     "kind": "field",
+     "offset": 142
+    },
+    "index": null
+   },
+   {
+    "name": "Font",
+    "type": "TFont",
+    "get": {
+     "kind": "field",
+     "offset": 52
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1DEB"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentColor",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 44
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1F32"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentFont",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 43
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1E3E"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 73
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1EA1"
+    },
+    "index": null
+   },
+   {
+    "name": "PopupMenu",
+    "type": "TPopupMenu",
+    "get": {
+     "kind": "field",
+     "offset": 64
+    },
+    "set": {
+     "kind": "field",
+     "offset": 64
+    },
+    "index": null
+   },
+   {
+    "name": "ShowAccelChar",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 149
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:244B"
+    },
+    "index": null
+   },
+   {
+    "name": "ShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 72
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1E72"
+    },
+    "index": null
+   },
+   {
+    "name": "Transparent",
+    "type": "Boolean",
+    "get": {
+     "kind": "static",
+     "addr": "25:2430"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:2470"
+    },
+    "index": null
+   },
+   {
+    "name": "Visible",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 41
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1C77"
+    },
+    "index": null
+   },
+   {
+    "name": "WordWrap",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 148
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:24B6"
+    },
+    "index": null
+   },
+   {
+    "name": "OnClick",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 122
+    },
+    "set": {
+     "kind": "field",
+     "offset": 122
+    },
+    "index": null
+   },
+   {
+    "name": "OnDblClick",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 130
+    },
+    "set": {
+     "kind": "field",
+     "offset": 130
+    },
+    "index": null
+   },
+   {
+    "name": "OnDragDrop",
+    "type": "TDragDropEvent",
+    "get": {
+     "kind": "field",
+     "offset": 98
+    },
+    "set": {
+     "kind": "field",
+     "offset": 98
+    },
+    "index": null
+   },
+   {
+    "name": "OnDragOver",
+    "type": "TDragOverEvent",
+    "get": {
+     "kind": "field",
+     "offset": 106
+    },
+    "set": {
+     "kind": "field",
+     "offset": 106
+    },
+    "index": null
+   },
+   {
+    "name": "OnEndDrag",
+    "type": "TEndDragEvent",
+    "get": {
+     "kind": "field",
+     "offset": 114
+    },
+    "set": {
+     "kind": "field",
+     "offset": 114
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseDown",
+    "type": "TMouseEvent",
+    "get": {
+     "kind": "field",
+     "offset": 74
+    },
+    "set": {
+     "kind": "field",
+     "offset": 74
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseMove",
+    "type": "TMouseMoveEvent",
+    "get": {
+     "kind": "field",
+     "offset": 82
+    },
+    "set": {
+     "kind": "field",
+     "offset": 82
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseUp",
+    "type": "TMouseEvent",
+    "get": {
+     "kind": "field",
+     "offset": 90
+    },
+    "set": {
+     "kind": "field",
+     "offset": 90
+    },
+    "index": null
+   }
+  ],
   "parent": "TCustomLabel"
  },
  {
@@ -19105,23 +23388,43 @@
   "dynamic": [
    {
     "index": 3866,
-    "addr": "25:2B18"
+    "addr": "25:2B18",
+    "msg": "Msg_0F1A"
    },
    {
     "index": 3854,
-    "addr": "25:2AB8"
+    "addr": "25:2AB8",
+    "msg": "Msg_0F0E"
    },
    {
     "index": 8465,
-    "addr": "25:2AF1"
+    "addr": "25:2AF1",
+    "msg": "Msg_2111"
    },
    {
     "index": 3858,
-    "addr": "25:2B65"
+    "addr": "25:2B65",
+    "msg": "Msg_0F12"
    },
    {
     "index": 65518,
-    "addr": "25:2A90"
+    "addr": "25:2A90",
+    "msg": "Dynamic_FFEE"
+   }
+  ],
+  "properties": [
+   {
+    "name": "TabStop",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 164
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:64BA"
+    },
+    "index": null
    }
   ],
   "parent": "TWinControl"
@@ -19282,6 +23585,515 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [
+   {
+    "name": "AutoSelect",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 222
+    },
+    "set": {
+     "kind": "field",
+     "offset": 222
+    },
+    "index": null
+   },
+   {
+    "name": "AutoSize",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 221
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:266B"
+    },
+    "index": null
+   },
+   {
+    "name": "BorderStyle",
+    "type": "TBorderStyle",
+    "get": {
+     "kind": "field",
+     "offset": 218
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:268E"
+    },
+    "index": null
+   },
+   {
+    "name": "CharCase",
+    "type": "TEditCharCase",
+    "get": {
+     "kind": "field",
+     "offset": 225
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:26BB"
+    },
+    "index": null
+   },
+   {
+    "name": "Color",
+    "type": "TColor",
+    "get": {
+     "kind": "field",
+     "offset": 56
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1ED5"
+    },
+    "index": null
+   },
+   {
+    "name": "Ctl3D",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 165
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:6354"
+    },
+    "index": null
+   },
+   {
+    "name": "DragCursor",
+    "type": "TCursor",
+    "get": {
+     "kind": "field",
+     "offset": 62
+    },
+    "set": {
+     "kind": "field",
+     "offset": 62
+    },
+    "index": null
+   },
+   {
+    "name": "DragMode",
+    "type": "TDragMode",
+    "get": {
+     "kind": "field",
+     "offset": 46
+    },
+    "set": {
+     "kind": "field",
+     "offset": 46
+    },
+    "index": null
+   },
+   {
+    "name": "Enabled",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 42
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1CB8"
+    },
+    "index": null
+   },
+   {
+    "name": "Font",
+    "type": "TFont",
+    "get": {
+     "kind": "field",
+     "offset": 52
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1DEB"
+    },
+    "index": null
+   },
+   {
+    "name": "HideSelection",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 223
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:26DE"
+    },
+    "index": null
+   },
+   {
+    "name": "MaxLength",
+    "type": "Integer",
+    "get": {
+     "kind": "field",
+     "offset": 216
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:2701"
+    },
+    "index": null
+   },
+   {
+    "name": "OEMConvert",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 224
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:2742"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentColor",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 44
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1F32"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentCtl3D",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 166
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:63A2"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentFont",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 43
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1E3E"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 73
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1EA1"
+    },
+    "index": null
+   },
+   {
+    "name": "PasswordChar",
+    "type": "Char",
+    "get": {
+     "kind": "field",
+     "offset": 219
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:2765"
+    },
+    "index": null
+   },
+   {
+    "name": "PopupMenu",
+    "type": "TPopupMenu",
+    "get": {
+     "kind": "field",
+     "offset": 64
+    },
+    "set": {
+     "kind": "field",
+     "offset": 64
+    },
+    "index": null
+   },
+   {
+    "name": "ReadOnly",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 220
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:27D6"
+    },
+    "index": null
+   },
+   {
+    "name": "ShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 72
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1E72"
+    },
+    "index": null
+   },
+   {
+    "name": "TabOrder",
+    "type": "TTabOrder",
+    "get": {
+     "kind": "static",
+     "addr": "28:63D8"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:6492"
+    },
+    "index": null
+   },
+   {
+    "name": "TabStop",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 164
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:64BA"
+    },
+    "index": null
+   },
+   {
+    "name": "Text",
+    "type": "TCaption",
+    "get": {
+     "kind": "static",
+     "addr": "28:1D53"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1D8C"
+    },
+    "index": null
+   },
+   {
+    "name": "Visible",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 41
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1C77"
+    },
+    "index": null
+   },
+   {
+    "name": "OnChange",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 228
+    },
+    "set": {
+     "kind": "field",
+     "offset": 228
+    },
+    "index": null
+   },
+   {
+    "name": "OnClick",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 122
+    },
+    "set": {
+     "kind": "field",
+     "offset": 122
+    },
+    "index": null
+   },
+   {
+    "name": "OnDblClick",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 130
+    },
+    "set": {
+     "kind": "field",
+     "offset": 130
+    },
+    "index": null
+   },
+   {
+    "name": "OnDragDrop",
+    "type": "TDragDropEvent",
+    "get": {
+     "kind": "field",
+     "offset": 98
+    },
+    "set": {
+     "kind": "field",
+     "offset": 98
+    },
+    "index": null
+   },
+   {
+    "name": "OnDragOver",
+    "type": "TDragOverEvent",
+    "get": {
+     "kind": "field",
+     "offset": 106
+    },
+    "set": {
+     "kind": "field",
+     "offset": 106
+    },
+    "index": null
+   },
+   {
+    "name": "OnEndDrag",
+    "type": "TEndDragEvent",
+    "get": {
+     "kind": "field",
+     "offset": 114
+    },
+    "set": {
+     "kind": "field",
+     "offset": 114
+    },
+    "index": null
+   },
+   {
+    "name": "OnEnter",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 200
+    },
+    "set": {
+     "kind": "field",
+     "offset": 200
+    },
+    "index": null
+   },
+   {
+    "name": "OnExit",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 208
+    },
+    "set": {
+     "kind": "field",
+     "offset": 208
+    },
+    "index": null
+   },
+   {
+    "name": "OnKeyDown",
+    "type": "TKeyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 176
+    },
+    "set": {
+     "kind": "field",
+     "offset": 176
+    },
+    "index": null
+   },
+   {
+    "name": "OnKeyPress",
+    "type": "TKeyPressEvent",
+    "get": {
+     "kind": "field",
+     "offset": 184
+    },
+    "set": {
+     "kind": "field",
+     "offset": 184
+    },
+    "index": null
+   },
+   {
+    "name": "OnKeyUp",
+    "type": "TKeyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 192
+    },
+    "set": {
+     "kind": "field",
+     "offset": 192
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseDown",
+    "type": "TMouseEvent",
+    "get": {
+     "kind": "field",
+     "offset": 74
+    },
+    "set": {
+     "kind": "field",
+     "offset": 74
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseMove",
+    "type": "TMouseMoveEvent",
+    "get": {
+     "kind": "field",
+     "offset": 82
+    },
+    "set": {
+     "kind": "field",
+     "offset": 82
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseUp",
+    "type": "TMouseEvent",
+    "get": {
+     "kind": "field",
+     "offset": 90
+    },
+    "set": {
+     "kind": "field",
+     "offset": 90
+    },
+    "index": null
+   }
+  ],
   "parent": "TCustomEdit"
  },
  {
@@ -19454,63 +24266,93 @@
   "dynamic": [
    {
     "index": 1,
-    "addr": "25:32AA"
+    "addr": "25:32AA",
+    "msg": "WMCreate"
    },
    {
     "index": 20,
-    "addr": "25:32DE"
+    "addr": "25:32DE",
+    "msg": "WMEraseBkgnd"
    },
    {
     "index": 25,
-    "addr": "25:3379"
+    "addr": "25:3379",
+    "msg": "WMCtlColor"
    },
    {
     "index": 3844,
-    "addr": "25:33E9"
+    "addr": "25:33E9",
+    "msg": "Msg_0F04"
    },
    {
     "index": 3849,
-    "addr": "25:3418"
+    "addr": "25:3418",
+    "msg": "Msg_0F09"
    },
    {
     "index": 8465,
-    "addr": "25:3873"
+    "addr": "25:3873",
+    "msg": "Msg_2111"
    },
    {
     "index": 8217,
-    "addr": "25:3443"
+    "addr": "25:3443",
+    "msg": "Msg_2019"
    },
    {
     "index": 8235,
-    "addr": "25:3A95"
+    "addr": "25:3A95",
+    "msg": "Msg_202B"
    },
    {
     "index": 8236,
-    "addr": "25:3B9A"
+    "addr": "25:3B9A",
+    "msg": "Msg_202C"
    },
    {
     "index": 513,
-    "addr": "25:3BE3"
+    "addr": "25:3BE3",
+    "msg": "WMLButtonDown"
    },
    {
     "index": 43,
-    "addr": "25:3331"
+    "addr": "25:3331",
+    "msg": "WMDrawItem"
    },
    {
     "index": 44,
-    "addr": "25:3349"
+    "addr": "25:3349",
+    "msg": "WMMeasureItem"
    },
    {
     "index": 45,
-    "addr": "25:3361"
+    "addr": "25:3361",
+    "msg": "WMDeleteItem"
    },
    {
     "index": 65518,
-    "addr": "25:397E"
+    "addr": "25:397E",
+    "msg": "Dynamic_FFEE"
    },
    {
     "index": 65517,
-    "addr": "25:3A3A"
+    "addr": "25:3A3A",
+    "msg": "Dynamic_FFED"
+   }
+  ],
+  "properties": [
+   {
+    "name": "TabStop",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 164
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:64BA"
+    },
+    "index": null
    }
   ],
   "parent": "TWinControl"
@@ -19671,6 +24513,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TWinControl"
  },
  {
@@ -19835,23 +24678,381 @@
   "dynamic": [
    {
     "index": 3845,
-    "addr": "25:3EA4"
+    "addr": "25:3EA4",
+    "msg": "Msg_0F05"
    },
    {
     "index": 3846,
-    "addr": "25:3F2C"
+    "addr": "25:3F2C",
+    "msg": "Msg_0F06"
    },
    {
     "index": 3847,
-    "addr": "25:3F96"
+    "addr": "25:3F96",
+    "msg": "Msg_0F07"
    },
    {
     "index": 8465,
-    "addr": "25:3E86"
+    "addr": "25:3E86",
+    "msg": "Msg_2111"
    },
    {
     "index": 65534,
-    "addr": "25:3D21"
+    "addr": "25:3D21",
+    "msg": "Dynamic_FFFE"
+   }
+  ],
+  "properties": [
+   {
+    "name": "Cancel",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 219
+    },
+    "set": {
+     "kind": "field",
+     "offset": 219
+    },
+    "index": null
+   },
+   {
+    "name": "Caption",
+    "type": "TCaption",
+    "get": {
+     "kind": "static",
+     "addr": "28:1D53"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1D8C"
+    },
+    "index": null
+   },
+   {
+    "name": "Default",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 218
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:3DC8"
+    },
+    "index": null
+   },
+   {
+    "name": "DragCursor",
+    "type": "TCursor",
+    "get": {
+     "kind": "field",
+     "offset": 62
+    },
+    "set": {
+     "kind": "field",
+     "offset": 62
+    },
+    "index": null
+   },
+   {
+    "name": "DragMode",
+    "type": "TDragMode",
+    "get": {
+     "kind": "field",
+     "offset": 46
+    },
+    "set": {
+     "kind": "field",
+     "offset": 46
+    },
+    "index": null
+   },
+   {
+    "name": "Enabled",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 42
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1CB8"
+    },
+    "index": null
+   },
+   {
+    "name": "Font",
+    "type": "TFont",
+    "get": {
+     "kind": "field",
+     "offset": 52
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1DEB"
+    },
+    "index": null
+   },
+   {
+    "name": "ModalResult",
+    "type": "TModalResult",
+    "get": {
+     "kind": "field",
+     "offset": 222
+    },
+    "set": {
+     "kind": "field",
+     "offset": 222
+    },
+    "index": null
+   },
+   {
+    "name": "ParentFont",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 43
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1E3E"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 73
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1EA1"
+    },
+    "index": null
+   },
+   {
+    "name": "PopupMenu",
+    "type": "TPopupMenu",
+    "get": {
+     "kind": "field",
+     "offset": 64
+    },
+    "set": {
+     "kind": "field",
+     "offset": 64
+    },
+    "index": null
+   },
+   {
+    "name": "ShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 72
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1E72"
+    },
+    "index": null
+   },
+   {
+    "name": "TabOrder",
+    "type": "TTabOrder",
+    "get": {
+     "kind": "static",
+     "addr": "28:63D8"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:6492"
+    },
+    "index": null
+   },
+   {
+    "name": "TabStop",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 164
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:64BA"
+    },
+    "index": null
+   },
+   {
+    "name": "Visible",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 41
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1C77"
+    },
+    "index": null
+   },
+   {
+    "name": "OnClick",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 122
+    },
+    "set": {
+     "kind": "field",
+     "offset": 122
+    },
+    "index": null
+   },
+   {
+    "name": "OnDragDrop",
+    "type": "TDragDropEvent",
+    "get": {
+     "kind": "field",
+     "offset": 98
+    },
+    "set": {
+     "kind": "field",
+     "offset": 98
+    },
+    "index": null
+   },
+   {
+    "name": "OnDragOver",
+    "type": "TDragOverEvent",
+    "get": {
+     "kind": "field",
+     "offset": 106
+    },
+    "set": {
+     "kind": "field",
+     "offset": 106
+    },
+    "index": null
+   },
+   {
+    "name": "OnEndDrag",
+    "type": "TEndDragEvent",
+    "get": {
+     "kind": "field",
+     "offset": 114
+    },
+    "set": {
+     "kind": "field",
+     "offset": 114
+    },
+    "index": null
+   },
+   {
+    "name": "OnEnter",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 200
+    },
+    "set": {
+     "kind": "field",
+     "offset": 200
+    },
+    "index": null
+   },
+   {
+    "name": "OnExit",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 208
+    },
+    "set": {
+     "kind": "field",
+     "offset": 208
+    },
+    "index": null
+   },
+   {
+    "name": "OnKeyDown",
+    "type": "TKeyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 176
+    },
+    "set": {
+     "kind": "field",
+     "offset": 176
+    },
+    "index": null
+   },
+   {
+    "name": "OnKeyPress",
+    "type": "TKeyPressEvent",
+    "get": {
+     "kind": "field",
+     "offset": 184
+    },
+    "set": {
+     "kind": "field",
+     "offset": 184
+    },
+    "index": null
+   },
+   {
+    "name": "OnKeyUp",
+    "type": "TKeyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 192
+    },
+    "set": {
+     "kind": "field",
+     "offset": 192
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseDown",
+    "type": "TMouseEvent",
+    "get": {
+     "kind": "field",
+     "offset": 74
+    },
+    "set": {
+     "kind": "field",
+     "offset": 74
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseMove",
+    "type": "TMouseMoveEvent",
+    "get": {
+     "kind": "field",
+     "offset": 82
+    },
+    "set": {
+     "kind": "field",
+     "offset": 82
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseUp",
+    "type": "TMouseEvent",
+    "get": {
+     "kind": "field",
+     "offset": 90
+    },
+    "set": {
+     "kind": "field",
+     "offset": 90
+    },
+    "index": null
    }
   ],
   "parent": "TButtonControl"
@@ -20014,19 +25215,428 @@
   "dynamic": [
    {
     "index": 7,
-    "addr": "25:4255"
+    "addr": "25:4255",
+    "msg": "WMSetFocus"
    },
    {
     "index": 3856,
-    "addr": "25:428F"
+    "addr": "25:428F",
+    "msg": "Msg_0F10"
    },
    {
     "index": 3846,
-    "addr": "25:42A0"
+    "addr": "25:42A0",
+    "msg": "Msg_0F06"
    },
    {
     "index": 8465,
-    "addr": "25:430C"
+    "addr": "25:430C",
+    "msg": "Msg_2111"
+   }
+  ],
+  "properties": [
+   {
+    "name": "Alignment",
+    "type": "TLeftRight",
+    "get": {
+     "kind": "field",
+     "offset": 218
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:4076"
+    },
+    "index": null
+   },
+   {
+    "name": "Caption",
+    "type": "TCaption",
+    "get": {
+     "kind": "static",
+     "addr": "28:1D53"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1D8C"
+    },
+    "index": null
+   },
+   {
+    "name": "Checked",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 219
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:4129"
+    },
+    "index": null
+   },
+   {
+    "name": "Color",
+    "type": "TColor",
+    "get": {
+     "kind": "field",
+     "offset": 56
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1ED5"
+    },
+    "index": null
+   },
+   {
+    "name": "Ctl3D",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 165
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:6354"
+    },
+    "index": null
+   },
+   {
+    "name": "DragCursor",
+    "type": "TCursor",
+    "get": {
+     "kind": "field",
+     "offset": 62
+    },
+    "set": {
+     "kind": "field",
+     "offset": 62
+    },
+    "index": null
+   },
+   {
+    "name": "DragMode",
+    "type": "TDragMode",
+    "get": {
+     "kind": "field",
+     "offset": 46
+    },
+    "set": {
+     "kind": "field",
+     "offset": 46
+    },
+    "index": null
+   },
+   {
+    "name": "Enabled",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 42
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1CB8"
+    },
+    "index": null
+   },
+   {
+    "name": "Font",
+    "type": "TFont",
+    "get": {
+     "kind": "field",
+     "offset": 52
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1DEB"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentColor",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 44
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1F32"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentCtl3D",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 166
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:63A2"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentFont",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 43
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1E3E"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 73
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1EA1"
+    },
+    "index": null
+   },
+   {
+    "name": "PopupMenu",
+    "type": "TPopupMenu",
+    "get": {
+     "kind": "field",
+     "offset": 64
+    },
+    "set": {
+     "kind": "field",
+     "offset": 64
+    },
+    "index": null
+   },
+   {
+    "name": "ShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 72
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1E72"
+    },
+    "index": null
+   },
+   {
+    "name": "TabOrder",
+    "type": "TTabOrder",
+    "get": {
+     "kind": "static",
+     "addr": "28:63D8"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:6492"
+    },
+    "index": null
+   },
+   {
+    "name": "TabStop",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 164
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:64BA"
+    },
+    "index": null
+   },
+   {
+    "name": "Visible",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 41
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1C77"
+    },
+    "index": null
+   },
+   {
+    "name": "OnClick",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 122
+    },
+    "set": {
+     "kind": "field",
+     "offset": 122
+    },
+    "index": null
+   },
+   {
+    "name": "OnDblClick",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 130
+    },
+    "set": {
+     "kind": "field",
+     "offset": 130
+    },
+    "index": null
+   },
+   {
+    "name": "OnDragDrop",
+    "type": "TDragDropEvent",
+    "get": {
+     "kind": "field",
+     "offset": 98
+    },
+    "set": {
+     "kind": "field",
+     "offset": 98
+    },
+    "index": null
+   },
+   {
+    "name": "OnDragOver",
+    "type": "TDragOverEvent",
+    "get": {
+     "kind": "field",
+     "offset": 106
+    },
+    "set": {
+     "kind": "field",
+     "offset": 106
+    },
+    "index": null
+   },
+   {
+    "name": "OnEndDrag",
+    "type": "TEndDragEvent",
+    "get": {
+     "kind": "field",
+     "offset": 114
+    },
+    "set": {
+     "kind": "field",
+     "offset": 114
+    },
+    "index": null
+   },
+   {
+    "name": "OnEnter",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 200
+    },
+    "set": {
+     "kind": "field",
+     "offset": 200
+    },
+    "index": null
+   },
+   {
+    "name": "OnExit",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 208
+    },
+    "set": {
+     "kind": "field",
+     "offset": 208
+    },
+    "index": null
+   },
+   {
+    "name": "OnKeyDown",
+    "type": "TKeyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 176
+    },
+    "set": {
+     "kind": "field",
+     "offset": 176
+    },
+    "index": null
+   },
+   {
+    "name": "OnKeyPress",
+    "type": "TKeyPressEvent",
+    "get": {
+     "kind": "field",
+     "offset": 184
+    },
+    "set": {
+     "kind": "field",
+     "offset": 184
+    },
+    "index": null
+   },
+   {
+    "name": "OnKeyUp",
+    "type": "TKeyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 192
+    },
+    "set": {
+     "kind": "field",
+     "offset": 192
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseDown",
+    "type": "TMouseEvent",
+    "get": {
+     "kind": "field",
+     "offset": 74
+    },
+    "set": {
+     "kind": "field",
+     "offset": 74
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseMove",
+    "type": "TMouseMoveEvent",
+    "get": {
+     "kind": "field",
+     "offset": 82
+    },
+    "set": {
+     "kind": "field",
+     "offset": 82
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseUp",
+    "type": "TMouseEvent",
+    "get": {
+     "kind": "field",
+     "offset": 90
+    },
+    "set": {
+     "kind": "field",
+     "offset": 90
+    },
+    "index": null
    }
   ],
   "parent": "TButtonControl"
@@ -20197,31 +25807,53 @@
   "dynamic": [
    {
     "index": 15,
-    "addr": "25:4FF9"
+    "addr": "25:4FF9",
+    "msg": "WMPaint"
    },
    {
     "index": 5,
-    "addr": "25:5020"
+    "addr": "25:5020",
+    "msg": "WMSize"
    },
    {
     "index": 8465,
-    "addr": "25:4DF8"
+    "addr": "25:4DF8",
+    "msg": "Msg_2111"
    },
    {
     "index": 8235,
-    "addr": "25:517F"
+    "addr": "25:517F",
+    "msg": "Msg_202B"
    },
    {
     "index": 8236,
-    "addr": "25:5283"
+    "addr": "25:5283",
+    "msg": "Msg_202C"
    },
    {
     "index": 513,
-    "addr": "25:4D4A"
+    "addr": "25:4D4A",
+    "msg": "WMLButtonDown"
    },
    {
     "index": 65532,
-    "addr": "25:5041"
+    "addr": "25:5041",
+    "msg": "Dynamic_FFFC"
+   }
+  ],
+  "properties": [
+   {
+    "name": "TabStop",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 164
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:64BA"
+    },
+    "index": null
    }
   ],
   "parent": "TWinControl"
@@ -20390,6 +26022,528 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [
+   {
+    "name": "Align",
+    "type": "TAlign",
+    "get": {
+     "kind": "field",
+     "offset": 45
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1672"
+    },
+    "index": null
+   },
+   {
+    "name": "BorderStyle",
+    "type": "TBorderStyle",
+    "get": {
+     "kind": "field",
+     "offset": 220
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:4996"
+    },
+    "index": null
+   },
+   {
+    "name": "Color",
+    "type": "TColor",
+    "get": {
+     "kind": "field",
+     "offset": 56
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1ED5"
+    },
+    "index": null
+   },
+   {
+    "name": "Columns",
+    "type": "Integer",
+    "get": {
+     "kind": "field",
+     "offset": 225
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:4742"
+    },
+    "index": null
+   },
+   {
+    "name": "Ctl3D",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 165
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:6354"
+    },
+    "index": null
+   },
+   {
+    "name": "DragCursor",
+    "type": "TCursor",
+    "get": {
+     "kind": "field",
+     "offset": 62
+    },
+    "set": {
+     "kind": "field",
+     "offset": 62
+    },
+    "index": null
+   },
+   {
+    "name": "DragMode",
+    "type": "TDragMode",
+    "get": {
+     "kind": "field",
+     "offset": 46
+    },
+    "set": {
+     "kind": "field",
+     "offset": 46
+    },
+    "index": null
+   },
+   {
+    "name": "Enabled",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 42
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1CB8"
+    },
+    "index": null
+   },
+   {
+    "name": "ExtendedSelect",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 233
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:47EF"
+    },
+    "index": null
+   },
+   {
+    "name": "Font",
+    "type": "TFont",
+    "get": {
+     "kind": "field",
+     "offset": 52
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1DEB"
+    },
+    "index": null
+   },
+   {
+    "name": "IntegralHeight",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 230
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:4812"
+    },
+    "index": null
+   },
+   {
+    "name": "ItemHeight",
+    "type": "Integer",
+    "get": {
+     "kind": "static",
+     "addr": "25:4835"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:4870"
+    },
+    "index": null
+   },
+   {
+    "name": "Items",
+    "type": "TStrings",
+    "get": {
+     "kind": "field",
+     "offset": 216
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:49E9"
+    },
+    "index": null
+   },
+   {
+    "name": "MultiSelect",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 231
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:4899"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentColor",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 44
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1F32"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentCtl3D",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 166
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:63A2"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentFont",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 43
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1E3E"
+    },
+    "index": null
+   },
+   {
+    "name": "ParentShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 73
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1EA1"
+    },
+    "index": null
+   },
+   {
+    "name": "PopupMenu",
+    "type": "TPopupMenu",
+    "get": {
+     "kind": "field",
+     "offset": 64
+    },
+    "set": {
+     "kind": "field",
+     "offset": 64
+    },
+    "index": null
+   },
+   {
+    "name": "ShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 72
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1E72"
+    },
+    "index": null
+   },
+   {
+    "name": "Sorted",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 232
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:4929"
+    },
+    "index": null
+   },
+   {
+    "name": "Style",
+    "type": "TListBoxStyle",
+    "get": {
+     "kind": "field",
+     "offset": 229
+    },
+    "set": {
+     "kind": "static",
+     "addr": "25:494C"
+    },
+    "index": null
+   },
+   {
+    "name": "TabOrder",
+    "type": "TTabOrder",
+    "get": {
+     "kind": "static",
+     "addr": "28:63D8"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:6492"
+    },
+    "index": null
+   },
+   {
+    "name": "TabStop",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 164
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:64BA"
+    },
+    "index": null
+   },
+   {
+    "name": "Visible",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 41
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1C77"
+    },
+    "index": null
+   },
+   {
+    "name": "OnClick",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 122
+    },
+    "set": {
+     "kind": "field",
+     "offset": 122
+    },
+    "index": null
+   },
+   {
+    "name": "OnDblClick",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 130
+    },
+    "set": {
+     "kind": "field",
+     "offset": 130
+    },
+    "index": null
+   },
+   {
+    "name": "OnDragDrop",
+    "type": "TDragDropEvent",
+    "get": {
+     "kind": "field",
+     "offset": 98
+    },
+    "set": {
+     "kind": "field",
+     "offset": 98
+    },
+    "index": null
+   },
+   {
+    "name": "OnDragOver",
+    "type": "TDragOverEvent",
+    "get": {
+     "kind": "field",
+     "offset": 106
+    },
+    "set": {
+     "kind": "field",
+     "offset": 106
+    },
+    "index": null
+   },
+   {
+    "name": "OnDrawItem",
+    "type": "TDrawItemEvent",
+    "get": {
+     "kind": "field",
+     "offset": 242
+    },
+    "set": {
+     "kind": "field",
+     "offset": 242
+    },
+    "index": null
+   },
+   {
+    "name": "OnEndDrag",
+    "type": "TEndDragEvent",
+    "get": {
+     "kind": "field",
+     "offset": 114
+    },
+    "set": {
+     "kind": "field",
+     "offset": 114
+    },
+    "index": null
+   },
+   {
+    "name": "OnEnter",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 200
+    },
+    "set": {
+     "kind": "field",
+     "offset": 200
+    },
+    "index": null
+   },
+   {
+    "name": "OnExit",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 208
+    },
+    "set": {
+     "kind": "field",
+     "offset": 208
+    },
+    "index": null
+   },
+   {
+    "name": "OnKeyDown",
+    "type": "TKeyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 176
+    },
+    "set": {
+     "kind": "field",
+     "offset": 176
+    },
+    "index": null
+   },
+   {
+    "name": "OnKeyPress",
+    "type": "TKeyPressEvent",
+    "get": {
+     "kind": "field",
+     "offset": 184
+    },
+    "set": {
+     "kind": "field",
+     "offset": 184
+    },
+    "index": null
+   },
+   {
+    "name": "OnKeyUp",
+    "type": "TKeyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 192
+    },
+    "set": {
+     "kind": "field",
+     "offset": 192
+    },
+    "index": null
+   },
+   {
+    "name": "OnMeasureItem",
+    "type": "TMeasureItemEvent",
+    "get": {
+     "kind": "field",
+     "offset": 250
+    },
+    "set": {
+     "kind": "field",
+     "offset": 250
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseDown",
+    "type": "TMouseEvent",
+    "get": {
+     "kind": "field",
+     "offset": 74
+    },
+    "set": {
+     "kind": "field",
+     "offset": 74
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseMove",
+    "type": "TMouseMoveEvent",
+    "get": {
+     "kind": "field",
+     "offset": 82
+    },
+    "set": {
+     "kind": "field",
+     "offset": 82
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseUp",
+    "type": "TMouseEvent",
+    "get": {
+     "kind": "field",
+     "offset": 90
+    },
+    "set": {
+     "kind": "field",
+     "offset": 90
+    },
+    "index": null
+   }
+  ],
   "parent": "TCustomListBox"
  },
  {
@@ -20512,6 +26666,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TStrings"
  },
  {
@@ -20634,6 +26789,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TStrings"
  },
  {
@@ -20666,6 +26822,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "Exception"
  },
  {
@@ -20698,6 +26855,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "Exception"
  },
  {
@@ -20746,9 +26904,11 @@
   "dynamic": [
    {
     "index": 65535,
-    "addr": "26:0E72"
+    "addr": "26:0E72",
+    "msg": "Dynamic_FFFF"
    }
   ],
+  "properties": [],
   "parent": "TPersistent"
  },
  {
@@ -20795,6 +26955,86 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [
+   {
+    "name": "Color",
+    "type": "TColor",
+    "get": {
+     "kind": "field",
+     "offset": 16
+    },
+    "set": {
+     "kind": "static",
+     "addr": "26:0FDF"
+    },
+    "index": null
+   },
+   {
+    "name": "Height",
+    "type": "Integer",
+    "get": {
+     "kind": "static",
+     "addr": "26:10EB"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "26:1104"
+    },
+    "index": null
+   },
+   {
+    "name": "Name",
+    "type": "TFontName",
+    "get": {
+     "kind": "static",
+     "addr": "26:1130"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "26:1150"
+    },
+    "index": null
+   },
+   {
+    "name": "Pitch",
+    "type": "TFontPitch",
+    "get": {
+     "kind": "static",
+     "addr": "26:1231"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "26:124A"
+    },
+    "index": null
+   },
+   {
+    "name": "Size",
+    "type": "Integer",
+    "get": {
+     "kind": "static",
+     "addr": "26:119E"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "26:11C7"
+    },
+    "index": null
+   },
+   {
+    "name": "Style",
+    "type": "TFontStyles",
+    "get": {
+     "kind": "static",
+     "addr": "26:11EC"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "26:1205"
+    },
+    "index": null
+   }
+  ],
   "parent": "TGraphicsObject"
  },
  {
@@ -20841,6 +27081,60 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [
+   {
+    "name": "Color",
+    "type": "TColor",
+    "get": {
+     "kind": "static",
+     "addr": "26:1389"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "26:13AC"
+    },
+    "index": null
+   },
+   {
+    "name": "Mode",
+    "type": "TPenMode",
+    "get": {
+     "kind": "field",
+     "offset": 16
+    },
+    "set": {
+     "kind": "static",
+     "addr": "26:1445"
+    },
+    "index": null
+   },
+   {
+    "name": "Style",
+    "type": "TPenStyle",
+    "get": {
+     "kind": "static",
+     "addr": "26:1469"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "26:1482"
+    },
+    "index": null
+   },
+   {
+    "name": "Width",
+    "type": "Integer",
+    "get": {
+     "kind": "static",
+     "addr": "26:14AE"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "26:14C7"
+    },
+    "index": null
+   }
+  ],
   "parent": "TGraphicsObject"
  },
  {
@@ -20887,6 +27181,34 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [
+   {
+    "name": "Color",
+    "type": "TColor",
+    "get": {
+     "kind": "static",
+     "addr": "26:15FF"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "26:1622"
+    },
+    "index": null
+   },
+   {
+    "name": "Style",
+    "type": "TBrushStyle",
+    "get": {
+     "kind": "static",
+     "addr": "26:1701"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "26:171A"
+    },
+    "index": null
+   }
+  ],
   "parent": "TGraphicsObject"
  },
  {
@@ -20945,6 +27267,60 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [
+   {
+    "name": "Brush",
+    "type": "TBrush",
+    "get": {
+     "kind": "field",
+     "offset": 15
+    },
+    "set": {
+     "kind": "static",
+     "addr": "26:2028"
+    },
+    "index": null
+   },
+   {
+    "name": "CopyMode",
+    "type": "Longint",
+    "get": {
+     "kind": "field",
+     "offset": 23
+    },
+    "set": {
+     "kind": "field",
+     "offset": 23
+    },
+    "index": null
+   },
+   {
+    "name": "Font",
+    "type": "TFont",
+    "get": {
+     "kind": "field",
+     "offset": 7
+    },
+    "set": {
+     "kind": "static",
+     "addr": "26:1FEE"
+    },
+    "index": null
+   },
+   {
+    "name": "Pen",
+    "type": "TPen",
+    "get": {
+     "kind": "field",
+     "offset": 11
+    },
+    "set": {
+     "kind": "static",
+     "addr": "26:200B"
+    },
+    "index": null
+   }
+  ],
   "parent": "TPersistent"
  },
  {
@@ -21051,6 +27427,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TPersistent"
  },
  {
@@ -21097,6 +27474,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TPersistent"
  },
  {
@@ -21129,6 +27507,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TObject"
  },
  {
@@ -21235,6 +27614,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TGraphic"
  },
  {
@@ -21271,6 +27651,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TObject"
  },
  {
@@ -21307,6 +27688,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TInternalImage"
  },
  {
@@ -21413,6 +27795,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TGraphic"
  },
  {
@@ -21449,6 +27832,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TInternalImage"
  },
  {
@@ -21555,6 +27939,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TGraphic"
  },
  {
@@ -21587,6 +27972,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TObject"
  },
  {
@@ -21619,6 +28005,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TObject"
  },
  {
@@ -21659,6 +28046,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TList"
  },
  {
@@ -21717,6 +28105,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TCanvas"
  },
  {
@@ -21749,6 +28138,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "Exception"
  },
  {
@@ -21837,7 +28227,140 @@
   "dynamic": [
    {
     "index": 65535,
-    "addr": "27:16D1"
+    "addr": "27:16D1",
+    "msg": "Dynamic_FFFF"
+   }
+  ],
+  "properties": [
+   {
+    "name": "Break",
+    "type": "TMenuBreak",
+    "get": {
+     "kind": "field",
+     "offset": 26
+    },
+    "set": {
+     "kind": "static",
+     "addr": "27:1211"
+    },
+    "index": null
+   },
+   {
+    "name": "Caption",
+    "type": "String",
+    "get": {
+     "kind": "static",
+     "addr": "27:1161"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "27:1237"
+    },
+    "index": null
+   },
+   {
+    "name": "Checked",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 31
+    },
+    "set": {
+     "kind": "static",
+     "addr": "27:1275"
+    },
+    "index": null
+   },
+   {
+    "name": "Enabled",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 32
+    },
+    "set": {
+     "kind": "static",
+     "addr": "27:129B"
+    },
+    "index": null
+   },
+   {
+    "name": "GroupIndex",
+    "type": "Byte",
+    "get": {
+     "kind": "field",
+     "offset": 50
+    },
+    "set": {
+     "kind": "static",
+     "addr": "27:12DB"
+    },
+    "index": null
+   },
+   {
+    "name": "HelpContext",
+    "type": "THelpContext",
+    "get": {
+     "kind": "field",
+     "offset": 35
+    },
+    "set": {
+     "kind": "field",
+     "offset": 35
+    },
+    "index": null
+   },
+   {
+    "name": "Hint",
+    "type": "String",
+    "get": {
+     "kind": "static",
+     "addr": "27:10E8"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "27:12C1"
+    },
+    "index": null
+   },
+   {
+    "name": "ShortCut",
+    "type": "TShortCut",
+    "get": {
+     "kind": "field",
+     "offset": 47
+    },
+    "set": {
+     "kind": "static",
+     "addr": "27:1388"
+    },
+    "index": null
+   },
+   {
+    "name": "Visible",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 49
+    },
+    "set": {
+     "kind": "static",
+     "addr": "27:13A5"
+    },
+    "index": null
+   },
+   {
+    "name": "OnClick",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 59
+    },
+    "set": {
+     "kind": "field",
+     "offset": 59
+    },
+    "index": null
    }
   ],
   "parent": "TComponent"
@@ -21930,6 +28453,21 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [
+   {
+    "name": "Items",
+    "type": "TMenuItem",
+    "get": {
+     "kind": "field",
+     "offset": 26
+    },
+    "set": {
+     "kind": "const",
+     "value": false
+    },
+    "index": null
+   }
+  ],
   "parent": "TComponent"
  },
  {
@@ -22020,6 +28558,21 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [
+   {
+    "name": "AutoMerge",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 42
+    },
+    "set": {
+     "kind": "static",
+     "addr": "27:1D96"
+    },
+    "index": null
+   }
+  ],
   "parent": "TMenu"
  },
  {
@@ -22114,6 +28667,60 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [
+   {
+    "name": "Alignment",
+    "type": "TPopupAlignment",
+    "get": {
+     "kind": "field",
+     "offset": 36
+    },
+    "set": {
+     "kind": "field",
+     "offset": 36
+    },
+    "index": null
+   },
+   {
+    "name": "AutoPopup",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 37
+    },
+    "set": {
+     "kind": "field",
+     "offset": 37
+    },
+    "index": null
+   },
+   {
+    "name": "HelpContext",
+    "type": "THelpContext",
+    "get": {
+     "kind": "static",
+     "addr": "27:21C8"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "27:21EB"
+    },
+    "index": null
+   },
+   {
+    "name": "OnPopup",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 42
+    },
+    "set": {
+     "kind": "field",
+     "offset": 42
+    },
+    "index": null
+   }
+  ],
   "parent": "TMenu"
  },
  {
@@ -22146,6 +28753,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TObject"
  },
  {
@@ -22186,6 +28794,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TList"
  },
  {
@@ -22218,6 +28827,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "EOutOfMemory"
  },
  {
@@ -22250,6 +28860,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "Exception"
  },
  {
@@ -22308,6 +28919,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TCanvas"
  },
  {
@@ -22428,147 +29040,263 @@
   "dynamic": [
    {
     "index": 513,
-    "addr": "28:285E"
+    "addr": "28:285E",
+    "msg": "WMLButtonDown"
    },
    {
     "index": 161,
-    "addr": "28:28EC"
+    "addr": "28:28EC",
+    "msg": "WMNCLButtonDown"
    },
    {
     "index": 164,
-    "addr": "28:2915"
+    "addr": "28:2915",
+    "msg": "WM_00A4"
    },
    {
     "index": 516,
-    "addr": "28:2A44"
+    "addr": "28:2A44",
+    "msg": "WMRButtonDown"
    },
    {
     "index": 519,
-    "addr": "28:2ACC"
+    "addr": "28:2ACC",
+    "msg": "WMMButtonDown"
    },
    {
     "index": 515,
-    "addr": "28:2944"
+    "addr": "28:2944",
+    "msg": "WMLButtonDblClk"
    },
    {
     "index": 518,
-    "addr": "28:2AA0"
+    "addr": "28:2AA0",
+    "msg": "WMRButtonDblClk"
    },
    {
     "index": 521,
-    "addr": "28:2AF8"
+    "addr": "28:2AF8",
+    "msg": "WM_0209"
    },
    {
     "index": 512,
-    "addr": "28:2B52"
+    "addr": "28:2B52",
+    "msg": "WMMouseMove"
    },
    {
     "index": 514,
-    "addr": "28:2C00"
+    "addr": "28:2C00",
+    "msg": "WMLButtonUp"
    },
    {
     "index": 517,
-    "addr": "28:2C7F"
+    "addr": "28:2C7F",
+    "msg": "WMRButtonUp"
    },
    {
     "index": 520,
-    "addr": "28:2CA9"
+    "addr": "28:2CA9",
+    "msg": "WMMButtonUp"
    },
    {
     "index": 31,
-    "addr": "28:2CD3"
+    "addr": "28:2CD3",
+    "msg": "WMCancelMode"
    },
    {
     "index": 3851,
-    "addr": "28:2D20"
+    "addr": "28:2D20",
+    "msg": "Msg_0F0B"
    },
    {
     "index": 3852,
-    "addr": "28:2D52"
+    "addr": "28:2D52",
+    "msg": "Msg_0F0C"
    },
    {
     "index": 3854,
-    "addr": "28:2D65"
+    "addr": "28:2D65",
+    "msg": "Msg_0F0E"
    },
    {
     "index": 3853,
-    "addr": "28:2D78"
+    "addr": "28:2D78",
+    "msg": "Msg_0F0D"
    },
    {
     "index": 3848,
-    "addr": "28:2DE6"
+    "addr": "28:2DE6",
+    "msg": "Msg_0F08"
    },
    {
     "index": 3849,
-    "addr": "28:2D8B"
+    "addr": "28:2D8B",
+    "msg": "Msg_0F09"
    },
    {
     "index": 3875,
-    "addr": "28:2DBA"
+    "addr": "28:2DBA",
+    "msg": "Msg_0F23"
    },
    {
     "index": 3850,
-    "addr": "28:2E15"
+    "addr": "28:2E15",
+    "msg": "Msg_0F0A"
    },
    {
     "index": 3859,
-    "addr": "28:2E2B"
+    "addr": "28:2E2B",
+    "msg": "Msg_0F13"
    },
    {
     "index": 3860,
-    "addr": "28:2E55"
+    "addr": "28:2E55",
+    "msg": "Msg_0F14"
    },
    {
     "index": 3868,
-    "addr": "28:2E7F"
+    "addr": "28:2E7F",
+    "msg": "Msg_0F1C"
    },
    {
     "index": 65535,
-    "addr": "28:1A69"
+    "addr": "28:1A69",
+    "msg": "Dynamic_FFFF"
    },
    {
     "index": 65534,
-    "addr": "28:27A5"
+    "addr": "28:27A5",
+    "msg": "Dynamic_FFFE"
    },
    {
     "index": 65533,
-    "addr": "28:27CA"
+    "addr": "28:27CA",
+    "msg": "Dynamic_FFFD"
    },
    {
     "index": 65532,
-    "addr": "28:24C1"
+    "addr": "28:24C1",
+    "msg": "Dynamic_FFFC"
    },
    {
     "index": 65531,
-    "addr": "28:14C6"
+    "addr": "28:14C6",
+    "msg": "Dynamic_FFFB"
    },
    {
     "index": 65530,
-    "addr": "28:27F2"
+    "addr": "28:27F2",
+    "msg": "Dynamic_FFFA"
    },
    {
     "index": 65529,
-    "addr": "28:2B24"
+    "addr": "28:2B24",
+    "msg": "Dynamic_FFF9"
    },
    {
     "index": 65528,
-    "addr": "28:2B97"
+    "addr": "28:2B97",
+    "msg": "Dynamic_FFF8"
    },
    {
     "index": 65527,
-    "addr": "28:14E5"
+    "addr": "28:14E5",
+    "msg": "Dynamic_FFF7"
    },
    {
     "index": 65526,
-    "addr": "28:2048"
+    "addr": "28:2048",
+    "msg": "Dynamic_FFF6"
    },
    {
     "index": 65525,
-    "addr": "28:2540"
+    "addr": "28:2540",
+    "msg": "Dynamic_FFF5"
    },
    {
     "index": 65524,
-    "addr": "28:2475"
+    "addr": "28:2475",
+    "msg": "Dynamic_FFF4"
+   }
+  ],
+  "properties": [
+   {
+    "name": "Left",
+    "type": "Integer",
+    "get": {
+     "kind": "field",
+     "offset": 30
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:177B"
+    },
+    "index": null
+   },
+   {
+    "name": "Top",
+    "type": "Integer",
+    "get": {
+     "kind": "field",
+     "offset": 32
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:179D"
+    },
+    "index": null
+   },
+   {
+    "name": "Width",
+    "type": "Integer",
+    "get": {
+     "kind": "field",
+     "offset": 34
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:17BF"
+    },
+    "index": null
+   },
+   {
+    "name": "Height",
+    "type": "Integer",
+    "get": {
+     "kind": "field",
+     "offset": 36
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:17E1"
+    },
+    "index": null
+   },
+   {
+    "name": "Cursor",
+    "type": "TCursor",
+    "get": {
+     "kind": "field",
+     "offset": 60
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1F66"
+    },
+    "index": null
+   },
+   {
+    "name": "Hint",
+    "type": "String",
+    "get": {
+     "kind": "static",
+     "addr": "28:1FE5"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:2002"
+    },
+    "index": null
    }
   ],
   "parent": "TComponent"
@@ -22731,267 +29459,348 @@
   "dynamic": [
    {
     "index": 15,
-    "addr": "28:4ABE"
+    "addr": "28:4ABE",
+    "msg": "WMPaint"
    },
    {
     "index": 273,
-    "addr": "28:4AF6"
+    "addr": "28:4AF6",
+    "msg": "WMCommand"
    },
    {
     "index": 21,
-    "addr": "28:4B1F"
+    "addr": "28:4B1F",
+    "msg": "WMSysColorChange"
    },
    {
     "index": 25,
-    "addr": "28:4B95"
+    "addr": "28:4B95",
+    "msg": "WMCtlColor"
    },
    {
     "index": 276,
-    "addr": "28:4BBE"
+    "addr": "28:4BBE",
+    "msg": "WMHScroll"
    },
    {
     "index": 277,
-    "addr": "28:4BE7"
+    "addr": "28:4BE7",
+    "msg": "WMVScroll"
    },
    {
     "index": 57,
-    "addr": "28:4C10"
+    "addr": "28:4C10",
+    "msg": "WMCompareItem"
    },
    {
     "index": 45,
-    "addr": "28:4C40"
+    "addr": "28:4C40",
+    "msg": "WMDeleteItem"
    },
    {
     "index": 43,
-    "addr": "28:4C70"
+    "addr": "28:4C70",
+    "msg": "WMDrawItem"
    },
    {
     "index": 44,
-    "addr": "28:4CA0"
+    "addr": "28:4CA0",
+    "msg": "WMMeasureItem"
    },
    {
     "index": 20,
-    "addr": "28:4CD0"
+    "addr": "28:4CD0",
+    "msg": "WMEraseBkgnd"
    },
    {
     "index": 71,
-    "addr": "28:4D14"
+    "addr": "28:4D14",
+    "msg": "WMWindowPosChanged"
    },
    {
     "index": 5,
-    "addr": "28:4DDA"
+    "addr": "28:4DDA",
+    "msg": "WMSize"
    },
    {
     "index": 3,
-    "addr": "28:4E07"
+    "addr": "28:4E07",
+    "msg": "WMMove"
    },
    {
     "index": 32,
-    "addr": "28:4E2A"
+    "addr": "28:4E2A",
+    "msg": "WMSetCursor"
    },
    {
     "index": 256,
-    "addr": "28:50D8"
+    "addr": "28:50D8",
+    "msg": "WMKeyDown"
    },
    {
     "index": 260,
-    "addr": "28:5104"
+    "addr": "28:5104",
+    "msg": "WMSysKeyDown"
    },
    {
     "index": 257,
-    "addr": "28:51F9"
+    "addr": "28:51F9",
+    "msg": "WMKeyUp"
    },
    {
     "index": 261,
-    "addr": "28:5225"
+    "addr": "28:5225",
+    "msg": "WMSysKeyUp"
    },
    {
     "index": 258,
-    "addr": "28:5305"
+    "addr": "28:5305",
+    "msg": "WMChar"
    },
    {
     "index": 274,
-    "addr": "28:5331"
+    "addr": "28:5331",
+    "msg": "WMSysCommand"
    },
    {
     "index": 47,
-    "addr": "28:53C7"
+    "addr": "28:53C7",
+    "msg": "WM_002F"
    },
    {
     "index": 528,
-    "addr": "28:53F0"
+    "addr": "28:53F0",
+    "msg": "WMParentNotify"
    },
    {
     "index": 46,
-    "addr": "28:542B"
+    "addr": "28:542B",
+    "msg": "WM_002E"
    },
    {
     "index": 2,
-    "addr": "28:5454"
+    "addr": "28:5454",
+    "msg": "WMDestroy"
    },
    {
     "index": 130,
-    "addr": "28:5495"
+    "addr": "28:5495",
+    "msg": "WMNCDestroy"
    },
    {
     "index": 132,
-    "addr": "28:54BE"
+    "addr": "28:54BE",
+    "msg": "WMNCHitTest"
    },
    {
     "index": 864,
-    "addr": "28:5887"
+    "addr": "28:5887",
+    "msg": "WM_0360"
    },
    {
     "index": 783,
-    "addr": "28:557F"
+    "addr": "28:557F",
+    "msg": "WMQueryNewPalette"
    },
    {
     "index": 785,
-    "addr": "28:55A7"
+    "addr": "28:55A7",
+    "msg": "WMPaletteChanged"
    },
    {
     "index": 26,
-    "addr": "28:4B3E"
+    "addr": "28:4B3E",
+    "msg": "WMWinIniChange"
    },
    {
     "index": 29,
-    "addr": "28:4B61"
+    "addr": "28:4B61",
+    "msg": "WMFontChange"
    },
    {
     "index": 30,
-    "addr": "28:4B7B"
+    "addr": "28:4B7B",
+    "msg": "WMTimeChange"
    },
    {
     "index": 3845,
-    "addr": "28:5642"
+    "addr": "28:5642",
+    "msg": "Msg_0F05"
    },
    {
     "index": 3846,
-    "addr": "28:5658"
+    "addr": "28:5658",
+    "msg": "Msg_0F06"
    },
    {
     "index": 3847,
-    "addr": "28:566E"
+    "addr": "28:566E",
+    "msg": "Msg_0F07"
    },
    {
     "index": 3851,
-    "addr": "28:5684"
+    "addr": "28:5684",
+    "msg": "Msg_0F0B"
    },
    {
     "index": 3852,
-    "addr": "28:56E5"
+    "addr": "28:56E5",
+    "msg": "Msg_0F0C"
    },
    {
     "index": 3853,
-    "addr": "28:5731"
+    "addr": "28:5731",
+    "msg": "Msg_0F0D"
    },
    {
     "index": 3854,
-    "addr": "28:576C"
+    "addr": "28:576C",
+    "msg": "Msg_0F0E"
    },
    {
     "index": 3855,
-    "addr": "28:57BD"
+    "addr": "28:57BD",
+    "msg": "Msg_0F0F"
    },
    {
     "index": 3856,
-    "addr": "28:580A"
+    "addr": "28:580A",
+    "msg": "Msg_0F10"
    },
    {
     "index": 3857,
-    "addr": "28:5858"
+    "addr": "28:5858",
+    "msg": "Msg_0F11"
    },
    {
     "index": 3865,
-    "addr": "28:56B9"
+    "addr": "28:56B9",
+    "msg": "Msg_0F19"
    },
    {
     "index": 3874,
-    "addr": "28:55CA"
+    "addr": "28:55CA",
+    "msg": "Msg_0F22"
    },
    {
     "index": 3866,
-    "addr": "28:55F0"
+    "addr": "28:55F0",
+    "msg": "Msg_0F1A"
    },
    {
     "index": 3867,
-    "addr": "28:5604"
+    "addr": "28:5604",
+    "msg": "Msg_0F1B"
    },
    {
     "index": 3868,
-    "addr": "28:5618"
+    "addr": "28:5618",
+    "msg": "Msg_0F1C"
    },
    {
     "index": 3876,
-    "addr": "28:58A4"
+    "addr": "28:58A4",
+    "msg": "Msg_0F24"
    },
    {
     "index": 3877,
-    "addr": "28:58BA"
+    "addr": "28:58BA",
+    "msg": "Msg_0F25"
    },
    {
     "index": 3878,
-    "addr": "28:58D0"
+    "addr": "28:58D0",
+    "msg": "Msg_0F26"
    },
    {
     "index": 3879,
-    "addr": "28:58E6"
+    "addr": "28:58E6",
+    "msg": "Msg_0F27"
    },
    {
     "index": 8217,
-    "addr": "28:58FC"
+    "addr": "28:58FC",
+    "msg": "Msg_2019"
    },
    {
     "index": 8448,
-    "addr": "28:5A36"
+    "addr": "28:5A36",
+    "msg": "Msg_2100"
    },
    {
     "index": 8449,
-    "addr": "28:5B36"
+    "addr": "28:5B36",
+    "msg": "Msg_2101"
    },
    {
     "index": 8450,
-    "addr": "28:5BA5"
+    "addr": "28:5BA5",
+    "msg": "Msg_2102"
    },
    {
     "index": 8452,
-    "addr": "28:5C19"
+    "addr": "28:5C19",
+    "msg": "Msg_2104"
    },
    {
     "index": 8454,
-    "addr": "28:5C42"
+    "addr": "28:5C42",
+    "msg": "Msg_2106"
    },
    {
     "index": 65535,
-    "addr": "28:5DD0"
+    "addr": "28:5DD0",
+    "msg": "Dynamic_FFFF"
    },
    {
     "index": 65523,
-    "addr": "28:4F4C"
+    "addr": "28:4F4C",
+    "msg": "Dynamic_FFF3"
    },
    {
     "index": 65522,
-    "addr": "28:4F74"
+    "addr": "28:4F74",
+    "msg": "Dynamic_FFF2"
    },
    {
     "index": 65521,
-    "addr": "28:4F9C"
+    "addr": "28:4F9C",
+    "msg": "Dynamic_FFF1"
    },
    {
     "index": 65520,
-    "addr": "28:5130"
+    "addr": "28:5130",
+    "msg": "Dynamic_FFF0"
    },
    {
     "index": 65519,
-    "addr": "28:5251"
+    "addr": "28:5251",
+    "msg": "Dynamic_FFEF"
    },
    {
     "index": 65527,
-    "addr": "28:5506"
+    "addr": "28:5506",
+    "msg": "Dynamic_FFF7"
    },
    {
     "index": 65526,
-    "addr": "28:6007"
+    "addr": "28:6007",
+    "msg": "Dynamic_FFF6"
+   }
+  ],
+  "properties": [
+   {
+    "name": "HelpContext",
+    "type": "THelpContext",
+    "get": {
+     "kind": "field",
+     "offset": 172
+    },
+    "set": {
+     "kind": "field",
+     "offset": 172
+    },
+    "index": null
    }
   ],
   "parent": "TControl"
@@ -23118,9 +29927,11 @@
   "dynamic": [
    {
     "index": 15,
-    "addr": "28:6956"
+    "addr": "28:6956",
+    "msg": "WMPaint"
    }
   ],
+  "properties": [],
   "parent": "TControl"
  },
  {
@@ -23285,9 +30096,11 @@
   "dynamic": [
    {
     "index": 15,
-    "addr": "28:6D3C"
+    "addr": "28:6D3C",
+    "msg": "WMPaint"
    }
   ],
+  "properties": [],
   "parent": "TWinControl"
  },
  {
@@ -23460,9 +30273,11 @@
   "dynamic": [
    {
     "index": 3858,
-    "addr": "28:6B62"
+    "addr": "28:6B62",
+    "msg": "Msg_0F12"
    }
   ],
+  "properties": [],
   "parent": "TCustomControl"
  },
  {
@@ -23509,6 +30324,73 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [
+   {
+    "name": "Margin",
+    "type": "Word",
+    "get": {
+     "kind": "field",
+     "offset": 17
+    },
+    "set": {
+     "kind": "field",
+     "offset": 17
+    },
+    "index": null
+   },
+   {
+    "name": "Increment",
+    "type": "TScrollBarInc",
+    "get": {
+     "kind": "field",
+     "offset": 8
+    },
+    "set": {
+     "kind": "field",
+     "offset": 8
+    },
+    "index": null
+   },
+   {
+    "name": "Range",
+    "type": "Integer",
+    "get": {
+     "kind": "field",
+     "offset": 12
+    },
+    "set": {
+     "kind": "static",
+     "addr": "29:1D88"
+    },
+    "index": null
+   },
+   {
+    "name": "Position",
+    "type": "Integer",
+    "get": {
+     "kind": "field",
+     "offset": 10
+    },
+    "set": {
+     "kind": "static",
+     "addr": "29:1C37"
+    },
+    "index": null
+   },
+   {
+    "name": "Visible",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 19
+    },
+    "set": {
+     "kind": "static",
+     "addr": "29:1DC9"
+    },
+    "index": null
+   }
+  ],
   "parent": "TPersistent"
  },
  {
@@ -23669,19 +30551,51 @@
   "dynamic": [
    {
     "index": 5,
-    "addr": "29:23F7"
+    "addr": "29:23F7",
+    "msg": "WMSize"
    },
    {
     "index": 276,
-    "addr": "29:2442"
+    "addr": "29:2442",
+    "msg": "WMHScroll"
    },
    {
     "index": 277,
-    "addr": "29:2476"
+    "addr": "29:2476",
+    "msg": "WMVScroll"
    },
    {
     "index": 65535,
-    "addr": "29:23CA"
+    "addr": "29:23CA",
+    "msg": "Dynamic_FFFF"
+   }
+  ],
+  "properties": [
+   {
+    "name": "HorzScrollBar",
+    "type": "TControlScrollBar",
+    "get": {
+     "kind": "field",
+     "offset": 216
+    },
+    "set": {
+     "kind": "static",
+     "addr": "29:205A"
+    },
+    "index": null
+   },
+   {
+    "name": "VertScrollBar",
+    "type": "TControlScrollBar",
+    "get": {
+     "kind": "field",
+     "offset": 220
+    },
+    "set": {
+     "kind": "static",
+     "addr": "29:205A"
+    },
+    "index": null
    }
   ],
   "parent": "TWinControl"
@@ -23844,171 +30758,852 @@
   "dynamic": [
    {
     "index": 15,
-    "addr": "29:4714"
+    "addr": "29:4714",
+    "msg": "WMPaint"
    },
    {
     "index": 20,
-    "addr": "29:47E5"
+    "addr": "29:47E5",
+    "msg": "WMEraseBkgnd"
    },
    {
     "index": 39,
-    "addr": "29:4785"
+    "addr": "29:4785",
+    "msg": "WM_0027"
    },
    {
     "index": 55,
-    "addr": "29:4826"
+    "addr": "29:4826",
+    "msg": "WMQueryDragIcon"
    },
    {
     "index": 129,
-    "addr": "29:492A"
+    "addr": "29:492A",
+    "msg": "WMNCCreate"
    },
    {
     "index": 2,
-    "addr": "29:4965"
+    "addr": "29:4965",
+    "msg": "WMDestroy"
    },
    {
     "index": 273,
-    "addr": "29:49D2"
+    "addr": "29:49D2",
+    "msg": "WMCommand"
    },
    {
     "index": 279,
-    "addr": "29:4A23"
+    "addr": "29:4A23",
+    "msg": "WMInitMenuPopup"
    },
    {
     "index": 287,
-    "addr": "29:4A50"
+    "addr": "29:4A50",
+    "msg": "WMMenuSelect"
    },
    {
     "index": 289,
-    "addr": "29:4B18"
+    "addr": "29:4B18",
+    "msg": "WMEnterIdle"
    },
    {
     "index": 6,
-    "addr": "29:4B87"
+    "addr": "29:4B87",
+    "msg": "WMActivate"
    },
    {
     "index": 5,
-    "addr": "29:4C1C"
+    "addr": "29:4C1C",
+    "msg": "WMSize"
    },
    {
     "index": 16,
-    "addr": "29:4CAD"
+    "addr": "29:4CAD",
+    "msg": "WMClose"
    },
    {
     "index": 17,
-    "addr": "29:4D9B"
+    "addr": "29:4D9B",
+    "msg": "WMQueryEndSession"
    },
    {
     "index": 274,
-    "addr": "29:4DB9"
+    "addr": "29:4DB9",
+    "msg": "WMSysCommand"
    },
    {
     "index": 24,
-    "addr": "29:4E3F"
+    "addr": "29:4E3F",
+    "msg": "WMShowWindow"
    },
    {
     "index": 546,
-    "addr": "29:4EF9"
+    "addr": "29:4EF9",
+    "msg": "WMMDIActivate"
    },
    {
     "index": 40,
-    "addr": "29:4F21"
+    "addr": "29:4F21",
+    "msg": "WM_0028"
    },
    {
     "index": 7,
-    "addr": "29:4CF1"
+    "addr": "29:4CF1",
+    "msg": "WMSetFocus"
    },
    {
     "index": 8,
-    "addr": "29:4D28"
+    "addr": "29:4D28",
+    "msg": "WMKillFocus"
    },
    {
     "index": 528,
-    "addr": "29:4D5F"
+    "addr": "29:4D5F",
+    "msg": "WMParentNotify"
    },
    {
     "index": 529,
-    "addr": "29:4F6E"
+    "addr": "29:4F6E",
+    "msg": "WMEnterMenuLoop"
    },
    {
     "index": 3840,
-    "addr": "29:4F95"
+    "addr": "29:4F95",
+    "msg": "Msg_0F00"
    },
    {
     "index": 3841,
-    "addr": "29:4FA9"
+    "addr": "29:4FA9",
+    "msg": "Msg_0F01"
    },
    {
     "index": 3845,
-    "addr": "29:4FBD"
+    "addr": "29:4FBD",
+    "msg": "Msg_0F05"
    },
    {
     "index": 3853,
-    "addr": "29:3848"
+    "addr": "29:3848",
+    "msg": "Msg_0F0D"
    },
    {
     "index": 3856,
-    "addr": "29:38B3"
+    "addr": "29:38B3",
+    "msg": "Msg_0F10"
    },
    {
     "index": 3854,
-    "addr": "29:391C"
+    "addr": "29:391C",
+    "msg": "Msg_0F0E"
    },
    {
     "index": 3861,
-    "addr": "29:3956"
+    "addr": "29:3956",
+    "msg": "Msg_0F15"
    },
    {
     "index": 3865,
-    "addr": "29:50B2"
+    "addr": "29:50B2",
+    "msg": "Msg_0F19"
    },
    {
     "index": 3869,
-    "addr": "29:5429"
+    "addr": "29:5429",
+    "msg": "Msg_0F1D"
    },
    {
     "index": 3873,
-    "addr": "29:544F"
+    "addr": "29:544F",
+    "msg": "Msg_0F21"
    },
    {
     "index": 3858,
-    "addr": "29:5460"
+    "addr": "29:5460",
+    "msg": "Msg_0F12"
    },
    {
     "index": 65518,
-    "addr": "29:45B3"
+    "addr": "29:45B3",
+    "msg": "Dynamic_FFEE"
    },
    {
     "index": 65517,
-    "addr": "29:4393"
+    "addr": "29:4393",
+    "msg": "Dynamic_FFED"
    },
    {
     "index": 65535,
-    "addr": "29:2B02"
+    "addr": "29:2B02",
+    "msg": "Dynamic_FFFF"
    },
    {
     "index": 65516,
-    "addr": "29:45DB"
+    "addr": "29:45DB",
+    "msg": "Dynamic_FFEC"
    },
    {
     "index": 65515,
-    "addr": "29:2C9B"
+    "addr": "29:2C9B",
+    "msg": "Dynamic_FFEB"
    },
    {
     "index": 65514,
-    "addr": "29:2CC3"
+    "addr": "29:2CC3",
+    "msg": "Dynamic_FFEA"
    },
    {
     "index": 65513,
-    "addr": "29:4603"
+    "addr": "29:4603",
+    "msg": "Dynamic_FFE9"
    },
    {
     "index": 65512,
-    "addr": "29:462B"
+    "addr": "29:462B",
+    "msg": "Dynamic_FFE8"
    },
    {
     "index": 65525,
-    "addr": "29:2EB9"
+    "addr": "29:2EB9",
+    "msg": "Dynamic_FFF5"
+   }
+  ],
+  "properties": [
+   {
+    "name": "ActiveControl",
+    "type": "TWinControl",
+    "get": {
+     "kind": "field",
+     "offset": 228
+    },
+    "set": {
+     "kind": "static",
+     "addr": "29:3F37"
+    },
+    "index": null
+   },
+   {
+    "name": "BorderIcons",
+    "type": "TBorderIcons",
+    "get": {
+     "kind": "field",
+     "offset": 236
+    },
+    "set": {
+     "kind": "static",
+     "addr": "29:31AB"
+    },
+    "index": null
+   },
+   {
+    "name": "BorderStyle",
+    "type": "TFormBorderStyle",
+    "get": {
+     "kind": "field",
+     "offset": 237
+    },
+    "set": {
+     "kind": "static",
+     "addr": "29:31D5"
+    },
+    "index": null
+   },
+   {
+    "name": "AutoScroll",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 224
+    },
+    "set": {
+     "kind": "static",
+     "addr": "29:200D"
+    },
+    "index": null
+   },
+   {
+    "name": "Caption",
+    "type": "TCaption",
+    "get": {
+     "kind": "static",
+     "addr": "28:1D53"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1D8C"
+    },
+    "index": null
+   },
+   {
+    "name": "ClientHeight",
+    "type": "Integer",
+    "get": {
+     "kind": "static",
+     "addr": "28:18F4"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "29:2E58"
+    },
+    "index": null
+   },
+   {
+    "name": "ClientWidth",
+    "type": "Integer",
+    "get": {
+     "kind": "static",
+     "addr": "28:18A9"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "29:2E30"
+    },
+    "index": null
+   },
+   {
+    "name": "Ctl3D",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 165
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:6354"
+    },
+    "index": null
+   },
+   {
+    "name": "Color",
+    "type": "TColor",
+    "get": {
+     "kind": "field",
+     "offset": 56
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1ED5"
+    },
+    "index": null
+   },
+   {
+    "name": "Enabled",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 42
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1CB8"
+    },
+    "index": null
+   },
+   {
+    "name": "Font",
+    "type": "TFont",
+    "get": {
+     "kind": "field",
+     "offset": 52
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1DEB"
+    },
+    "index": null
+   },
+   {
+    "name": "FormStyle",
+    "type": "TFormStyle",
+    "get": {
+     "kind": "field",
+     "offset": 242
+    },
+    "set": {
+     "kind": "static",
+     "addr": "29:344C"
+    },
+    "index": null
+   },
+   {
+    "name": "Height",
+    "type": "Integer",
+    "get": {
+     "kind": "field",
+     "offset": 36
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:17E1"
+    },
+    "index": null
+   },
+   {
+    "name": "HorzScrollBar",
+    "type": "TControlScrollBar",
+    "get": {
+     "kind": "field",
+     "offset": 216
+    },
+    "set": {
+     "kind": "static",
+     "addr": "29:205A"
+    },
+    "index": null
+   },
+   {
+    "name": "Icon",
+    "type": "TIcon",
+    "get": {
+     "kind": "field",
+     "offset": 252
+    },
+    "set": {
+     "kind": "static",
+     "addr": "29:335D"
+    },
+    "index": null
+   },
+   {
+    "name": "KeyPreview",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 240
+    },
+    "set": {
+     "kind": "field",
+     "offset": 240
+    },
+    "index": null
+   },
+   {
+    "name": "Menu",
+    "type": "TMainMenu",
+    "get": {
+     "kind": "field",
+     "offset": 256
+    },
+    "set": {
+     "kind": "static",
+     "addr": "29:3619"
+    },
+    "index": null
+   },
+   {
+    "name": "ObjectMenuItem",
+    "type": "TMenuItem",
+    "get": {
+     "kind": "field",
+     "offset": 278
+    },
+    "set": {
+     "kind": "static",
+     "addr": "29:35B3"
+    },
+    "index": null
+   },
+   {
+    "name": "PixelsPerInch",
+    "type": "Integer",
+    "get": {
+     "kind": "static",
+     "addr": "29:3778"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "29:379F"
+    },
+    "index": null
+   },
+   {
+    "name": "PopupMenu",
+    "type": "TPopupMenu",
+    "get": {
+     "kind": "field",
+     "offset": 64
+    },
+    "set": {
+     "kind": "field",
+     "offset": 64
+    },
+    "index": null
+   },
+   {
+    "name": "Position",
+    "type": "TPosition",
+    "get": {
+     "kind": "field",
+     "offset": 243
+    },
+    "set": {
+     "kind": "static",
+     "addr": "29:37CC"
+    },
+    "index": null
+   },
+   {
+    "name": "PrintScale",
+    "type": "TPrintScale",
+    "get": {
+     "kind": "field",
+     "offset": 247
+    },
+    "set": {
+     "kind": "field",
+     "offset": 247
+    },
+    "index": null
+   },
+   {
+    "name": "Scaled",
+    "type": "Boolean",
+    "get": {
+     "kind": "static",
+     "addr": "29:37F6"
+    },
+    "set": {
+     "kind": "static",
+     "addr": "29:3812"
+    },
+    "index": null
+   },
+   {
+    "name": "ShowHint",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 72
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:1E72"
+    },
+    "index": null
+   },
+   {
+    "name": "VertScrollBar",
+    "type": "TControlScrollBar",
+    "get": {
+     "kind": "field",
+     "offset": 220
+    },
+    "set": {
+     "kind": "static",
+     "addr": "29:205A"
+    },
+    "index": null
+   },
+   {
+    "name": "Visible",
+    "type": "Boolean",
+    "get": {
+     "kind": "field",
+     "offset": 41
+    },
+    "set": {
+     "kind": "static",
+     "addr": "29:2E80"
+    },
+    "index": null
+   },
+   {
+    "name": "Width",
+    "type": "Integer",
+    "get": {
+     "kind": "field",
+     "offset": 34
+    },
+    "set": {
+     "kind": "static",
+     "addr": "28:17BF"
+    },
+    "index": null
+   },
+   {
+    "name": "WindowState",
+    "type": "TWindowState",
+    "get": {
+     "kind": "field",
+     "offset": 238
+    },
+    "set": {
+     "kind": "static",
+     "addr": "29:397B"
+    },
+    "index": null
+   },
+   {
+    "name": "WindowMenu",
+    "type": "TMenuItem",
+    "get": {
+     "kind": "field",
+     "offset": 272
+    },
+    "set": {
+     "kind": "static",
+     "addr": "29:35E1"
+    },
+    "index": null
+   },
+   {
+    "name": "OnActivate",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 300
+    },
+    "set": {
+     "kind": "field",
+     "offset": 300
+    },
+    "index": null
+   },
+   {
+    "name": "OnClick",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 122
+    },
+    "set": {
+     "kind": "field",
+     "offset": 122
+    },
+    "index": null
+   },
+   {
+    "name": "OnClose",
+    "type": "TCloseEvent",
+    "get": {
+     "kind": "field",
+     "offset": 308
+    },
+    "set": {
+     "kind": "field",
+     "offset": 308
+    },
+    "index": null
+   },
+   {
+    "name": "OnCloseQuery",
+    "type": "TCloseQueryEvent",
+    "get": {
+     "kind": "field",
+     "offset": 316
+    },
+    "set": {
+     "kind": "field",
+     "offset": 316
+    },
+    "index": null
+   },
+   {
+    "name": "OnCreate",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 364
+    },
+    "set": {
+     "kind": "field",
+     "offset": 364
+    },
+    "index": null
+   },
+   {
+    "name": "OnDblClick",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 130
+    },
+    "set": {
+     "kind": "field",
+     "offset": 130
+    },
+    "index": null
+   },
+   {
+    "name": "OnDestroy",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 372
+    },
+    "set": {
+     "kind": "field",
+     "offset": 372
+    },
+    "index": null
+   },
+   {
+    "name": "OnDeactivate",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 324
+    },
+    "set": {
+     "kind": "field",
+     "offset": 324
+    },
+    "index": null
+   },
+   {
+    "name": "OnDragDrop",
+    "type": "TDragDropEvent",
+    "get": {
+     "kind": "field",
+     "offset": 98
+    },
+    "set": {
+     "kind": "field",
+     "offset": 98
+    },
+    "index": null
+   },
+   {
+    "name": "OnDragOver",
+    "type": "TDragOverEvent",
+    "get": {
+     "kind": "field",
+     "offset": 106
+    },
+    "set": {
+     "kind": "field",
+     "offset": 106
+    },
+    "index": null
+   },
+   {
+    "name": "OnHide",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 332
+    },
+    "set": {
+     "kind": "field",
+     "offset": 332
+    },
+    "index": null
+   },
+   {
+    "name": "OnKeyDown",
+    "type": "TKeyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 176
+    },
+    "set": {
+     "kind": "field",
+     "offset": 176
+    },
+    "index": null
+   },
+   {
+    "name": "OnKeyPress",
+    "type": "TKeyPressEvent",
+    "get": {
+     "kind": "field",
+     "offset": 184
+    },
+    "set": {
+     "kind": "field",
+     "offset": 184
+    },
+    "index": null
+   },
+   {
+    "name": "OnKeyUp",
+    "type": "TKeyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 192
+    },
+    "set": {
+     "kind": "field",
+     "offset": 192
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseDown",
+    "type": "TMouseEvent",
+    "get": {
+     "kind": "field",
+     "offset": 74
+    },
+    "set": {
+     "kind": "field",
+     "offset": 74
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseMove",
+    "type": "TMouseMoveEvent",
+    "get": {
+     "kind": "field",
+     "offset": 82
+    },
+    "set": {
+     "kind": "field",
+     "offset": 82
+    },
+    "index": null
+   },
+   {
+    "name": "OnMouseUp",
+    "type": "TMouseEvent",
+    "get": {
+     "kind": "field",
+     "offset": 90
+    },
+    "set": {
+     "kind": "field",
+     "offset": 90
+    },
+    "index": null
+   },
+   {
+    "name": "OnPaint",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 340
+    },
+    "set": {
+     "kind": "field",
+     "offset": 340
+    },
+    "index": null
+   },
+   {
+    "name": "OnResize",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 348
+    },
+    "set": {
+     "kind": "field",
+     "offset": 348
+    },
+    "index": null
+   },
+   {
+    "name": "OnShow",
+    "type": "TNotifyEvent",
+    "get": {
+     "kind": "field",
+     "offset": 356
+    },
+    "set": {
+     "kind": "field",
+     "offset": 356
+    },
+    "index": null
    }
   ],
   "parent": "TScrollingWinControl"
@@ -24093,6 +31688,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TComponent"
  },
  {
@@ -24175,6 +31771,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TComponent"
  },
  {
@@ -24207,6 +31804,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "Exception"
  },
  {
@@ -24239,6 +31837,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TObject"
  },
  {
@@ -24271,6 +31870,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TObject"
  },
  {
@@ -24303,6 +31903,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "Exception"
  },
  {
@@ -24335,6 +31936,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "EStreamError"
  },
  {
@@ -24367,6 +31969,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "EStreamError"
  },
  {
@@ -24399,6 +32002,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "EStreamError"
  },
  {
@@ -24431,6 +32035,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "EFilerError"
  },
  {
@@ -24463,6 +32068,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "EFilerError"
  },
  {
@@ -24495,6 +32101,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "EFilerError"
  },
  {
@@ -24527,6 +32134,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "Exception"
  },
  {
@@ -24559,6 +32167,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "Exception"
  },
  {
@@ -24591,6 +32200,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "Exception"
  },
  {
@@ -24623,6 +32233,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "Exception"
  },
  {
@@ -24663,6 +32274,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TObject"
  },
  {
@@ -24709,6 +32321,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TObject"
  },
  {
@@ -24831,6 +32444,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TPersistent"
  },
  {
@@ -24969,6 +32583,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TStrings"
  },
  {
@@ -25013,6 +32628,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TObject"
  },
  {
@@ -25057,6 +32673,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TStream"
  },
  {
@@ -25101,6 +32718,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "THandleStream"
  },
  {
@@ -25145,6 +32763,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TStream"
  },
  {
@@ -25185,6 +32804,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TObject"
  },
  {
@@ -25237,6 +32857,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TFiler"
  },
  {
@@ -25319,6 +32940,35 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [
+   {
+    "name": "Name",
+    "type": "TComponentName",
+    "get": {
+     "kind": "static",
+     "addr": "31:4EA9"
+    },
+    "set": {
+     "kind": "virtual",
+     "slot": 28,
+     "addr": "31:4EC5"
+    },
+    "index": null
+   },
+   {
+    "name": "Tag",
+    "type": "Longint",
+    "get": {
+     "kind": "field",
+     "offset": 12
+    },
+    "set": {
+     "kind": "field",
+     "offset": 12
+    },
+    "index": null
+   }
+  ],
   "parent": "TPersistent"
  },
  {
@@ -25351,6 +33001,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TObject"
  },
  {
@@ -25383,6 +33034,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "TObject"
  },
  {
@@ -25415,6 +33067,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "Exception"
  },
  {
@@ -25447,6 +33100,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "Exception"
  },
  {
@@ -25479,6 +33133,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "Exception"
  },
  {
@@ -25511,6 +33166,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "Exception"
  },
  {
@@ -25543,6 +33199,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "EIntError"
  },
  {
@@ -25575,6 +33232,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "EIntError"
  },
  {
@@ -25607,6 +33265,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "EIntError"
  },
  {
@@ -25639,6 +33298,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "Exception"
  },
  {
@@ -25671,6 +33331,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "EMathError"
  },
  {
@@ -25703,6 +33364,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "EMathError"
  },
  {
@@ -25735,6 +33397,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "EMathError"
  },
  {
@@ -25767,6 +33430,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "EMathError"
  },
  {
@@ -25799,6 +33463,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "Exception"
  },
  {
@@ -25831,6 +33496,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "Exception"
  },
  {
@@ -25863,6 +33529,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "Exception"
  },
  {
@@ -25895,6 +33562,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "Exception"
  },
  {
@@ -25927,6 +33595,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "EProcessorException"
  },
  {
@@ -25959,6 +33628,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "EFault"
  },
  {
@@ -25991,6 +33661,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "EFault"
  },
  {
@@ -26023,6 +33694,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "EFault"
  },
  {
@@ -26055,6 +33727,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "EFault"
  },
  {
@@ -26087,6 +33760,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "EProcessorException"
  },
  {
@@ -26119,6 +33793,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": "EProcessorException"
  },
  {
@@ -26153,6 +33828,7 @@
   "methods": [],
   "fields": [],
   "dynamic": [],
+  "properties": [],
   "parent": null
  }
 ]

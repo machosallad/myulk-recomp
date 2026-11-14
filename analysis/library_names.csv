@@ -1,0 +1,43 @@
+seg,offset,name,evidence
+33,1131,System.PStrCat,appends shortstring to dest; clamps at 255
+33,11A3,System.PStrCmp,compares two shortstrings; result in flags
+33,10CC,System.PStrNCpy,copies shortstring with max length (store to string[N] var)
+33,10B2,System.PStrCpy,copies shortstring
+33,11CE,System.Char2Str,builds length-1 string from char
+33,10F0,System.Copy,Copy(S; Index; Count)
+33,115D,System.Pos,Pos(Substr; S)
+33,1704,System.UpCase,a..z -> A..Z
+33,0F71,System.Move,byte copy loop (src; dst; count)
+33,0F89,System.LongMul,32-bit multiply helper
+33,08F3,System.RealLoad,loads 6-byte Real (AX:BX:DX) onto FPU stack as extended
+33,0964,System.Round,FPU round to longint
+33,162A,System.Random,Random(Range) via RandSeed update
+33,0444,System.StackCheck,compares SP with stack limit; runtime error 202
+33,0408,System.IOCheck,checks InOutRes and raises I/O error
+33,0808,System.ChDir,DOS int 21h drive/dir change (tentative)
+33,1A7E,System.AsClass,nil passes; otherwise class check then raise EInvalidCast
+33,17ED,System.ClassCreate,constructor prologue: calls NewInstance (VMT-12)
+33,181A,System.ClassDestroy,destructor epilogue: calls FreeInstance (VMT-8)
+33,178A,TObject.Free,if Self <> nil then Destroy (VMT-4)
+32,077A,SysUtils.IntToStr,FormatBuf with '%d' and one vtInteger arg
+32,0E6B,SysUtils.Format,FormatBuf into result shortstring
+31,0688,Classes.Rect,builds TRect from 4 ints
+31,066E,Classes.Point,builds TPoint from 2 ints
+31,0DD0,TList.Get,index check then Items[Index]
+26,55F6,TBitmap.Create,inherited Create then FImage := TBitmapImage.Create
+26,5948,TBitmap.GetCanvas,lazy-creates canvas with OnChange/OnChanging hooks
+26,41B3,TPicture.GetBitmap,ForceType(TBitmap); Result := FGraphic
+26,41E4,TPicture.SetBitmap,SetGraphic(Value)
+26,42CC,TPicture.LoadFromFile,splits file extension and looks up graphic class
+26,1AAE,TCanvas.CopyRect,StretchBlt between canvases
+26,1B39,TCanvas.Draw,graphic Empty/Width/Height virtuals then Draw
+26,1C47,TCanvas.FillRect,RequiredState([csHandleValid; csBrushValid]) then FillRect
+24,1A7B,TImage.GetCanvas,creates TBitmap of control size when Picture.Graphic is nil
+28,226E,TControl.Hide,Visible := False
+28,2281,TControl.Show,Parent.ShowControl then Visible := True
+28,1803,TControl.GetBoundsRect,Left/Top/Left+Width/Top+Height
+28,62EB,TWinControl.GetHandle,HandleNeeded; Result := FHandle
+29,54BD,TForm.Close,CloseQuery; OnClose; Action handling; Application.MainForm check
+29,575A,TForm.ShowModal,raises 'Cannot make a visible window modal'; capture handling
+29,5E65,TScreen.SetCursor,SetCursor/WindowFromPoint
+29,6DDA,TApplication.ProcessMessages,loops while ProcessMessage

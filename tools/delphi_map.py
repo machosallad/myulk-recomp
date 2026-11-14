@@ -176,9 +176,57 @@ class DelphiImage:
             for i in range(cnt):
                 idx = self.w(seg, dt + 2 + 2 * i)
                 addr = self.farptr(seg, dt + 2 + 2 * cnt + 4 * i)
-                dyn.append({"index": idx, "addr": _fmt(addr)})
+                dyn.append({"index": idx, "addr": _fmt(addr), "msg": msg_name(idx)})
         c["dynamic"] = dyn
+        c["properties"] = self.read_props(seg, v) if ti else []
         return c
+
+    def _accessor(self, seg: int, off: int, v: int):
+        """Decode a PropInfo Get/Set/Stored slot.
+
+        far relocated pointer -> static method; seg word FFFF -> field
+        offset; FFFE -> virtual method slot (byte offset in VMT).
+        """
+        t = self.farptr(seg, off)
+        if isinstance(t, tuple) and len(t) == 2:
+            return {"kind": "static", "addr": _fmt(t)}
+        lo, hi = self.w(seg, off), self.w(seg, off + 2)
+        if hi == 0xFFFF:
+            return {"kind": "field", "offset": lo}
+        if hi == 0xFFFE:
+            addr = self.farptr(seg, v + lo)
+            return {"kind": "virtual", "slot": lo, "addr": _fmt(addr)}
+        if hi == 0 and lo in (0, 1):
+            return {"kind": "const", "value": bool(lo)}
+        return {"kind": "raw", "value": f"{hi:04X}:{lo:04X}"}
+
+    def read_props(self, seg: int, v: int) -> list[dict]:
+        """Published properties declared by this class (not inherited).
+
+        TypeInfo: kind, name, far ClassType, far ParentInfo, word PropCount
+        (total incl. inherited), shortstring UnitName, word Count, then
+        PropInfo: far PropType, far GetProc, far SetProc, far StoredProc,
+        int16 Index, int32 Default, int16 NameIndex, shortstring Name.
+        """
+        ti = self.w(seg, v - 32)
+        p = ti + 2 + self.b(seg, ti + 1) + 8 + 2
+        p += 1 + self.b(seg, p)
+        cnt = self.w(seg, p)
+        p += 2
+        props = []
+        for _ in range(cnt):
+            pt = self.farptr(seg, p)
+            ptype = None
+            if isinstance(pt, tuple) and len(pt) == 2 and pt[0] in self.segs:
+                ptype = self.sstr(pt[0], pt[1] + 1)
+            idx = struct.unpack_from("<h", self.d, self.segs[seg].offset + p + 16)[0]
+            name = self.sstr(seg, p + 24)
+            props.append({"name": name, "type": ptype,
+                          "get": self._accessor(seg, p + 4, v),
+                          "set": self._accessor(seg, p + 8, v),
+                          "index": None if idx == -32768 else idx})
+            p += 24 + 1 + self.b(seg, p + 24)
+        return props
 
 
     # --- program body (.dpr) -------------------------------------------
@@ -229,6 +277,52 @@ class DelphiImage:
         return {"entry": f"{seg}:{start:04X}", "unit_inits": inits,
                 "create_form": _fmt(create_form) if create_form else None,
                 "forms": forms, "after_forms": other}
+
+
+WM_NAMES = {
+    0x01: "WMCreate", 0x02: "WMDestroy", 0x03: "WMMove", 0x05: "WMSize",
+    0x06: "WMActivate", 0x07: "WMSetFocus", 0x08: "WMKillFocus", 0x0A: "WMEnable",
+    0x0C: "WMSetText", 0x0D: "WMGetText", 0x0E: "WMGetTextLength", 0x0F: "WMPaint",
+    0x10: "WMClose", 0x11: "WMQueryEndSession", 0x13: "WMQueryOpen", 0x14: "WMEraseBkgnd",
+    0x15: "WMSysColorChange", 0x16: "WMEndSession", 0x18: "WMShowWindow",
+    0x19: "WMCtlColor", 0x1A: "WMWinIniChange", 0x1C: "WMActivateApp",
+    0x1D: "WMFontChange", 0x1E: "WMTimeChange", 0x1F: "WMCancelMode",
+    0x20: "WMSetCursor", 0x21: "WMMouseActivate", 0x24: "WMGetMinMaxInfo",
+    0x2B: "WMDrawItem", 0x2C: "WMMeasureItem", 0x2D: "WMDeleteItem",
+    0x30: "WMSetFont", 0x31: "WMGetFont", 0x37: "WMQueryDragIcon", 0x39: "WMCompareItem",
+    0x46: "WMWindowPosChanging", 0x47: "WMWindowPosChanged",
+    0x81: "WMNCCreate", 0x82: "WMNCDestroy", 0x83: "WMNCCalcSize", 0x84: "WMNCHitTest",
+    0x85: "WMNCPaint", 0x86: "WMNCActivate", 0x87: "WMGetDlgCode",
+    0xA0: "WMNCMouseMove", 0xA1: "WMNCLButtonDown", 0xA3: "WMNCLButtonDblClk",
+    0x100: "WMKeyDown", 0x101: "WMKeyUp", 0x102: "WMChar", 0x104: "WMSysKeyDown",
+    0x105: "WMSysKeyUp", 0x106: "WMSysChar", 0x110: "WMInitDialog", 0x111: "WMCommand",
+    0x112: "WMSysCommand", 0x113: "WMTimer", 0x114: "WMHScroll", 0x115: "WMVScroll",
+    0x116: "WMInitMenu", 0x117: "WMInitMenuPopup", 0x11F: "WMMenuSelect",
+    0x120: "WMMenuChar", 0x121: "WMEnterIdle",
+    0x200: "WMMouseMove", 0x201: "WMLButtonDown", 0x202: "WMLButtonUp",
+    0x203: "WMLButtonDblClk", 0x204: "WMRButtonDown", 0x205: "WMRButtonUp",
+    0x206: "WMRButtonDblClk", 0x207: "WMMButtonDown", 0x208: "WMMButtonUp",
+    0x210: "WMParentNotify", 0x211: "WMEnterMenuLoop", 0x212: "WMExitMenuLoop",
+    0x220: "WMMDICreate", 0x222: "WMMDIActivate", 0x233: "WMDropFiles",
+    0x300: "WMCut", 0x301: "WMCopy", 0x302: "WMPaste", 0x303: "WMClear", 0x304: "WMUndo",
+    0x30F: "WMQueryNewPalette", 0x310: "WMPaletteIsChanging", 0x311: "WMPaletteChanged",
+    0x3B9: "MMMCINotify",
+}
+
+
+def msg_name(idx: int) -> str:
+    """Name for a dynamic-table index: Windows message, VCL CM_/CN_ message, or dynamic method."""
+    if idx in WM_NAMES:
+        return WM_NAMES[idx]
+    if idx < 0x400:
+        return f"WM_{idx:04X}"
+    if 0xB000 <= idx < 0xBC00:          # CM_BASE / CN_BASE (VCL internal messages)
+        return f"CM_{idx:04X}"
+    if 0xBC00 <= idx < 0xC000:
+        return f"CN_{idx:04X}"
+    if idx >= 0xC000:
+        return f"Dynamic_{idx:04X}"
+    return f"Msg_{idx:04X}"
 
 
 def _fmt(t):
@@ -337,6 +431,46 @@ def main() -> int:
             a = vm["addr"]
             if a and ":" in a and vm.get("std"):
                 syms.setdefault(a, f"{c['name']}.{vm['std']}")
+    # property accessors and message handlers, base classes first so the
+    # declaring class (not a descendant) gets the name
+    def depth(c: dict) -> int:
+        n = 0
+        while c and c.get("parent"):
+            c = by_name.get(c["parent"])
+            n += 1
+        return n
+    def owner(c: dict, addr: str) -> str:
+        """Re-published properties keep the ancestor's accessor. If the class
+        itself lives in the accessor's segment it owns it; otherwise credit
+        the most basic ancestor in that segment (e.g. TControl, not
+        TGraphicControl, for a Visible re-published by TGauge)."""
+        seg = int(addr.split(":")[0])
+        if c["seg"] == seg:
+            return c["name"]
+        best = None
+        k = by_name.get(c["parent"]) if c.get("parent") else None
+        while k:
+            if k["seg"] == seg:
+                best = k["name"]
+            k = by_name.get(k["parent"]) if k.get("parent") else None
+        return best or c["name"]
+
+    for c in sorted(classes, key=depth):
+        for pr in c.get("properties", []):
+            for kind, prefix in (("get", "Get"), ("set", "Set")):
+                acc = pr[kind]
+                if acc["kind"] in ("static", "virtual") and acc.get("addr") and ":" in acc["addr"]:
+                    syms.setdefault(acc["addr"], f"{owner(c, acc['addr'])}.{prefix}{pr['name']}")
+        for dm in c["dynamic"]:
+            if dm["addr"] and ":" in dm["addr"]:
+                syms.setdefault(dm["addr"], f"{c['name']}.{dm['msg']}")
+    # hand-identified library routines override generated names
+    lib = os.path.join(out, "library_names.csv")
+    if os.path.isfile(lib):
+        with open(lib, encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                syms[f"{int(row['seg'])}:{row['offset'].upper().zfill(4)}"] = row["name"]
+
     with open(os.path.join(out, "symbols.csv"), "w", newline="", encoding="utf-8") as f:
         wr = csv.writer(f)
         wr.writerow(["seg", "offset", "name"])
