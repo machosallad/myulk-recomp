@@ -74,6 +74,9 @@ void wnd_set_capture(uint16_t h);
 std::vector<uint16_t> wnd_children(uint16_t h);   // front to back
 uint32_t wnd_default_proc(uint16_t h, uint16_t msg, uint16_t wp, uint32_t lp);
 void screen_to_client(uint16_t h, int* x, int* y);
+Rect wnd_visible_rect(uint16_t h);   // visible client area in screen coordinates
+// Screen rectangles of visible top-level windows stacked above h's top-level window.
+std::vector<Rect> wnd_occluders(uint16_t h);
 
 // controls.cpp: registers the native window procedures; returns the far
 // procedure address of a predefined class ("BUTTON", ...) or 0.

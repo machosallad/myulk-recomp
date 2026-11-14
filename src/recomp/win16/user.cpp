@@ -722,6 +722,18 @@ std::vector<uint16_t> wnd_children(uint16_t h) {
     return w ? w->children : std::vector<uint16_t>{};
 }
 uint32_t wnd_default_proc(uint16_t h, uint16_t msg, uint16_t wp, uint32_t lp) { return default_proc(h, msg, wp, lp); }
+Rect wnd_visible_rect(uint16_t h) { return visible_rect(h); }
+std::vector<Rect> wnd_occluders(uint16_t h) {
+    std::vector<Rect> out;
+    uint16_t top = h;
+    for (Window* w = wnd(h); w && w->parent; w = wnd(w->parent)) top = w->parent;
+    for (uint16_t t : g_top) {
+        if (t == top) break;
+        Window* w = wnd(t);
+        if (w && w->visible) out.push_back(w->rect);
+    }
+    return out;
+}
 void screen_to_client(uint16_t h, int* x, int* y) {
     int ox, oy;
     screen_origin(h, &ox, &oy);
