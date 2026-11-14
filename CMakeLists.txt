@@ -69,6 +69,51 @@ if(EMSCRIPTEN)
     set_property(TARGET myulk APPEND PROPERTY LINK_DEPENDS "${CMAKE_SOURCE_DIR}/web/shell.html")
 endif()
 
+# --- recompiled game ------------------------------------------------------------
+# tools/recomp/recomp.py turns the user's MYULK.EXE into C++ at build time; the
+# output is derived from the original binary and stays in the build folder.
+set(MYULK_EXE "${CMAKE_SOURCE_DIR}/extracted/iso/MYULK/MYULK.EXE" CACHE FILEPATH
+    "Original MYULK.EXE to recompile")
+if(EXISTS "${MYULK_EXE}")
+    find_package(Python3 REQUIRED COMPONENTS Interpreter)
+    set(GEN_DIR "${CMAKE_BINARY_DIR}/gen")
+    set(GEN_SOURCES "${GEN_DIR}/dispatch.cpp" "${GEN_DIR}/imports.cpp")
+    foreach(n RANGE 1 33)
+        string(LENGTH "${n}" len)
+        if(len EQUAL 1)
+            set(n "0${n}")
+        endif()
+        list(APPEND GEN_SOURCES "${GEN_DIR}/seg${n}.cpp")
+    endforeach()
+    file(GLOB RECOMP_TOOL "${CMAKE_SOURCE_DIR}/tools/recomp/*.py" "${CMAKE_SOURCE_DIR}/tools/ne.py")
+    add_custom_command(
+        OUTPUT ${GEN_SOURCES} "${GEN_DIR}/funcs.hpp" "${GEN_DIR}/import_ids.hpp"
+        COMMAND Python3::Interpreter -I "${CMAKE_SOURCE_DIR}/tools/recomp/recomp.py"
+                "${MYULK_EXE}" "${GEN_DIR}"
+                --extra-entries "${CMAKE_SOURCE_DIR}/tools/recomp/extra_entries.txt"
+        DEPENDS ${RECOMP_TOOL} "${MYULK_EXE}" "${CMAKE_SOURCE_DIR}/tools/recomp/extra_entries.txt"
+                "${CMAKE_SOURCE_DIR}/analysis/imports.csv"
+        COMMENT "Recompiling MYULK.EXE"
+        VERBATIM)
+
+    file(GLOB WIN16_SOURCES "${CMAKE_SOURCE_DIR}/src/recomp/win16/*.cpp")
+    add_executable(myulk_recomp
+        src/recomp/main.cpp
+        src/recomp/runtime/cpu.cpp
+        src/recomp/runtime/runtime.cpp
+        ${WIN16_SOURCES}
+        ${GEN_SOURCES})
+    target_include_directories(myulk_recomp PRIVATE src "${GEN_DIR}")
+    target_link_libraries(myulk_recomp PRIVATE SDL3::SDL3-static)
+    if(MSVC)
+        target_compile_options(myulk_recomp PRIVATE /utf-8 /bigobj)
+        # generated code: no warnings, moderate optimisation keeps compile times sane
+        set_source_files_properties(${GEN_SOURCES} PROPERTIES COMPILE_OPTIONS "/W0;/O1")
+    else()
+        set_source_files_properties(${GEN_SOURCES} PROPERTIES COMPILE_OPTIONS "-w;-O1")
+    endif()
+endif()
+
 # --- tests --------------------------------------------------------------------
 if(MYULK_BUILD_TESTS AND NOT EMSCRIPTEN)
     enable_testing()
