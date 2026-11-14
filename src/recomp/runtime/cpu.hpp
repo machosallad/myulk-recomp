@@ -18,6 +18,14 @@ namespace recomp {
 class Cpu;
 using Fn = void (*)(Cpu&);
 
+// Thrown when the Delphi RTL jumps to an except handler (sel:off) after
+// setting SP/BP to the handler's frame. The recompiled routine owning that
+// handler with the matching frame catches it and resumes at the label; the
+// C++ frames in between are discarded just like the emulated ones.
+struct DelphiJump {
+    uint16_t sel, off;
+};
+
 // One selector's memory. Code segments come from the EXE; the data segment
 // (DGROUP) and dynamic allocations are created by the runtime.
 struct Segment {
@@ -66,10 +74,11 @@ public:
 
     // debugging: log writes touching watch_sel:watch_off (MYULK_WATCH=sel:off)
     uint16_t watch_sel = 0, watch_off = 0;
+    bool watch_reads = false;
     void watch_hit(uint16_t sel, uint16_t off, unsigned size);
 
     uint8_t* ptr(uint16_t sel, uint16_t off, unsigned size, bool write) {
-        if (write && watch_sel && (sel >> 3) == (watch_sel >> 3) && off <= watch_off && watch_off < off + size)
+        if ((write || watch_reads) && watch_sel && (sel >> 3) == (watch_sel >> 3) && off <= watch_off && watch_off < off + size)
             watch_hit(sel, off, size);
         auto idx = size_t(sel >> 3);
         if (idx < segs->size()) {

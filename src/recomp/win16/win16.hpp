@@ -33,7 +33,7 @@ uint32_t kernel_global_size(uint16_t h);
 #define API(MOD, ORD, NAME, BYTES)                                                  \
     static void api_##MOD##_##NAME##_impl(recomp::Cpu& c, recomp::Args& a);        \
     static void api_##MOD##_##NAME(recomp::Cpu& c) {                               \
-        recomp::Args a(c, BYTES);                                                  \
+        recomp::Args a(c, BYTES, #MOD "." #NAME);                                  \
         api_##MOD##_##NAME##_impl(c, a);                                           \
     }                                                                               \
     static const bool reg_##MOD##_##NAME = (::win16::detail::add(#MOD, ORD, &api_##MOD##_##NAME, #NAME), true); \

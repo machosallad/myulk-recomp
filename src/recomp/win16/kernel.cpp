@@ -1,6 +1,7 @@
 // KERNEL: tasks, global memory, modules/resources, files, profile strings;
 // plus DOS INT 21h, WIN87EM, TOOLHELP and KEYBOARD.
 #include <chrono>
+#include <cstdlib>
 #include <cstring>
 #include <ctime>
 #include <map>
@@ -47,6 +48,9 @@ void huge_copy_in(Cpu& c, uint32_t fp, uint8_t* dst, uint32_t n) {
 uint16_t global_alloc(uint32_t size, const char* tag) {
     auto& rt = Runtime::get();
     if (size == 0) size = 1;
+    // Windows hands out global memory in 32-byte units (GlobalSize reports
+    // the rounded size); programs may touch the slack.
+    size = (size + 31) & ~31u;
     if (size <= 0x10000) {
         uint16_t s = rt.alloc_segment(size, tag);
         g_globalSize[s] = size;
@@ -148,7 +152,10 @@ void dos_int21(Cpu& c) {
         }
         case 0x3D: {                                           // open
             int err = 0;
-            int h = vfs::open(recomp::read_cstr(c, dsdx), c.al(), &err);
+            std::string name = recomp::read_cstr(c, dsdx);
+            int h = vfs::open(name, c.al(), &err);
+            static const bool trace = std::getenv("MYULK_TRACE_FILES") != nullptr;
+            if (trace) recomp::log("open %s -> %d", name.c_str(), h);
             if (h < 0) dos_error(c, err); else c.set_ax(uint16_t(h));
             break;
         }
@@ -322,8 +329,10 @@ API(KERNEL, 16, GlobalReAlloc, 8) {
     uint16_t flags = a.w(); uint32_t size = a.l(); uint16_t h = a.w();
     (void)flags;
     uint32_t old = kernel_global_size(h);
+    if (flags & 0x80) { a.ret(h); return; }   // GMEM_MODIFY: attributes only
+    size = (std::max<uint32_t>(size, 1) + 31) & ~31u;
     if (size <= 0x10000 && old <= 0x10000) {
-        Runtime::get().resize_segment(h, size ? size : 1);
+        Runtime::get().resize_segment(h, size);
         g_globalSize[h] = size;
         a.ret(h);
         return;

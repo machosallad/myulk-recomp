@@ -37,6 +37,13 @@ int main(int argc, char** argv) {
         if (std::getenv("MYULK_API_STATS")) rt.print_api_stats();
         win16::shutdown();
         return e.code;
+    } catch (const recomp::DelphiJump& j) {
+        char buf[96];
+        std::snprintf(buf, sizeof buf, "exception handler %04X:%04X has no active frame", j.sel, j.off);
+        recomp::log("FATAL: %s", buf);
+        win16::fatal(buf);
+        win16::shutdown();
+        return 3;
     } catch (const std::exception& e) {
         recomp::log("FATAL: %s", e.what());
         win16::fatal(e.what());

@@ -5,7 +5,9 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstdlib>
 #include <cstring>
+#include <string>
 #include <map>
 
 #include "recomp/runtime/runtime.hpp"
@@ -746,6 +748,40 @@ static std::vector<Color> read_dib_palette(Cpu& c, uint32_t bmi, int hdrSize, in
     }
     return pal;
 }
+// Decode BI_RLE8 / BI_RLE4 data into palette indices (bottom-up rows).
+// The data is read byte by byte from a huge pointer, so a zero biSizeImage
+// (legal for RLE) works: decoding stops at the end-of-bitmap marker.
+static std::vector<uint8_t> decode_rle(Cpu& c, uint32_t fp, uint32_t limit, int w, int h, bool rle4) {
+    std::vector<uint8_t> out(size_t(w) * h, 0);
+    int x = 0, y = 0;
+    uint32_t i = 0;
+    auto rd = [&](uint32_t k) -> uint8_t {
+        uint32_t off = (fp & 0xFFFF) + k;
+        uint16_t sel = uint16_t((fp >> 16) + (off >> 16) * 8);
+        return c.rd8(sel, uint16_t(off));
+    };
+    auto put = [&](uint8_t v) { if (x < w && y < h) out[size_t(y) * w + x] = v; ++x; };
+    while (i + 1 < limit && y < h) {
+        uint8_t n = rd(i), v = rd(i + 1);
+        i += 2;
+        if (n) {   // encoded run
+            for (int k = 0; k < n; ++k) put(rle4 ? ((k & 1) ? (v & 15) : (v >> 4)) : v);
+        } else if (v == 0) { x = 0; ++y; }          // end of line
+        else if (v == 1) { break; }                 // end of bitmap
+        else if (v == 2) {                          // delta
+            x += rd(i); y += rd(i + 1); i += 2;
+        } else {                                    // absolute run of v pixels
+            int bytes = rle4 ? (v + 1) / 2 : v;
+            for (int k = 0; k < v; ++k) {
+                uint8_t b = rd(i + uint32_t(rle4 ? k / 2 : k));
+                put(rle4 ? ((k & 1) ? (b & 15) : (b >> 4)) : b);
+            }
+            i += uint32_t((bytes + 1) & ~1);        // word aligned
+        }
+    }
+    return out;
+}
+
 API(GDI, 442, CreateDIBitmap, 20) {
     uint16_t usage = a.w(); uint32_t bmi = a.p(); uint32_t bits = a.p(); uint32_t init = a.l(); uint32_t hdr = a.p(); uint16_t hdc = a.w();
     uint16_t s = uint16_t(hdr >> 16), o = uint16_t(hdr);
@@ -758,6 +794,27 @@ API(GDI, 442, CreateDIBitmap, 20) {
         return;
     }
     auto pal = read_dib_palette(c, bmi, hs, bpp, clr, usage, dc_get(hdc));
+    uint32_t compression = hs >= 40 ? c.rd32(s, uint16_t(o + 16)) : 0;
+    if ((compression == 1 || compression == 2) && bits) {
+        uint32_t sizeImage = c.rd32(s, uint16_t(o + 20));
+        int ah = std::abs(h);
+        auto idx = decode_rle(c, bits, sizeImage ? sizeImage : 0xFFFFFFFFu, w, ah, compression == 2);
+        auto surf = std::make_shared<Surface>(w, ah, 8);
+        for (int y = 0; y < ah; ++y)
+            for (int x = 0; x < w; ++x) {
+                uint8_t i = idx[size_t(ah - 1 - y) * w + x];
+                surf->set(x, y, i < pal.size() ? pal[i] : 0);
+            }
+        if (const char* dir = std::getenv("MYULK_DUMP_DIB"); dir && w >= 400) {
+            static int n = 0;
+            std::string path = std::string(dir) + "/dib" + std::to_string(n++) + ".bmp";
+            SDL_Surface* ss = SDL_CreateSurfaceFrom(w, ah, SDL_PIXELFORMAT_XRGB8888, surf->px.data(), w * 4);
+            if (ss) { SDL_SaveBMP(ss, path.c_str()); SDL_DestroySurface(ss); }
+            recomp::log("dumped RLE dib %dx%d -> %s", w, ah, path.c_str());
+        }
+        a.ret(gdi_create_bitmap(surf));
+        return;
+    }
     auto surf = surface_from_bits(c, w, std::abs(h), bpp, bits, true, pal);
     surf->bpp = bpp == 1 ? 1 : 8;
     a.ret(gdi_create_bitmap(surf));

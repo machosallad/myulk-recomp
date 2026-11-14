@@ -9,6 +9,7 @@
 #include <stdexcept>
 #include <algorithm>
 #include <map>
+#include <set>
 
 #include "recomp/runtime/generated_support.hpp"
 
@@ -56,6 +57,13 @@ static std::string backtrace_text() {
     return s;
 }
 
+std::string watch_text();
+
+void arg_size_mismatch(const char* name, int declared, int read) {
+    static std::set<std::string> seen;
+    if (seen.insert(name).second) log("API %s: declared %d argument bytes but read %d", name, declared, read);
+}
+
 static std::string trace_text() {
     std::string s = backtrace_text() + "\n  recent functions (oldest first):";
     // start shortly before the first entry that ran with a foreign DS, else show the last 64
@@ -79,7 +87,7 @@ static std::string trace_text() {
         else std::snprintf(buf, sizeof buf, " %u:%04X", e >> 16, e & 0xFFFF);
         s += buf;
     }
-    return s;
+    return s + watch_text();
 }
 
 struct FatalError : std::runtime_error {
@@ -258,6 +266,7 @@ bool Runtime::load(const std::string& exePath) {
     if (const char* w = std::getenv("MYULK_WATCH")) {
         unsigned s = 0, o = 0;
         if (std::sscanf(w, "%x:%x", &s, &o) == 2) { cpu_.watch_sel = uint16_t(s); cpu_.watch_off = uint16_t(o); }
+        cpu_.watch_reads = std::getenv("MYULK_WATCH_READ") != nullptr;
     }
     // registers as Windows sets them up at task start
     cpu_.ds = cpu_.ss = dataSel_;
@@ -471,8 +480,68 @@ uint8_t* Cpu::fault(uint16_t sel, uint16_t off, unsigned size, bool write) {
     throw FatalError(buf);
 }
 
+// MYULK_WATCH_QUIET: keep the last watch hits in memory (no logging, so the
+// timing stays the same) and print them with a fatal error.
+namespace {
+struct WatchRec { uint16_t old, sp, bp; uint32_t trace[4]; };
+constexpr unsigned kWatchRing = 8192;
+WatchRec g_watchRing[kWatchRing];
+unsigned g_watchPos = 0;
+}
+
+// Prints the last 32 hits, or with MYULK_WATCH_VALUE=hex the 24 hits up to
+// the first one that found that value in the watched word.
+std::string watch_text() {
+    std::string out;
+    unsigned first = kWatchRing - 32, last = kWatchRing;
+    if (const char* v = std::getenv("MYULK_WATCH_VALUE")) {
+        unsigned want = 0;
+        std::sscanf(v, "%x", &want);
+        for (unsigned i = 0; i < kWatchRing; ++i)
+            if (g_watchRing[(g_watchPos + i) % kWatchRing].sp && g_watchRing[(g_watchPos + i) % kWatchRing].old == want) {
+                first = i >= 24 ? i - 24 : 0;
+                last = i + 1;
+                break;
+            }
+    }
+    for (unsigned i = first; i < last; ++i) {
+        const WatchRec& w = g_watchRing[(g_watchPos + i) % kWatchRing];
+        if (!w.sp) continue;
+        char b[128];
+        std::snprintf(b, sizeof b, "\n  watch: old=%04X sp=%04X bp=%04X in", w.old, w.sp, w.bp);
+        out += b;
+        for (uint32_t e : w.trace) {
+            std::snprintf(b, sizeof b, " %u:%04X", e >> 16, e & 0xFFFF);
+            out += b;
+        }
+    }
+    return out;
+}
+
 void Cpu::watch_hit(uint16_t sel, uint16_t off, unsigned size) {
-    log("watch: write %u bytes at %04X:%04X%s", size, sel, off, backtrace_text().c_str());
+    static const bool quiet = std::getenv("MYULK_WATCH_QUIET") != nullptr;
+    if (quiet) {
+        static const bool firstOnly = std::getenv("MYULK_WATCH_FIRST") != nullptr;
+        if (firstOnly && g_watchPos >= kWatchRing) return;
+        WatchRec& w = g_watchRing[g_watchPos++ % kWatchRing];
+        uint16_t saved = watch_sel;
+        watch_sel = 0;
+        w.old = rd16(sel, off);
+        watch_sel = saved;
+        w.sp = sp(); w.bp = bp();
+        for (int i = 0; i < 4; ++i)
+            w.trace[i] = g_trace.entries[(g_trace.pos + TraceRing::kSize - 4 + i) & (TraceRing::kSize - 1)];
+        return;
+    }
+    std::string recent;
+    for (int i = TraceRing::kSize - 6; i < TraceRing::kSize; ++i) {
+        uint32_t e = g_trace.entries[(g_trace.pos + i) & (TraceRing::kSize - 1)];
+        char b[16];
+        std::snprintf(b, sizeof b, " %u:%04X", e >> 16, e & 0xFFFF);
+        recent += b;
+    }
+    log("watch: access %u bytes at %04X:%04X%s\n  last entered:%s", size, sel, off, backtrace_text().c_str(),
+        recent.c_str());
 }
 
 void (*g_interrupt_handler)(Cpu&, int) = nullptr;

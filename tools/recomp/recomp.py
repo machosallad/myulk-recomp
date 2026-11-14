@@ -73,6 +73,7 @@ class Func:
         self.stops: set[int] = set()
         self.cover: dict[int, int] = {}
         self.continuations: set[int] = set()
+        self.handlers: dict[int, str] = {}   # exception handler label -> "finally" / "except"
 
     @property
     def name(self) -> str:
@@ -261,6 +262,10 @@ def explore(img: Image, dis: Disasm, f: Func, work: list):
                     f.continuations.add(cont)
                     f.labels.add(cont)
                     todo.append(cont)
+                for h, kind in try_handlers(img, dis, f, ins):
+                    f.handlers[h] = kind
+                    f.labels.add(h)
+                    todo.append(h)
             elif m == "call":
                 op = ins.operands[0]
                 if op.type == X.X86_OP_IMM:
@@ -276,6 +281,63 @@ def explore(img: Image, dis: Disasm, f: Func, work: list):
             if m in TERMINATORS:
                 break
             a = nxt
+
+
+def try_handlers(img: Image, dis: Disasm, f: Func, push_cs) -> list[tuple[int, str]]:
+    """Delphi 1 exception frame setup:
+        mov ax, TABLE; push cs; push ax; push bp; push word ptr [0x3500]; mov [0x3500], sp
+    TABLE: word count; count == 0 -> far pointer to the finally handler (called
+    by the RTL while unwinding); otherwise count entries of (class VMT far,
+    handler far), handlers being jumped to with SP/BP set to the frame."""
+    seg = f.seg
+    a = push_cs.address
+    p1 = dis.at(seg, a + push_cs.size)
+    if not (p1 and p1.mnemonic == "push" and p1.operands and p1.operands[0].type == X.X86_OP_REG):
+        return []
+    p2 = dis.at(seg, p1.address + p1.size)
+    if not (p2 and p2.mnemonic == "push" and p2.op_str == "bp"):
+        return []
+    p3 = dis.at(seg, p2.address + p2.size)
+    if not (p3 and p3.mnemonic == "push" and p3.op_str == "word ptr [0x3500]"):
+        return []
+    table = pushed_offset(dis, seg, push_cs)
+    if table is None:
+        return []
+    b = img.bytes[seg]
+    if table + 2 > len(b):
+        return []
+    count = struct.unpack_from("<H", b, table)[0]
+    slots = [(table + 2, "finally")] if count == 0 else \
+        [(table + 2 + 8 * i + 4, "except") for i in range(min(count, 64))]
+    out = []
+    for p, kind in slots:
+        r = img.rel[seg].get(p)
+        if r is not None and r.target[0] == "internal" and r.target[1] == seg:
+            out.append((r.target[2], kind))
+    return out
+
+
+def pushed_offset(dis: Disasm, seg: int, push_cs) -> int | None:
+    """Offset pushed together with 'push cs' (push imm after it, or push reg
+    after it with 'mov reg, imm16' before it)."""
+    a = push_cs.address
+    nxt = dis.at(seg, a + push_cs.size)
+    if nxt and nxt.mnemonic == "push" and nxt.operands:
+        op = nxt.operands[0]
+        if op.type == X.X86_OP_IMM:
+            return op.imm & 0xFFFF
+        if op.type == X.X86_OP_REG:
+            reg = nxt.reg_name(op.reg)
+            for back in (3, 4, 5, 6):
+                p = a - back
+                if p < 0:
+                    continue
+                prev = dis.at(seg, p)
+                if prev and p + prev.size == a and prev.mnemonic == "mov" and len(prev.operands) == 2 \
+                        and prev.operands[0].type == X.X86_OP_REG and prev.reg_name(prev.operands[0].reg) == reg \
+                        and prev.operands[1].type == X.X86_OP_IMM:
+                    return prev.operands[1].imm & 0xFFFF
+    return None
 
 
 def continuation_target(img: Image, dis: Disasm, f: Func, push_cs) -> int | None:
@@ -450,7 +512,20 @@ class Emitter:
             out.append("}")
             return "\n".join(out)
         addrs = sorted(f.insns)
-        out.append(f"    RECOMP_TRACE({segn}, 0x{f.entry:04X});")
+        if f.handlers:
+            # Delphi exception handlers: the body runs inside a C++ try block;
+            # entry_ selects a handler label (finally handlers called by the
+            # RTL) and a DelphiJump thrown for one of our except handlers by
+            # the matching activation (same frame BP) resumes there.
+            out[0] = f"static void {f.name}_impl(Cpu& c, uint16_t entry_) {{"
+            out.append(f"    RECOMP_TRACE({segn}, 0x{f.entry:04X});")
+            out.append("    const uint16_t bp_ = entry_ ? c.bp() : (uint16_t)(c.sp() - 2);")
+            out.append("    for (;;) {")
+            out.append("    try {")
+            cases = " ".join(f"case 0x{h:04X}: goto L_{h:04X};" for h in sorted(f.handlers))
+            out.append(f"    switch (entry_) {{ {cases} default: break; }}")
+        else:
+            out.append(f"    RECOMP_TRACE({segn}, 0x{f.entry:04X});")
         if addrs[0] != f.entry:
             out.append(f"    goto L_{f.entry:04X};")
         # fall-through into a non-adjacent instruction needs a label too
@@ -481,6 +556,25 @@ class Emitter:
             out.append(f'    c.fell_off({segn}, 0x{prev_next:04X}); return;')
         for s in sorted(f.stops):
             out.append(f"L_{s:04X}: c.fell_off({segn}, 0x{s:04X}); return;")
+        if f.handlers:
+            exc = [h for h, k in sorted(f.handlers.items()) if k == "except"]
+            out.append("    } catch (const DelphiJump& j_) {")
+            out.append(f"        if (j_.sel != SEL{segn} || c.bp() != bp_) throw;")
+            if exc:
+                cases = " ".join(f"case 0x{h:04X}:" for h in exc)
+                out.append(f"        switch (j_.off) {{ {cases} entry_ = j_.off; continue; default: throw; }}")
+            else:
+                out.append("        throw;")
+            out.append("    }")
+            out.append("    }")
+            out.append("}")
+            out.append(f"void {f.name}(Cpu& c) {{ {f.name}_impl(c, 0); }}")
+            for h, k in sorted(f.handlers.items()):
+                if k == "finally":
+                    out.append(f"void {f.name}__h{h:04X}(Cpu& c) {{ {f.name}_impl(c, 0x{h:04X}); }}")
+                else:
+                    out.append(f"void {f.name}__x{h:04X}(Cpu& c) {{ throw DelphiJump{{SEL{segn}, 0x{h:04X}}}; }}")
+            return "\n".join(out)
         out.append("}")
         return "\n".join(out)
 
@@ -803,8 +897,19 @@ def main() -> int:
         by_seg[f.seg].append(f)
 
     header = ['#pragma once', '#include "recomp/runtime/cpu.hpp"', 'namespace recomp {']
+    # exception handler entry points (finally: enter at the label; except: throw)
+    handler_entries = []
+    for f in sorted(funcs.values(), key=lambda f: (f.seg, f.entry)):
+        if f.bad:
+            continue
+        for h, k in sorted(f.handlers.items()):
+            if (f.seg, h) in funcs and not funcs[(f.seg, h)].bad and k == "finally":
+                continue   # already a routine of its own
+            handler_entries.append((f.seg, h, f"{f.name}__{'h' if k == 'finally' else 'x'}{h:04X}"))
     for f in sorted(funcs.values(), key=lambda f: (f.seg, f.entry)):
         header.append(f"void {f.name}(Cpu& c);")
+    for _, _, name in handler_entries:
+        header.append(f"void {name}(Cpu& c);")
     header.append("}")
 
     for seg, fs in sorted(by_seg.items()):
@@ -843,10 +948,18 @@ def main() -> int:
 
     disp = ['#include "funcs.hpp"', '#include "recomp/runtime/generated_support.hpp"',
             "namespace recomp {", "const FuncEntry kFuncs[] = {"]
+    handler_keys = {(s, h) for s, h, _ in handler_entries}
+    n_disp = 0
     for f in sorted(funcs.values(), key=lambda f: (sel(f.seg), f.entry)):
+        if (f.seg, f.entry) in handler_keys:
+            continue   # an except handler must throw, not run as a routine
         disp.append(f"    {{0x{sel(f.seg):04X}, 0x{f.entry:04X}, &{f.name}}},")
+        n_disp += 1
+    for s, h, name in handler_entries:
+        disp.append(f"    {{0x{sel(s):04X}, 0x{h:04X}, &{name}}},")
+        n_disp += 1
     disp.append("};")
-    disp.append(f"const int kFuncCount = {len(funcs)};")
+    disp.append(f"const int kFuncCount = {n_disp};")
     disp.append("}")
     with open(os.path.join(out, "dispatch.cpp"), "w", encoding="utf-8") as fh:
         fh.write("\n".join(disp) + "\n")

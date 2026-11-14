@@ -100,16 +100,67 @@ void automation(uint64_t now) {
             input_mouse_button(c.x, c.y, 0, false);
         }
     }
+    // MYULK_CALL="ms:seg:off": call a parameterless routine of the game once
+    // (debugging shortcut, e.g. 7:2B03 = end of chapter 1 -> farm)
+    static bool called = false;
+    static bool inCall = false;
+    if (!called && !inCall) {
+        if (const char* cl = SDL_getenv("MYULK_CALL")) {
+            int ms = 0;
+            unsigned seg = 0, off = 0;
+            if (std::sscanf(cl, "%d:%u:%x", &ms, &seg, &off) == 3 && now >= uint64_t(ms)) {
+                called = true;
+                inCall = true;
+                recomp::log("debug: calling %u:%04X", seg, off);
+                recomp::Cpu& cpu = recomp::Runtime::get().cpu();
+                {   // Delphi exception frame chain (head at DGROUP:3500)
+                    uint16_t ds = recomp::Runtime::get().data_sel();
+                    std::string chain;
+                    uint16_t f = cpu.rd16(ds, 0x3500);
+                    for (int i = 0; i < 12 && f; ++i) {
+                        char b[48];
+                        std::snprintf(b, sizeof b, " %04X(tab %04X:%04X)", f, cpu.rd16(cpu.ss, uint16_t(f + 6)),
+                                      cpu.rd16(cpu.ss, uint16_t(f + 4)));
+                        chain += b;
+                        f = cpu.rd16(cpu.ss, f);
+                    }
+                    recomp::log("debug: sp=%04X frames:%s", cpu.sp(), chain.c_str());
+                }
+                recomp::Runtime::get().cpu().ds = recomp::Runtime::get().data_sel();
+                recomp::Runtime::get().call(uint16_t((seg << 3) | 7), uint16_t(off));
+                inCall = false;
+            }
+        }
+    }
+    // MYULK_SHOT_AT="t1,t2,...": a screenshot at each time (out.bmp, out_1.bmp, ...);
+    // the program exits after the last one.
     const char* shot = SDL_getenv("MYULK_SHOT");
     const char* at = SDL_getenv("MYULK_SHOT_AT");
-    if (shot && at && now >= uint64_t(std::atoi(at))) {
+    static std::vector<uint64_t> shotTimes;
+    static size_t shotNext = 0;
+    static bool shotInit = false;
+    if (shot && at && !shotInit) {
+        shotInit = true;
+        for (const char* p = at; *p;) {
+            shotTimes.push_back(uint64_t(std::atoi(p)));
+            while (*p && *p != ',') ++p;
+            if (*p == ',') ++p;
+        }
+    }
+    if (shot && shotNext < shotTimes.size() && now >= shotTimes[shotNext]) {
+        std::string path = shot;
+        if (shotNext > 0) {
+            size_t dot = path.rfind('.');
+            std::string suffix = "_" + std::to_string(shotNext);
+            path = dot == std::string::npos ? path + suffix : path.substr(0, dot) + suffix + path.substr(dot);
+        }
         Surface& s = screen();
         SDL_Surface* surf = SDL_CreateSurfaceFrom(s.w, s.h, SDL_PIXELFORMAT_XRGB8888, s.px.data(), s.w * 4);
-        bool ok = surf && SDL_SaveBMP(surf, shot);
+        bool ok = surf && SDL_SaveBMP(surf, path.c_str());
         if (surf) SDL_DestroySurface(surf);
-        recomp::log("screenshot %s: %s", shot, ok ? "saved" : SDL_GetError());
+        recomp::log("screenshot %s: %s", path.c_str(), ok ? "saved" : SDL_GetError());
         if (SDL_getenv("MYULK_DUMP_WINDOWS")) dump_windows();
-        throw ExitProgram{0};
+        if (++shotNext == shotTimes.size()) throw ExitProgram{0};
     }
 }
 

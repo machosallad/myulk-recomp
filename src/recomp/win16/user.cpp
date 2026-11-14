@@ -811,13 +811,13 @@ static uint16_t create_window(Cpu& c, uint32_t exStyle, uint32_t clsName, uint32
     return hwnd;
 }
 
-API(USER, 41, CreateWindow, 26) {
+API(USER, 41, CreateWindow, 30) {
     uint32_t param = a.p(); uint16_t inst = a.w(); uint16_t menu = a.w(); uint16_t parent = a.w();
     int16_t h = a.i(); int16_t w = a.i(); int16_t y = a.i(); int16_t x = a.i(); uint32_t style = a.l();
     uint32_t title = a.p(); uint32_t cls = a.p();
     a.ret(create_window(c, 0, cls, title, style, x, y, w, h, parent, menu, inst, param));
 }
-API(USER, 452, CreateWindowEx, 30) {
+API(USER, 452, CreateWindowEx, 34) {
     uint32_t param = a.p(); uint16_t inst = a.w(); uint16_t menu = a.w(); uint16_t parent = a.w();
     int16_t h = a.i(); int16_t w = a.i(); int16_t y = a.i(); int16_t x = a.i(); uint32_t style = a.l();
     uint32_t title = a.p(); uint32_t cls = a.p(); uint32_t ex = a.l();
@@ -869,7 +869,7 @@ API(USER, 33, GetClientRect, 6) {
     write_rect(c, p, w ? Rect{0, 0, w->rect.w(), w->rect.h()} : Rect{0, 0, 640, 480});
     a.ret();
 }
-API(USER, 232, SetWindowPos, 16) {
+API(USER, 232, SetWindowPos, 14) {
     uint16_t flags = a.w(); int16_t cy = a.i(); int16_t cx = a.i(); int16_t y = a.i(); int16_t x = a.i();
     uint16_t after = a.w(); uint16_t h = a.w();
     Window* w = wnd(h);
@@ -1207,7 +1207,7 @@ API(USER, 359, GetDCEx, 8) {
     a.ret(dc_create_window(h, ox, oy, visible_rect(h)));
 }
 API(USER, 68, ReleaseDC, 4) { uint16_t hdc = a.w(); a.w(); dc_delete(hdc); a.ret(1); }
-API(USER, 61, ScrollWindow, 12) {
+API(USER, 61, ScrollWindow, 14) {
     a.p(); a.p(); a.i(); a.i(); uint16_t h = a.w();
     if (Window* w = wnd(h)) invalidate(h, Rect{0, 0, w->rect.w(), w->rect.h()}, true);
     a.ret();
@@ -1410,7 +1410,7 @@ API(USER, 174, LoadIcon, 6) {
 }
 API(USER, 69, SetCursor, 2) { uint16_t old = g_cursor; g_cursor = a.w(); a.ret(old); }
 API(USER, 247, GetCursor, 0) { a.ret(g_cursor); }
-API(USER, 407, CreateIcon, 14) { a.p(); a.p(); a.w(); a.w(); a.w(); a.w(); a.w(); a.ret(add_cursor(arrow_cursor())); }
+API(USER, 407, CreateIcon, 18) { a.p(); a.p(); a.w(); a.w(); a.w(); a.w(); a.w(); a.ret(add_cursor(arrow_cursor())); }
 API(USER, 457, DestroyIcon, 2) { uint16_t h = a.w(); if (h != g_arrow) g_cursors.erase(h); a.ret(1); }
 API(USER, 458, DestroyCursor, 2) { uint16_t h = a.w(); if (h != g_arrow) g_cursors.erase(h); a.ret(1); }
 API(USER, 84, DrawIcon, 8) {
@@ -1514,7 +1514,7 @@ API(USER, 263, GetMenuItemCount, 2) { a.w(); a.ret(0); }
 API(USER, 410, InsertMenu, 12) { a.p(); a.w(); a.w(); a.w(); a.w(); a.ret(1); }
 API(USER, 412, RemoveMenu, 6) { a.w(); a.w(); a.w(); a.ret(1); }
 API(USER, 413, DeleteMenu, 6) { a.w(); a.w(); a.w(); a.ret(1); }
-API(USER, 416, TrackPopupMenu, 14) { a.p(); a.w(); a.w(); a.w(); a.w(); a.w(); a.w(); a.ret(0); }
+API(USER, 416, TrackPopupMenu, 16) { a.p(); a.w(); a.w(); a.w(); a.w(); a.w(); a.w(); a.ret(0); }
 API(USER, 370, GetWindowPlacement, 6) {
     uint32_t p = a.p(); uint16_t h = a.w();
     uint16_t s = uint16_t(p >> 16), o = uint16_t(p);
