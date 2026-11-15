@@ -64,9 +64,15 @@ struct InputOverlay {
     virtual void mouse(int x, int y, int button, bool down) = 0;   // button -1: moved
     virtual void key(int vk, bool down) = 0;
     virtual void character(int ch) = 0;                           // Windows-1252
+    virtual void wheel(float /*dy*/) {}                           // up > 0
 };
 void set_input_overlay(InputOverlay* overlay);
 bool input_overlay_active();
+bool input_wheel(float dy);   // to the overlay, if one is open
+// The handbook (helpscreen.cpp): the game's MYULK.HLP in a modern viewer.
+// `command`/`data` as for WinHelp (HELP_CONTEXT, HELP_CONTENTS, ...).
+void run_help_screen(const std::string& file, unsigned command, uint32_t data);
+void request_help();   // open the handbook at the next safe point (F1, settings menu)
 
 // A short note at the bottom of the screen (display.cpp).
 void show_note(const std::string& text);

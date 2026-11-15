@@ -627,6 +627,11 @@ void set_input_overlay(InputOverlay* overlay) {
     g_overlay = overlay;
 }
 bool input_overlay_active() { return g_overlay != nullptr; }
+bool input_wheel(float dy) {
+    if (!g_overlay) return false;
+    g_overlay->wheel(dy);
+    return true;
+}
 
 void screen_invalidate() { invalidate_screen_rect(Rect{0, 0, 640, 480}); }
 
@@ -863,7 +868,20 @@ API(USER, 1, MessageBox, 12) {
     int t = type & 0xF;
     a.ret(uint16_t(t == 3 || t == 4 ? 6 : 1));   // IDYES / IDOK
 }
-API(USER, 171, WinHelp, 10) { a.l(); a.w(); a.p(); a.w(); a.ret(1); }
+// The game's "Handbok" button (Application.HelpCommand(HELP_CONTENTS)) and F1:
+// the help file opens in the modern handbook viewer (enhance/helpscreen.cpp).
+API(USER, 171, WinHelp, 10) {
+    uint32_t data = a.l(); uint16_t cmd = a.w(); uint32_t file = a.p(); a.w();
+    std::string path = file ? recomp::read_cstr(c, file, 260) : std::string();
+    recomp::log("WinHelp(%s, %u, %u)", path.c_str(), cmd, data);
+    switch (cmd) {
+        case 1: case 3: case 4: case 8: case 0x101: case 0x105: case 0x201:   // show something
+            run_help_screen(path, cmd, data);
+            break;
+        default: break;   // HELP_QUIT, HELP_SETCONTENTS, ...: nothing to do
+    }
+    a.ret(1);
+}
 
 // ---- classes ----
 API(USER, 57, RegisterClass, 4) {

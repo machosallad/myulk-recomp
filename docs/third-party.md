@@ -21,3 +21,7 @@ The recompiled game draws text with the Liberation fonts, which have the same ch
 | Wingdings | the two symbols the game uses (empty box, ticked box) are drawn as shapes |
 
 Builds that are passed on must include the SIL Open Font License text (`OFL.txt`, or `LICENSE` in the font archive).
+
+## Help file format
+
+The handbook reader (`src/recomp/enhance/helpfile.cpp`) is written from the description of the Windows 3.1 help file format in helpdeco's `helpfile.txt` (Manfred Winterhoff, based on Pete Davis's articles in Dr. Dobb's Journal, 1993). No helpdeco code is used. The help file itself (`MYULK.HLP`) is part of the game's data and is read from your CD at run time.

@@ -73,7 +73,7 @@ const std::vector<Option>& helper_page() {
     return o;
 }
 
-enum { kDone = 1, kQuickSave, kQuickLoad, kPage0, kPage1, kLess = 100, kMore = 200, kRow = 300 };
+enum { kDone = 1, kQuickSave, kQuickLoad, kPage0, kPage1, kHelp, kLess = 100, kMore = 200, kRow = 300 };
 
 class SettingsScreen : public OverlayScreen {
     int page_ = 0;
@@ -152,16 +152,18 @@ protected:
         if (!desc && row_ < int(o.size())) desc = o[size_t(row_)].desc;
         int by = 70 + 10 * 31 + 8;
         if (settings::helper("quick_save")) {
-            button(p, Rect{pr.left + 24, by, pr.left + 184, by + 32}, "Snabbspara (F5)", kQuickSave);
-            button(p, Rect{pr.left + 196, by, pr.left + 356, by + 32}, "Snabbladda (F9)", kQuickLoad);
+            button(p, Rect{pr.left + 24, by, pr.left + 156, by + 32}, "Snabbspara (F5)", kQuickSave);
+            button(p, Rect{pr.left + 164, by, pr.left + 296, by + 32}, "Snabbladda (F9)", kQuickLoad);
         }
-        button(p, Rect{pr.right - 124, by, pr.right - 24, by + 32}, "Klar", kDone, kAccent);
+        button(p, Rect{pr.left + 304, by, pr.left + 416, by + 32}, "Handbok (F1)", kHelp);
+        button(p, Rect{pr.right - 96, by, pr.right - 24, by + 32}, "Klar", kDone, kAccent);
         p.text(pr.left + 24, pr.bottom - 26, p.fit(desc ? desc : "", pr.w() - 48), kDim);
     }
     void activate(int id) override {
         if (id == kDone) { close(); return; }
         if (id == kQuickSave) { quick::request_save(); close(); return; }
         if (id == kQuickLoad) { quick::request_load(); close(); return; }
+        if (id == kHelp) { request_help(); close(); return; }
         if (id == kPage0 || id == kPage1) { page_ = id - kPage0; row_ = 0; return; }
         if (id >= kRow) { row_ = id - kRow; step(row_, +1); return; }   // a click on the label also steps
         if (id >= kMore) { row_ = id - kMore; step(row_, +1); return; }

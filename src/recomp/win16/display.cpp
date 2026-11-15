@@ -211,6 +211,7 @@ void toggle_pause() {
 // host_pump, outside the event loop.
 bool g_settingsRequested = false;
 void open_settings() { g_settingsRequested = true; }
+bool g_helpRequested = false;   // F1 or the settings menu: the handbook
 
 // F12: the picture as shown (de-dithered when that is on), without notes
 void take_screenshot() {
@@ -580,6 +581,7 @@ void automation(uint64_t now) {
             if (k.text.compare(i, 4, "{f2}") == 0) { open_settings(); i += 3; continue; }
             if (k.text.compare(i, 3, "{p}") == 0) { toggle_pause(); i += 2; continue; }
             if (k.text.compare(i, 5, "{f12}") == 0) { take_screenshot(); i += 4; continue; }
+            if (k.text.compare(i, 4, "{f1}") == 0) { g_helpRequested = true; i += 3; continue; }
             if (k.text.compare(i, 7, "{nextd}") == 0) { recomp::log("farm next day: %d", farm::next_day()); i += 6; continue; }
             // navigation shortcuts: {up} {down} {left} {right} {back} {rclick} {wheelup} {wheeldown}
             if (k.text.compare(i, 4, "{up}") == 0) { recomp::log("nav up: %d", nav::key(SDLK_UP)); i += 3; continue; }
@@ -817,9 +819,11 @@ void host_pump(int blockMs) {
                 mouse_button(int(ev.button.x), int(ev.button.y), b, down);
                 break;
             }
-            case SDL_EVENT_MOUSE_WHEEL:
-                nav::wheel(ev.wheel.direction == SDL_MOUSEWHEEL_FLIPPED ? -ev.wheel.y : ev.wheel.y);
+            case SDL_EVENT_MOUSE_WHEEL: {
+                float dy = ev.wheel.direction == SDL_MOUSEWHEEL_FLIPPED ? -ev.wheel.y : ev.wheel.y;
+                if (!input_wheel(dy)) nav::wheel(dy);
                 break;
+            }
             case SDL_EVENT_WINDOW_MOVED:
             case SDL_EVENT_WINDOW_RESIZED:
             case SDL_EVENT_WINDOW_MAXIMIZED:
@@ -832,6 +836,7 @@ void host_pump(int blockMs) {
                     break;
                 }
                 if (ev.key.key == SDLK_F12) { if (!ev.key.repeat) take_screenshot(); break; }
+                if (ev.key.key == SDLK_F1 && !input_overlay_active()) { if (!ev.key.repeat) g_helpRequested = true; break; }
                 if (nav::key(ev.key.key)) break;
                 if (ev.key.key == SDLK_N && farm::next_day()) break;
                 if (ev.key.key == SDLK_F7) { if (!ev.key.repeat) cycle_scaling(); break; }
@@ -897,7 +902,16 @@ void host_pump(int blockMs) {
         run_settings_screen();
         inSettings = false;
     }
+    static bool inHelp = false;
+    if (g_helpRequested && !inHelp && !input_overlay_active()) {
+        g_helpRequested = false;
+        inHelp = true;
+        run_help_screen("", 3, 0);   // HELP_CONTENTS
+        inHelp = false;
+    }
 }
+
+void request_help() { g_helpRequested = true; }
 
 void show_note(const std::string& text) { show_toast(text); }
 
