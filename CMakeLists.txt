@@ -7,6 +7,10 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 option(MYULK_BUILD_TESTS "Build unit tests" ON)
 
+# Windows: the C/C++ runtime is linked into the program (and SDL), so it runs
+# on a PC without the Visual C++ Redistributable.
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
 include(FetchContent)
 set(FETCHCONTENT_QUIET OFF)
 

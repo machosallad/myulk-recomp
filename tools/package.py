@@ -37,11 +37,7 @@ PLAYER_README = """Myulk – Kampen om det öppna landskapet (recompiled)
 {what}
 
 THE GAME FILES / SPELFILERNA
-  The game itself is not included. Copy the contents of your Myulk CD into
-  the folder "game" here, so that game{sep}MYULK{sep}MYULK.EXE exists.
-  Spelet ingår inte. Kopiera innehållet på din Myulk-cd till mappen "game",
-  så att game{sep}MYULK{sep}MYULK.EXE finns.
-{start}
+{game}{start}
 KEYS / TANGENTER
   F1 handbook (handbok)        F2 settings (inställningar)
   F5 / F9 quick-save / load    F7 / F8 picture / text style
@@ -64,17 +60,26 @@ DESKTOP_SAVES = ("  In %APPDATA%\\myulk-recomp\\Myulk\\drive_c\\MYULK, the game 
                  "  changed. Settings: settings.txt in %APPDATA%\\myulk-recomp\\Myulk.")
 WEB_WHAT = ("The game for the browser (Chrome or Edge; it needs WebAssembly JSPI).\n"
             "Serve this folder over http://localhost or https:// and open index.html.")
-WEB_START = """
+WEB_MANIFEST = """
   The page also needs game/manifest.txt. Make it with the tool in the
   source code:  python tools/web_data.py <your CD folder> <this folder>/game
   (python tools/package.py web --game <your CD folder> does all of it.)
-
+"""
+WEB_RUN = """
 STARTING / STARTA
   python -m http.server 8080      then open http://localhost:8080/
   Only on your own computer or network: the game files must not be put on
   a public web site.
 """
 WEB_SAVES = "  In the browser (IndexedDB) for this address; they stay after reloading."
+GAME_MISSING = """  The game itself is not included. Copy the contents of your Myulk CD into
+  the folder "game" here, so that game{sep}MYULK{sep}MYULK.EXE exists.
+  Spelet ingår inte. Kopiera innehållet på din Myulk-cd till mappen "game",
+  så att game{sep}MYULK{sep}MYULK.EXE finns.
+"""
+GAME_INCLUDED = """  The files from the Myulk CD are in the folder "game"; nothing to install.
+  Filerna från Myulk-cd:n finns i mappen "game"; inget behöver installeras.
+"""
 
 
 def copy_licenses(build: str, dst: str) -> None:
@@ -102,12 +107,14 @@ def copy_game(src: str, dst: str) -> None:
             shutil.copytree(s, os.path.join(dst, folder), dirs_exist_ok=True)
 
 
-def write_readme(dst: str, web: bool) -> None:
+def write_readme(dst: str, web: bool, with_game: bool) -> None:
+    sep = "/" if web else "\\"
     text = PLAYER_README.format(
         what=WEB_WHAT if web else DESKTOP_WHAT,
-        start=WEB_START if web else DESKTOP_START,
+        game=GAME_INCLUDED if with_game else GAME_MISSING.format(sep=sep),
+        start=(("" if with_game else WEB_MANIFEST) + WEB_RUN) if web else DESKTOP_START,
         saves=WEB_SAVES if web else DESKTOP_SAVES,
-        sep="/" if web else "\\")
+        sep=sep)
     with open(os.path.join(dst, "README.txt"), "w", encoding="utf-8-sig", newline="\r\n") as fh:
         fh.write(text)
 
@@ -130,7 +137,7 @@ def desktop(args) -> str:
     if args.game:
         copy_game(args.game, os.path.join(dst, "game"))
     copy_licenses(build, dst)
-    write_readme(dst, web=False)
+    write_readme(dst, web=False, with_game=bool(args.game))
     return dst
 
 
@@ -149,7 +156,7 @@ def web(args) -> str:
         subprocess.run([sys.executable, os.path.join(ROOT, "tools", "web_data.py"), args.game,
                         os.path.join(dst, "game")], check=True)
     copy_licenses(build, dst)
-    write_readme(dst, web=True)
+    write_readme(dst, web=True, with_game=bool(args.game))
     return dst
 
 

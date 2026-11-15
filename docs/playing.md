@@ -37,7 +37,19 @@ The first build translates `MYULK.EXE` into C++ and compiles it, which takes a f
 python tools\package.py desktop --game extracted\iso
 ```
 
-This makes `dist\myulk-desktop` (and a `.zip` of it): `Myulk.exe`, the game files in `game\`, a short README and the licences. The folder can live anywhere. Without `--game` the `game` folder stays empty, and you copy the CD's contents into it yourself. The package is for you only (see [Legal](../README.md#legal)).
+This makes `dist\myulk-desktop` (and `dist\myulk-desktop.zip`, about 130 MB):
+
+```
+myulk-desktop\
+  Myulk.exe        the game (17 MB, everything linked in)
+  game\            the files from the CD (MYULK, PICTDLL, ART, SOUNDS, LJUD, MOVIES, IMAGES)
+  licenses\        licences of this project and the libraries in Myulk.exe
+  README.txt       keys, saves, short instructions (Swedish and English)
+```
+
+Nothing else is needed: no installation, no Python, no Visual C++ runtime (it is linked into `Myulk.exe`), on any 64-bit Windows 10 or 11. Unzip it anywhere and start `Myulk.exe`; saves and settings go to the user's `%APPDATA%\myulk-recomp\Myulk`, never into the folder. Without `--game` the `game` folder stays empty, and the CD's contents are copied into it later.
+
+`build\native` is the build folder, full of intermediate files; the package is the part to keep or move. A package contains the game and code translated from it, so it is a personal copy (see [Legal](../README.md#legal)).
 
 ## The browser version
 
