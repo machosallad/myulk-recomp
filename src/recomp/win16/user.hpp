@@ -66,6 +66,30 @@ struct InputOverlay {
     virtual void character(int ch) = 0;                           // Windows-1252
 };
 void set_input_overlay(InputOverlay* overlay);
+
+// A short note at the bottom of the screen (display.cpp).
+void show_note(const std::string& text);
+// The settings menu (enhance/settings_screen.cpp).
+void run_settings_screen();
+bool host_fullscreen();
+void host_set_fullscreen(bool on);
+
+// Class of the active top-level window ("TADVFORM", "TFORM1", ...).
+std::string active_window_class();
+// Called when the game polls its message queue (a safe point to run game
+// code on the player's behalf, e.g. quick-save).
+void set_idle_hook(void (*hook)());
+void run_idle_hook();
+
+// Farm time (QoL): the farm screen is open; pause its day timer.
+bool farm_open();
+bool farm_paused();
+void set_farm_paused(bool paused);
+
+// MMSYSTEM (mmsystem.cpp): skip the movie/speech the game waits for; volume 0..1.
+bool mm_skip_media();
+void mm_set_volume(float gain);
+void mm_pause(bool paused);   // while a native screen is open
 void screen_invalidate();   // have every window repaint
 
 // ---- window internals for the predefined control classes (controls.cpp) ----

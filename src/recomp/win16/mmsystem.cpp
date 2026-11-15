@@ -3,11 +3,13 @@
 // into the device's display window at the MCI_PUT rectangle.
 #include <SDL3/SDL.h>
 
+#include <cctype>
 #include <cstdlib>
 #include <map>
 #include <memory>
 #include <vector>
 
+#include "recomp/enhance/settings.hpp"
 #include "recomp/runtime/runtime.hpp"
 #include "recomp/win16/avi.hpp"
 #include "recomp/win16/user.hpp"
@@ -23,7 +25,10 @@ namespace {
 SDL_AudioDeviceID g_dev = 0;
 
 SDL_AudioDeviceID audio_device() {
-    if (!g_dev) g_dev = SDL_OpenAudioDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, nullptr);
+    if (!g_dev) {
+        g_dev = SDL_OpenAudioDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, nullptr);
+        if (g_dev) SDL_SetAudioDeviceGain(g_dev, float(settings::get_int("volume", 100)) / 100.0f);
+    }
     return g_dev;
 }
 
@@ -83,6 +88,7 @@ bool sound_busy(Sound& s) {
 }
 
 Sound g_snd;   // sndPlaySound channel
+bool g_sndBlocking = false;   // a synchronous sndPlaySound is waiting
 
 // ---- AVI devices ------------------------------------------------------------
 
@@ -196,8 +202,63 @@ void post_notify(McDevice& d, uint16_t code) {
 
 }  // namespace
 
+// Skip what the game is waiting for (QoL): movies and sounds with a pending
+// notification finish at once and report success, so scenes continue as if
+// the clip had played out; a blocking sndPlaySound stops. Music (MU_*.WAV)
+// is not skipped. Returns true if anything was skipped.
+bool mm_skip_media() {
+    bool skipped = false;
+    for (auto& [id, d] : g_mci) {
+        if (!d.notifyPending) continue;
+        std::string up;
+        for (char ch : d.element) up += char(std::toupper(static_cast<unsigned char>(ch)));
+        size_t slash = up.find_last_of("\\/:");
+        if (up.compare(slash == std::string::npos ? 0 : slash + 1, 3, "MU_") == 0) continue;
+        if (d.video) {
+            if (!d.video->playing) continue;
+            d.video->posMs = d.video->toMs;
+            d.video->playing = false;
+            d.video->stop_audio();
+            if (d.video->hwnd) wnd_invalidate(d.video->hwnd);
+        } else {
+            if (!sound_busy(d.snd)) continue;
+            sound_stop(d.snd);
+            if (!d.element.empty()) sound_load(d.snd, d.element);
+        }
+        post_notify(d, 1);   // MCI_NOTIFY_SUCCESSFUL
+        skipped = true;
+    }
+    if (g_snd.playing && !g_snd.loop && g_sndBlocking) {
+        sound_stop(g_snd);
+        skipped = true;
+    }
+    return skipped;
+}
+
+// A native screen is open: pause all sound and hold the movie clocks.
+bool g_mmPaused = false;
+uint64_t g_pauseStart = 0;
+void mm_pause(bool paused) {
+    if (paused == g_mmPaused) return;
+    g_mmPaused = paused;
+    if (paused) {
+        g_pauseStart = SDL_GetTicks();
+        if (g_dev) SDL_PauseAudioDevice(g_dev);
+    } else {
+        uint64_t held = SDL_GetTicks() - g_pauseStart;
+        for (auto& [id, d] : g_mci)
+            if (d.video && d.video->playing) d.video->startTick += held;
+        if (g_dev) SDL_ResumeAudioDevice(g_dev);
+    }
+}
+
+void mm_set_volume(float gain) {
+    if (audio_device()) SDL_SetAudioDeviceGain(g_dev, gain);
+}
+
 // Called while waiting for messages: advance media and post MCI notifications.
 void mm_poll() {
+    if (g_mmPaused) return;   // a native screen is open
     sound_busy(g_snd);
     for (auto& [id, d] : g_mci) {
         bool busy = d.video ? video_poll(*d.video) : sound_busy(d.snd);
@@ -216,7 +277,9 @@ API(MMSYSTEM, 2, sndPlaySound, 6) {
     if (sound_load(g_snd, file)) {
         sound_play(g_snd, flags & 8);   // SND_LOOP
         if (!(flags & 1)) {             // synchronous
+            g_sndBlocking = true;
             while (sound_busy(g_snd)) host_pump(10);
+            g_sndBlocking = false;
         }
     }
     a.ret(1);

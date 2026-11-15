@@ -29,13 +29,16 @@
       position: fixed; right: 12px; bottom: 10px; display: none;
       color: #bbb; font: 13px system-ui, sans-serif; pointer-events: none;
     }
-    /* touch devices: fullscreen toggle in a corner */
-    #fullscreen {
-      position: fixed; top: 8px; right: 8px; display: none;
+    /* buttons in the top-right corner: settings, hotspot hints (touch), fullscreen (touch) */
+    #corner { position: fixed; top: 8px; right: 8px; display: none; gap: 6px; }
+    #corner button {
+      display: block;
       width: 40px; height: 40px; border: 0; border-radius: 8px;
       background: rgba(255, 255, 255, 0.12); color: #ddd; font-size: 20px; line-height: 40px;
-      touch-action: manipulation;
+      touch-action: manipulation; opacity: 0.75;
     }
+    #corner button.touch { display: none; }
+    body.touch #corner button.touch { display: block; }
     /* hidden field that brings up the phone's keyboard for the game's text boxes */
     #kbd {
       position: fixed; left: 0; top: 0; width: 1px; height: 1px;
@@ -47,12 +50,17 @@
   <canvas id="canvas" tabindex="-1" oncontextmenu="event.preventDefault()"></canvas>
   <div id="status">Laddar spelet…</div>
   <div id="fetching">Laddar…</div>
-  <button id="fullscreen" aria-label="Helskärm">⛶</button>
+  <div id="corner">
+    <button id="hints" class="touch" aria-label="Visa klickbara ställen" title="Visa klickbara ställen (H)">👁</button>
+    <button id="settings" aria-label="Inställningar" title="Inställningar (F2)">⚙</button>
+    <button id="fullscreen" class="touch" aria-label="Helskärm">⛶</button>
+  </div>
   <input id="kbd" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="done">
   <script>
     var statusEl = document.getElementById('status');
     var kbd = document.getElementById('kbd');
     var fsButton = document.getElementById('fullscreen');
+    var corner = document.getElementById('corner');
     var touch = matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 0;
     var started = false;
 
@@ -69,6 +77,14 @@
         if (screen.orientation && screen.orientation.lock) return screen.orientation.lock('landscape');
       }).catch(function () {});
     }
+    if (touch) document.body.classList.add('touch');
+    document.getElementById('settings').addEventListener('click', function () {
+      if (Module._myulk_open_settings) Module._myulk_open_settings();
+      Module.canvas.focus();
+    });
+    document.getElementById('hints').addEventListener('click', function () {
+      if (Module._myulk_show_hints) Module._myulk_show_hints();
+    });
     fsButton.addEventListener('click', function () {
       if (document.fullscreenElement) document.exitFullscreen(); else goFullscreen();
     });
@@ -92,7 +108,8 @@
           if (started) return;
           started = true;
           show('');
-          if (touch) { goFullscreen(); fsButton.style.display = 'block'; }
+          if (touch) goFullscreen();
+          corner.style.display = 'flex';
           Module.canvas.focus();
           Module.callMain([]);
         }, { once: true });

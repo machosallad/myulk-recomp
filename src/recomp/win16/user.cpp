@@ -5,11 +5,13 @@
 #include <SDL3/SDL.h>
 
 #include <algorithm>
+#include <cstdlib>
 #include <cctype>
 #include <deque>
 #include <map>
 #include <vector>
 
+#include "recomp/enhance/settings.hpp"
 #include "recomp/runtime/runtime.hpp"
 #include "recomp/win16/modules.hpp"
 #include "recomp/win16/win16.hpp"
@@ -519,13 +521,35 @@ void bring_to_top(uint16_t h) {
 
 uint64_t now_ms() { return SDL_GetTicks(); }
 
+// QoL farm speed: the farm's day clock is TForm1.MainTimer, re-armed with
+// SetTimer on every tick (12.5 s per step at run time; 2000 in the form file),
+// plus the start delay. While the farm is open, timers of 2 s or more run
+// faster, or not at all when paused.
+bool g_farmPaused = false;
+
+bool farm_timer(const Timer& tm) {
+    if (tm.interval < 2000) return false;
+    for (uint16_t t : g_top) {
+        Window* w = wnd(t);
+        if (w && w->visible && w->cls == "TFORM1") return true;
+    }
+    return false;
+}
+
+uint32_t effective_interval(const Timer& tm) {
+    if (!farm_timer(tm)) return tm.interval;
+    int speed = std::clamp(settings::get_int("farm_speed", 1), 1, 8);
+    return tm.interval / uint32_t(speed);
+}
+
 bool timers_due() {
     uint64_t t = now_ms();
     bool any = false;
     for (auto& tm : g_timers) {
         if (!tm.pending && t >= tm.due) {
+            if (g_farmPaused && farm_timer(tm)) { tm.due = t + 100; continue; }
             tm.pending = true;
-            tm.due = t + std::max<uint32_t>(tm.interval, 1);
+            tm.due = t + std::max<uint32_t>(effective_interval(tm), 1);
             post_message(tm.hwnd, WM_TIMER, tm.id, tm.proc);
             any = true;
         }
@@ -598,12 +622,39 @@ uint16_t g_cursorBeforeOverlay = 0;
 }
 
 void set_input_overlay(InputOverlay* overlay) {
-    if (overlay && !g_overlay) { g_cursorBeforeOverlay = g_cursor; g_cursor = g_arrow; }
-    if (!overlay && g_overlay) g_cursor = g_cursorBeforeOverlay;
+    if (overlay && !g_overlay) { g_cursorBeforeOverlay = g_cursor; g_cursor = g_arrow; mm_pause(true); }
+    if (!overlay && g_overlay) { g_cursor = g_cursorBeforeOverlay; mm_pause(false); }
     g_overlay = overlay;
 }
 
 void screen_invalidate() { invalidate_screen_rect(Rect{0, 0, 640, 480}); }
+
+bool farm_open() {
+    for (uint16_t t : g_top) {
+        Window* w = wnd(t);
+        if (w && w->visible && w->cls == "TFORM1") return true;
+    }
+    return false;
+}
+std::string active_window_class() {
+    Window* w = wnd(g_active);
+    return w ? w->cls : std::string();
+}
+
+namespace {
+void (*g_idleHook)() = nullptr;
+bool g_inIdleHook = false;
+}
+void set_idle_hook(void (*hook)()) { g_idleHook = hook; }
+void run_idle_hook() {
+    if (!g_idleHook || g_inIdleHook || g_overlay) return;
+    g_inIdleHook = true;
+    g_idleHook();
+    g_inIdleHook = false;
+}
+
+bool farm_paused() { return g_farmPaused; }
+void set_farm_paused(bool paused) { g_farmPaused = paused; }
 
 void input_mouse_move(int x, int y) {
     g_mouseX = x;
@@ -626,6 +677,10 @@ void input_mouse_button(int x, int y, int button, bool down) {
     g_mouseX = x;
     g_mouseY = y;
     if (g_overlay) { g_overlay->mouse(x, y, button, down); return; }
+    // QoL: a click skips the movie or speech the game is waiting for
+    static bool swallowUp = false;
+    if (button == 0 && down && settings::get_int("click_skips", 1) && mm_skip_media()) { swallowUp = true; return; }
+    if (button == 0 && !down && swallowUp) { swallowUp = false; return; }
     if (button >= 0 && button < 3) g_buttons[button] = down;
     uint16_t target = g_capture ? g_capture : window_from_point(x, y);
     if (!target || (!g_capture && !enabled_chain(target))) return;
@@ -1143,6 +1198,7 @@ API(USER, 110, PostMessage, 10) {
 API(USER, 6, PostQuitMessage, 2) { g_quitCode = a.i(); g_quit = true; a.ret(); }
 API(USER, 109, PeekMessage, 12) {
     uint16_t flags = a.w(); uint16_t mx = a.w(); uint16_t mn = a.w(); uint16_t h = a.w(); uint32_t p = a.p();
+    run_idle_hook();
     Msg m;
     bool got = get_next(m, h, mn, mx, flags & 1);
     if (!got) {
@@ -1157,6 +1213,7 @@ API(USER, 112, WaitMessage, 0) {
         Msg m;
         if (get_next(m, 0, 0, 0, false)) break;
         host_pump(std::min(ms_to_next_timer(), 16));
+        run_idle_hook();   // the game is idle in its message loop: a safe point
     }
     a.ret();
 }
@@ -1211,13 +1268,17 @@ API(USER, 106, GetKeyState, 2) {
 // ---- timers ----
 API(USER, 10, SetTimer, 10) {
     uint32_t proc = a.p(); uint16_t ms = a.w(); uint16_t id = a.w(); uint16_t h = a.w();
+    static const bool debugTimers = std::getenv("MYULK_DEBUG_TIMERS") != nullptr;
+    if (debugTimers) recomp::log("SetTimer hwnd %04X id %u %u ms at %llu", h, id, ms, (unsigned long long)now_ms());
     if (!h) id = g_nextTimerId++;
     for (auto& t : g_timers)
         if (t.hwnd == h && t.id == id) {
-            t.interval = ms; t.proc = proc; t.due = now_ms() + ms;
+            t.interval = ms; t.proc = proc; t.due = now_ms() + effective_interval(t);
             a.ret(id ? id : 1); return;
         }
-    g_timers.push_back(Timer{h, id, proc, ms, now_ms() + ms});
+    Timer nt{h, id, proc, ms, 0};
+    nt.due = now_ms() + effective_interval(nt);
+    g_timers.push_back(nt);
     a.ret(id ? id : 1);
 }
 API(USER, 12, KillTimer, 4) {

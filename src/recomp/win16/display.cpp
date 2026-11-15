@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 
+#include "recomp/enhance/quick.hpp"
 #include "recomp/enhance/settings.hpp"
 #include "recomp/runtime/generated_support.hpp"
 #include "recomp/runtime/runtime.hpp"
@@ -68,9 +69,12 @@ void show_toast(const std::string& text) {
     g_toastUntil = SDL_GetTicks() + 1800;
 }
 
-// The screen with the note drawn on top (into a copy, so the game's picture
-// is untouched).
-const Surface& compose_toast(const Surface& s) {
+void draw_hints(Surface& t);
+bool hints_active();
+
+// The screen with the note (and hotspot hints) drawn on top, into a copy so
+// the game's picture is untouched.
+const Surface& compose_toast(const Surface& s, bool toast, bool hints) {
     if (!g_toastSurf) {
         g_toastSurf = std::make_shared<Surface>(s.w, s.h, 32);
         g_toastDC = dc_create_memory();
@@ -81,6 +85,8 @@ const Surface& compose_toast(const Surface& s) {
     }
     Surface& t = *g_toastSurf;
     t.px = s.px;
+    if (hints) draw_hints(t);
+    if (!toast) return t;
     int w = text_width(g_toastFont, g_toast) + 28, h = 30;
     Rect r{(t.w - w) / 2, t.h - h - 18, (t.w + w) / 2, t.h - 18};
     for (int y = r.top; y < r.bottom; ++y)
@@ -97,6 +103,82 @@ const Surface& compose_toast(const Surface& s) {
     return t;
 }
 
+// ---- hotspot hints (hold H; the web page's eye button) -----------------------
+bool g_hintsHeld = false;
+uint64_t g_hintsUntil = 0;
+
+bool hints_active() {
+    if (!g_hintsHeld && SDL_GetTicks() >= g_hintsUntil) return false;
+    return active_window_class() == "TADVFORM";
+}
+
+void blend_rect(Surface& t, Rect r, Color c, unsigned alpha) {
+    r = r.intersect(Rect{0, 0, t.w, t.h});
+    for (int y = r.top; y < r.bottom; ++y)
+        for (int x = r.left; x < r.right; ++x) {
+            Color d = t.get(x, y);
+            auto mix = [&](int sh) { return ((((c >> sh) & 255) * alpha + ((d >> sh) & 255) * (255 - alpha)) / 255) << sh; };
+            t.set(x, y, mix(16) | mix(8) | mix(0));
+        }
+}
+
+void outline(Surface& t, Rect r, Color c, int w) {
+    blend_rect(t, Rect{r.left, r.top, r.right, r.top + w}, c, 255);
+    blend_rect(t, Rect{r.left, r.bottom - w, r.right, r.bottom}, c, 255);
+    blend_rect(t, Rect{r.left, r.top, r.left + w, r.bottom}, c, 255);
+    blend_rect(t, Rect{r.right - w, r.top, r.right, r.bottom}, c, 255);
+}
+
+// filled arrow pointing dir (0 up, 1 right, 2 down, 3 left) centred at cx, cy
+void arrow(Surface& t, int cx, int cy, int dir, Color c) {
+    for (int i = 0; i < 12; ++i)
+        for (int j = -i; j <= i; ++j) {
+            int x = cx, y = cy;
+            switch (dir) {
+                case 0: x += j; y += i - 6; break;
+                case 1: x += 6 - i; y += j; break;
+                case 2: x += j; y += 6 - i; break;
+                default: x += i - 6; y += j; break;
+            }
+            if (x >= 0 && y >= 0 && x < t.w && y < t.h) t.set(x, y, c);
+        }
+}
+
+// Exit slots DS:4F3E + 4*i (forward, left, right, down, up, hotspots 0-9,
+// back, extra 0-1); hotspot rectangles at TAdvForm+0x251 / +0x2A1; the
+// direction zones are fixed (2:0B42). Scene picture at 95,72 on the screen.
+void draw_hints(Surface& t) {
+    auto& rt = recomp::Runtime::get();
+    recomp::Cpu& c = rt.cpu();
+    uint16_t ds = rt.data_sel();
+    auto slot_set = [&](int i) { return c.rd16(ds, uint16_t(0x4F3E + 4 * i)) || c.rd16(ds, uint16_t(0x4F40 + 4 * i)); };
+    const int ox = 95, oy = 72;
+    static const Rect zones[5] = {{148, 76, 300, 172}, {0, 0, 53, 249}, {396, 0, 449, 249}, {54, 196, 395, 249}, {54, 0, 395, 53}};
+    static const int dirs[5] = {0, 3, 1, 2, 0};
+    for (int i = 0; i < 5; ++i) {
+        if (!slot_set(i)) continue;
+        Rect r = zones[i].offset(ox, oy);
+        blend_rect(t, r, 0x40C0FF, 50);
+        outline(t, r, 0x40C0FF, 2);
+        arrow(t, (r.left + r.right) / 2, (r.top + r.bottom) / 2, dirs[i], 0xFFFFFF);
+    }
+    uint16_t fo = c.rd16(ds, 0x4C36), fs = c.rd16(ds, 0x4C38);   // TAdvForm
+    if (!fs) return;
+    auto rect_at = [&](uint16_t off) {
+        uint16_t o = uint16_t(fo + off);
+        return Rect{int16_t(c.rd16(fs, o)), int16_t(c.rd16(fs, uint16_t(o + 2))),
+                    int16_t(c.rd16(fs, uint16_t(o + 4))), int16_t(c.rd16(fs, uint16_t(o + 6)))};
+    };
+    for (int i = 5; i < 18; ++i) {
+        if (i == 15 || !slot_set(i)) continue;
+        Rect r = rect_at(uint16_t(i < 15 ? 0x251 + 8 * (i - 5) : 0x2A1 + 8 * (i - 16)));
+        if (r.left >= 1500 || r.empty()) continue;
+        r = r.intersect(Rect{0, 0, 450, 250}).offset(ox, oy);
+        blend_rect(t, r, 0xF0C040, 70);
+        outline(t, r, 0xF0C040, 2);
+    }
+}
+
 // F7: picture scaling, F8: text style (saved in the settings file)
 void cycle_scaling() {
     int m = (settings::scaling() + 1) % settings::kScalingCount;
@@ -111,11 +193,23 @@ void toggle_text() {
     show_toast(crisp ? "Text: skarp (som originalet)" : "Text: mjuk");
 }
 
+void toggle_pause() {
+    if (!farm_open()) { show_toast("Paus finns p\xE5 g\xE5rden"); return; }
+    set_farm_paused(!farm_paused());
+    show_toast(farm_paused() ? "G\xE5rden pausad (P forts\xE4tter)" : "G\xE5rden forts\xE4tter");
+}
+
+// The settings menu (F2, or the web page's gear button) opens at the next
+// host_pump, outside the event loop.
+bool g_settingsRequested = false;
+void open_settings() { g_settingsRequested = true; }
+
 SDL_Texture* g_mid = nullptr;   // integer-scaled copy for "mjuk skalning"
 int g_midScale = 0;
 
 void present() {
-    const Surface& s = SDL_GetTicks() < g_toastUntil ? compose_toast(screen()) : screen();
+    bool toast = SDL_GetTicks() < g_toastUntil, hints = hints_active();
+    const Surface& s = toast || hints ? compose_toast(screen(), toast, hints) : screen();
     SDL_UpdateTexture(g_tex, nullptr, s.px.data(), s.w * 4);
     SDL_SetRenderDrawColor(g_renderer, 0, 0, 0, 255);
     SDL_RenderClear(g_renderer);
@@ -417,6 +511,11 @@ void automation(uint64_t now) {
         for (size_t i = 0; i < k.text.size(); ++i) {
             if (k.text.compare(i, 4, "{f7}") == 0) { cycle_scaling(); i += 3; continue; }
             if (k.text.compare(i, 4, "{f8}") == 0) { toggle_text(); i += 3; continue; }
+            if (k.text.compare(i, 4, "{f5}") == 0) { quick::request_save(); i += 3; continue; }
+            if (k.text.compare(i, 4, "{f9}") == 0) { quick::request_load(); i += 3; continue; }
+            if (k.text.compare(i, 4, "{f2}") == 0) { open_settings(); i += 3; continue; }
+            if (k.text.compare(i, 3, "{p}") == 0) { toggle_pause(); i += 2; continue; }
+            if (k.text.compare(i, 7, "{hints}") == 0) { g_hintsUntil = now + 3000; i += 6; continue; }
             static const std::pair<const char*, int> named[] = {{"{enter}", 0x0D}, {"{esc}", 0x1B}, {"{bs}", 0x08}, {"{tab}", 0x09}};
             bool special = false;
             for (auto& [name, vk] : named) {
@@ -617,12 +716,18 @@ void host_pump(int blockMs) {
                 }
                 if (ev.key.key == SDLK_F7) { if (!ev.key.repeat) cycle_scaling(); break; }
                 if (ev.key.key == SDLK_F8) { if (!ev.key.repeat) toggle_text(); break; }
+                if (ev.key.key == SDLK_F5) { if (!ev.key.repeat) quick::request_save(); break; }
+                if (ev.key.key == SDLK_F9) { if (!ev.key.repeat) quick::request_load(); break; }
+                if (ev.key.key == SDLK_F2) { if (!ev.key.repeat) open_settings(); break; }
+                if ((ev.key.key == SDLK_P || ev.key.key == SDLK_PAUSE) && !ev.key.repeat) { toggle_pause(); break; }
+                if (ev.key.key == SDLK_H) { g_hintsHeld = true; break; }
                 if (int vk = vk_from_sdl(ev.key.key)) input_key(vk, true);
                 if (ev.key.key == SDLK_RETURN) input_char(13);
                 if (ev.key.key == SDLK_BACKSPACE) input_char(8);
                 if (ev.key.key == SDLK_ESCAPE) input_char(27);
                 break;
             case SDL_EVENT_KEY_UP:
+                if (ev.key.key == SDLK_H) { g_hintsHeld = false; break; }
                 if (int vk = vk_from_sdl(ev.key.key)) input_key(vk, false);
                 break;
             case SDL_EVENT_TEXT_INPUT:
@@ -662,6 +767,25 @@ void host_pump(int blockMs) {
         g_lastPresent = now;
     }
     automation(now);
+    static bool inSettings = false;
+    if (g_settingsRequested && !inSettings) {
+        g_settingsRequested = false;
+        inSettings = true;
+        run_settings_screen();
+        inSettings = false;
+    }
 }
 
+void show_note(const std::string& text) { show_toast(text); }
+
+bool host_fullscreen() { return g_window && (SDL_GetWindowFlags(g_window) & SDL_WINDOW_FULLSCREEN); }
+void host_set_fullscreen(bool on) { if (g_window) SDL_SetWindowFullscreen(g_window, on); }
+
 }  // namespace win16
+
+#ifdef __EMSCRIPTEN__
+// Called by the web page (gear button)
+extern "C" EMSCRIPTEN_KEEPALIVE void myulk_open_settings() { win16::open_settings(); }
+// Eye button: show the hotspot hints for a few seconds
+extern "C" EMSCRIPTEN_KEEPALIVE void myulk_show_hints() { win16::g_hintsUntil = SDL_GetTicks() + 3000; }
+#endif

@@ -169,7 +169,7 @@ if(EXISTS "${MYULK_EXE}")
             -sEXPORTED_RUNTIME_METHODS=callMain
             -lidbfs.js
             -sFORCE_FILESYSTEM=1
-            -sEXPORTED_FUNCTIONS=_main,_malloc,_free
+            -sEXPORTED_FUNCTIONS=_main,_malloc,_free,_myulk_open_settings,_myulk_show_hints
             "--shell-file=${CMAKE_SOURCE_DIR}/web/recomp_shell.html")
         set_property(TARGET myulk_recomp APPEND PROPERTY LINK_DEPENDS "${CMAKE_SOURCE_DIR}/web/recomp_shell.html")
     endif()

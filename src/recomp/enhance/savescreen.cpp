@@ -24,6 +24,7 @@
 #include "recomp/runtime/runtime.hpp"
 #include "recomp/win16/gdi.hpp"
 #include "recomp/win16/user.hpp"
+#include "recomp/enhance/ui.hpp"
 #include "recomp/win16/vfs.hpp"
 
 using recomp::Cpu;
@@ -37,6 +38,7 @@ constexpr int kRecordSize = 4199;
 const char* kSaveDir = "C:\\MYULK\\";
 
 Surface g_gameFrame;   // the game's picture when the menu was opened
+std::string g_autoFile, g_autoName;   // next Save/Load answers with this file (no screen)
 
 // ---- save files ---------------------------------------------------------------
 
@@ -223,54 +225,9 @@ std::string now_text() {
 
 // ---- drawing ------------------------------------------------------------------
 
-constexpr Color kPanel = 0x1E2630, kCard = 0x2A3440, kCardHover = 0x3A4858, kBorder = 0x56687A;
-constexpr Color kText = 0xF0F0F0, kDim = 0xA8B4C0, kAccent = 0xF0C040, kDanger = 0xD05050;
-
-struct Painter {
-    Surface& s = screen();
-    uint16_t hdc = dc_create_window(0, 0, 0, Rect{0, 0, 640, 480});
-    uint16_t fontBig = 0, fontNormal = 0;
-    Painter() {
-        auto f = std::make_unique<GdiObject>();
-        f->type = ObjType::Font; f->face = "Arial"; f->height = -26; f->weight = 700;
-        fontBig = gdi_add(std::move(f));
-        auto g = std::make_unique<GdiObject>();
-        g->type = ObjType::Font; g->face = "System"; g->height = 16;
-        fontNormal = gdi_add(std::move(g));
-    }
-    ~Painter() { dc_delete(hdc); }
-    void fill(Rect r, Color c) {
-        r = r.intersect(Rect{0, 0, s.w, s.h});
-        for (int y = r.top; y < r.bottom; ++y)
-            for (int x = r.left; x < r.right; ++x) s.set(x, y, c);
-    }
-    void frame(Rect r, Color c) {
-        fill(Rect{r.left, r.top, r.right, r.top + 1}, c);
-        fill(Rect{r.left, r.bottom - 1, r.right, r.bottom}, c);
-        fill(Rect{r.left, r.top, r.left + 1, r.bottom}, c);
-        fill(Rect{r.right - 1, r.top, r.right, r.bottom}, c);
-    }
-    void text(int x, int y, const std::string& t, Color c, bool big = false) {
-        DC* dc = dc_get(hdc);
-        if (!dc) return;
-        dc->font = big ? fontBig : fontNormal;
-        dc->textColor = c;
-        dc->bkMode = 1;
-        draw_text(*dc, x, y, t, nullptr, 0);
-    }
-    int width(const std::string& t, bool big = false) { return text_width(big ? fontBig : fontNormal, t); }
-    // fit text into a width, ending with "..." when it is cut
-    std::string fit(std::string t, int w, bool big = false) {
-        if (width(t, big) <= w) return t;
-        while (!t.empty() && width(t + "...", big) > w) t.pop_back();
-        return t + "...";
-    }
-    void image(int x0, int y0, const Surface& img) {
-        for (int y = 0; y < img.h; ++y)
-            for (int x = 0; x < img.w; ++x)
-                if (x0 + x >= 0 && y0 + y >= 0 && x0 + x < s.w && y0 + y < s.h) s.set(x0 + x, y0 + y, img.get(x, y));
-    }
-};
+using ui::Painter;
+using ui::kPanel; using ui::kCard; using ui::kCardHover; using ui::kBorder;
+using ui::kText; using ui::kDim; using ui::kAccent; using ui::kDanger;
 
 // ---- the screen -----------------------------------------------------------------
 
@@ -523,7 +480,18 @@ void show_modal_hook(Cpu& c) {
         recomp::f_29_575A_orig(c);
         return;
     }
-    std::string file = SaveScreen(save).run();
+    std::string file;
+    if (!g_autoFile.empty()) {   // quick-save / quick-load / autosave: no screen
+        file = g_autoFile;
+        if (save) {
+            std::string txt = g_autoName + "\n" + now_text() + "\n";
+            write_file(kSaveDir + stem(file) + ".TXT", std::vector<uint8_t>(txt.begin(), txt.end()));
+            if (g_gameFrame.w > 0) write_file(kSaveDir + stem(file) + ".BMP", write_bmp(make_thumb(g_gameFrame)));
+        }
+        g_autoFile.clear();
+    } else {
+        file = SaveScreen(save).run();
+    }
     if (!file.empty()) {
         std::string path = kSaveDir + file;   // Pascal string[79] at Self+0x1A4
         uint16_t s = uint16_t(self >> 16), o = uint16_t(uint16_t(self) + 0x1A4);
@@ -538,4 +506,24 @@ void show_modal_hook(Cpu& c) {
 const bool g_registered = (recomp::set_hook(recomp::sel_of(29), 0x575A, &show_modal_hook), true);
 
 }  // namespace
+
+namespace ui {
+const Surface& game_frame() { return g_gameFrame; }
+void set_game_frame(const Surface& s) { g_gameFrame = s; }
+void auto_answer(const std::string& file, const std::string& name) { g_autoFile = file; g_autoName = name; }
+bool save_exists(const std::string& file) {
+    int err = 0;
+    int h = vfs::open(kSaveDir + file, 0, &err);
+    if (h < 0) return false;
+    vfs::close(h);
+    return true;
+}
+std::string saved_at(const std::string& file) {
+    std::vector<uint8_t> d;
+    if (!read_file(kSaveDir + stem(file) + ".TXT", d)) return {};
+    std::string t(d.begin(), d.end());
+    size_t nl = t.find('\n');
+    return nl == std::string::npos ? std::string() : t.substr(nl + 1, t.find('\n', nl + 1) - nl - 1);
+}
+}  // namespace ui
 }  // namespace win16
