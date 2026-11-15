@@ -151,6 +151,8 @@ void video_draw(Video& v) {
 void video_play(Video& v, uint32_t from, uint32_t to) {
     v.posMs = std::min(from, v.avi.lengthMs());
     v.toMs = std::min(to, v.avi.lengthMs());
+    static const bool skip = SDL_getenv("MYULK_SKIP_MOVIES") != nullptr;   // testing aid
+    if (skip) v.posMs = v.toMs;
     v.startTick = SDL_GetTicks();
     v.playing = v.posMs < v.toMs;
     v.stop_audio();
