@@ -75,4 +75,4 @@ Not in the repository, and ignored by git: `iso/` and `extracted/` (your CD), `b
 
 *Myulk* and its contents belong to their rights holders. This repository contains only code written for this project: no game files, no code from the original program and no generated code.
 
-The program you build contains code **translated from your copy of `MYULK.EXE`**, so it is a personal copy, like the game files themselves. Please don't share built programs, packages or game files. Share the source code, which anyone with the CD can build. The project's own code is licensed under the terms in [LICENSE](LICENSE); the third-party parts are listed in [docs/third-party.md](docs/third-party.md).
+The program you build contains code **translated from your copy of `MYULK.EXE`**, so it is a personal copy, like the game files themselves. Please don't share built programs, packages or game files. Share the source code, which anyone with the CD can build. The project's own code is under the [MIT licence](LICENSE); the third-party parts are listed in [docs/third-party.md](docs/third-party.md).
