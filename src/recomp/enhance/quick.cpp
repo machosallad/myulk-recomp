@@ -131,8 +131,18 @@ const bool g_registered = (set_idle_hook(&idle), true);
 
 }  // namespace
 
-void request_save() { g_pending = Action::Save; }
-void request_load() { g_pending = Action::Load; g_loadFile = kQuickFile; }
+bool quick_allowed() {
+    if (settings::helper("quick_save")) return true;
+    show_note("Snabbspara \xE4r avst\xE4ngt (F2 inst\xE4llningar)");
+    return false;
+}
+
+void request_save() { if (quick_allowed()) g_pending = Action::Save; }
+void request_load() {
+    if (!quick_allowed()) return;
+    g_pending = Action::Load;
+    g_loadFile = kQuickFile;
+}
 
 // Called on every host_pump: the start card, and fast-forwarding the intro
 // after "Fortsätt" (the game only loads once chapter 1 is running).
@@ -144,7 +154,8 @@ void pump() {
         bool scripted = std::getenv("MYULK_ROUTE") || std::getenv("MYULK_CLICKS") || std::getenv("MYULK_KEYS") ||
                         std::getenv("MYULK_CALL");
         bool show = force ? std::string(force) != "0" : !scripted;
-        if (show) {
+        if (show && !settings::style_chosen()) ui::run_style_card();   // first start: how to play
+        if (show && settings::helper("start_card")) {
             std::string file = ui::run_start_card();
             if (!file.empty()) {
                 g_continueFile = file;

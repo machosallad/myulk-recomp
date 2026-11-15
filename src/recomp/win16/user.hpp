@@ -86,6 +86,7 @@ void run_idle_hook();
 bool farm_open();
 bool farm_paused();
 void set_farm_paused(bool paused);
+bool farm_next_day();   // farm helper: run the day clock now
 
 // MMSYSTEM (mmsystem.cpp): skip the movie/speech the game waits for; volume 0..1.
 bool mm_skip_media();

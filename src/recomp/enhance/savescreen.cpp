@@ -24,6 +24,7 @@
 #include "recomp/runtime/runtime.hpp"
 #include "recomp/win16/gdi.hpp"
 #include "recomp/win16/user.hpp"
+#include "recomp/enhance/settings.hpp"
 #include "recomp/enhance/ui.hpp"
 #include "recomp/win16/vfs.hpp"
 
@@ -515,8 +516,15 @@ void show_modal_hook(Cpu& c) {
         return;
     }
     bool save = self == c.rd32(ds, 0x5804), load = self == c.rd32(ds, 0x5800);
-    static const bool classic = std::getenv("MYULK_CLASSIC_SAVE") != nullptr;
-    if ((!save && !load) || classic) {
+    // quick-save, quick-load and autosave always answer here; the player's own
+    // saving uses this screen unless the setting (or MYULK_CLASSIC_SAVE) says otherwise
+    static const bool classicEnv = std::getenv("MYULK_CLASSIC_SAVE") != nullptr;
+    bool classic = classicEnv || !settings::helper("save_screen");
+    if (!save && !load) {
+        recomp::f_29_575A_orig(c);
+        return;
+    }
+    if (classic && g_autoFile.empty()) {
         recomp::f_29_575A_orig(c);
         return;
     }

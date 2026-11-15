@@ -73,6 +73,8 @@ bool save_exists(const std::string& file);
 std::string saved_at(const std::string& file);   // "YYYY-MM-DD HH:MM" or ""
 // The start card: offers the newest save; returns its file to continue, or "".
 std::string run_start_card();
+// settings_screen.cpp: the first-start question (Modern or Original play style).
+void run_style_card();
 
 // A modal screen over the game: input goes to it, the game waits until it closes.
 class OverlayScreen : public InputOverlay {

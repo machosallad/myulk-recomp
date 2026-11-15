@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "recomp/enhance/dedither.hpp"
+#include "recomp/enhance/farm.hpp"
 #include "recomp/enhance/nav.hpp"
 #include "recomp/enhance/quick.hpp"
 #include "recomp/enhance/screenshot.hpp"
@@ -113,6 +114,7 @@ uint64_t g_hintsUntil = 0;
 
 bool hints_active() {
     if (!g_hintsHeld && SDL_GetTicks() >= g_hintsUntil) return false;
+    if (!settings::helper("hints")) return false;
     return active_window_class() == "TADVFORM";
 }
 
@@ -199,6 +201,7 @@ void toggle_text() {
 }
 
 void toggle_pause() {
+    if (!settings::helper("farm_helper")) return;   // part of the farm helper
     if (!farm_open()) { show_toast("Paus finns p\xE5 g\xE5rden"); return; }
     set_farm_paused(!farm_paused());
     show_toast(farm_paused() ? "G\xE5rden pausad (P forts\xE4tter)" : "G\xE5rden forts\xE4tter");
@@ -500,6 +503,19 @@ void route_step(uint64_t now) {
     r.lastClick = now;
 }
 
+// A mouse button from the player (or MYULK_CLICKS): the shortcuts get a look
+// first. Right-click in the scene goes back, a click on the farm's day clock
+// gives the next day; the matching release is swallowed too.
+void mouse_button(int x, int y, int b, bool down) {
+    nav::mouse_at(x, y);
+    static bool rightTaken = false, leftTaken = false;
+    if (b == 1 && down && nav::right_click(x, y)) { rightTaken = true; return; }
+    if (b == 1 && !down && rightTaken) { rightTaken = false; return; }
+    if (b == 0 && down && farm::click(x, y)) { leftTaken = true; return; }
+    if (b == 0 && !down && leftTaken) { leftTaken = false; return; }
+    input_mouse_button(x, y, b, down);
+}
+
 struct Click { uint64_t at; int x, y; bool done; };
 std::vector<Click> g_clicks;
 bool g_autoInit = false;
@@ -527,13 +543,13 @@ void automation(uint64_t now) {
         if (!c.done && now >= c.at) {
             c.done = true;
             input_mouse_move(c.x, c.y);
-            input_mouse_button(c.x, c.y, 0, true);
+            mouse_button(c.x, c.y, 0, true);
             if (hold > 0) releases.push_back({now + uint64_t(hold), c.x, c.y, false});
-            else input_mouse_button(c.x, c.y, 0, false);
+            else mouse_button(c.x, c.y, 0, false);
         }
     }
     for (auto& rl : releases)
-        if (!rl.done && now >= rl.at) { rl.done = true; input_mouse_button(rl.x, rl.y, 0, false); }
+        if (!rl.done && now >= rl.at) { rl.done = true; mouse_button(rl.x, rl.y, 0, false); }
     // MYULK_KEYS="ms:text;ms:text": typed characters; {enter} {esc} {bs} {tab}
     struct Keys { uint64_t at; std::string text; bool done; };
     static std::vector<Keys> keys;
@@ -564,6 +580,7 @@ void automation(uint64_t now) {
             if (k.text.compare(i, 4, "{f2}") == 0) { open_settings(); i += 3; continue; }
             if (k.text.compare(i, 3, "{p}") == 0) { toggle_pause(); i += 2; continue; }
             if (k.text.compare(i, 5, "{f12}") == 0) { take_screenshot(); i += 4; continue; }
+            if (k.text.compare(i, 7, "{nextd}") == 0) { recomp::log("farm next day: %d", farm::next_day()); i += 6; continue; }
             // navigation shortcuts: {up} {down} {left} {right} {back} {rclick} {wheelup} {wheeldown}
             if (k.text.compare(i, 4, "{up}") == 0) { recomp::log("nav up: %d", nav::key(SDLK_UP)); i += 3; continue; }
             if (k.text.compare(i, 6, "{down}") == 0) { recomp::log("nav down: %d", nav::key(SDLK_DOWN)); i += 5; continue; }
@@ -797,13 +814,7 @@ void host_pump(int blockMs) {
             case SDL_EVENT_MOUSE_BUTTON_UP: {
                 int b = ev.button.button == SDL_BUTTON_LEFT ? 0 : ev.button.button == SDL_BUTTON_RIGHT ? 1 : 2;
                 bool down = ev.type == SDL_EVENT_MOUSE_BUTTON_DOWN;
-                int x = int(ev.button.x), y = int(ev.button.y);
-                nav::mouse_at(x, y);
-                // right-click in the scene goes back (the release is swallowed too)
-                static bool rightTaken = false;
-                if (b == 1 && down && nav::right_click(x, y)) { rightTaken = true; break; }
-                if (b == 1 && !down && rightTaken) { rightTaken = false; break; }
-                input_mouse_button(x, y, b, down);
+                mouse_button(int(ev.button.x), int(ev.button.y), b, down);
                 break;
             }
             case SDL_EVENT_MOUSE_WHEEL:
@@ -822,6 +833,7 @@ void host_pump(int blockMs) {
                 }
                 if (ev.key.key == SDLK_F12) { if (!ev.key.repeat) take_screenshot(); break; }
                 if (nav::key(ev.key.key)) break;
+                if (ev.key.key == SDLK_N && farm::next_day()) break;
                 if (ev.key.key == SDLK_F7) { if (!ev.key.repeat) cycle_scaling(); break; }
                 if (ev.key.key == SDLK_F8) { if (!ev.key.repeat) toggle_text(); break; }
                 if (ev.key.key == SDLK_F5) { if (!ev.key.repeat) quick::request_save(); break; }
@@ -876,6 +888,7 @@ void host_pump(int blockMs) {
     }
     automation(now);
     quick::pump();
+    farm::pump();
     remember_window(now);
     static bool inSettings = false;
     if (g_settingsRequested && !inSettings) {

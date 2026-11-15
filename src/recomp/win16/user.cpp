@@ -657,6 +657,19 @@ void run_idle_hook() {
 bool farm_paused() { return g_farmPaused; }
 void set_farm_paused(bool paused) { g_farmPaused = paused; }
 
+// Farm helper: run the farm's day clock now (one tick = one day), also while paused.
+bool farm_next_day() {
+    bool any = false;
+    for (auto& tm : g_timers) {
+        if (tm.pending || !farm_timer(tm)) continue;
+        tm.pending = true;
+        tm.due = now_ms() + std::max<uint32_t>(effective_interval(tm), 1);
+        post_message(tm.hwnd, WM_TIMER, tm.id, tm.proc);
+        any = true;
+    }
+    return any;
+}
+
 void input_mouse_move(int x, int y) {
     g_mouseX = x;
     g_mouseY = y;

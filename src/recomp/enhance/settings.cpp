@@ -70,4 +70,23 @@ void set_int(const std::string& key, int value) {
     save();
 }
 
+int style() {
+    bool all = true, none = get_int("farm_speed", 1) == 1;
+    for (const char* k : kHelpers) {
+        if (helper(k)) none = false;
+        else all = false;
+    }
+    return all ? kModern : none ? kOriginal : kCustom;
+}
+
+void set_style(int s) {
+    load();
+    for (const char* k : kHelpers) g_values[k] = s == kModern ? 1 : 0;
+    if (s == kOriginal) g_values["farm_speed"] = 1;
+    g_values["style_chosen"] = 1;
+    save();
+}
+
+bool style_chosen() { return get_int("style_chosen", 0) != 0; }
+
 }  // namespace settings

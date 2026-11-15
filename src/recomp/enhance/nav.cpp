@@ -10,6 +10,7 @@
 
 #include <string>
 
+#include "recomp/enhance/settings.hpp"
 #include "recomp/runtime/generated_support.hpp"
 #include "recomp/runtime/runtime.hpp"
 #include "recomp/win16/user.hpp"
@@ -34,6 +35,7 @@ bool slot_set(int i) {
 
 // adventure screen in front, a chapter running and the scene not busy
 bool ready() {
+    if (!settings::helper("nav_keys")) return false;
     if (input_overlay_active() || active_window_class() != "TADVFORM") return false;
     int mode = int16_t(cpu().rd16(ds(), 0x53C0));
     return mode >= 1 && mode <= 3 && cpu().rd8(ds(), 0x53C3) == 0;
