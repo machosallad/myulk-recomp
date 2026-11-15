@@ -97,6 +97,32 @@ if(EXISTS "${MYULK_EXE}")
         COMMENT "Recompiling MYULK.EXE"
         VERBATIM)
 
+    # Text: stb_truetype (public domain) renders the Liberation fonts (SIL Open
+    # Font License; metric-compatible with Arial, Times New Roman, Courier New),
+    # which are embedded into the program.
+    FetchContent_Declare(stb
+        URL https://github.com/nothings/stb/archive/9600522de53973336fa033a289858a4354cbb04c.tar.gz
+        URL_HASH SHA256=8546b1281cf61e4b5229e9eb05055d765f1b076f6ba03aab377df09a20fb613b
+        SOURCE_SUBDIR none)
+    FetchContent_Declare(liberation_fonts
+        URL https://github.com/liberationfonts/liberation-fonts/files/7261482/liberation-fonts-ttf-2.1.5.tar.gz
+        URL_HASH SHA256=7191c669bf38899f73a2094ed00f7b800553364f90e2637010a69c0e268f25d0
+        SOURCE_SUBDIR none)
+    FetchContent_MakeAvailable(stb liberation_fonts)
+    set(FONTS_CPP "${CMAKE_BINARY_DIR}/fonts_embedded.cpp")
+    set(FONT_FILES
+        "sans=${liberation_fonts_SOURCE_DIR}/LiberationSans-Regular.ttf"
+        "sans-bold=${liberation_fonts_SOURCE_DIR}/LiberationSans-Bold.ttf"
+        "serif=${liberation_fonts_SOURCE_DIR}/LiberationSerif-Regular.ttf"
+        "serif-bold=${liberation_fonts_SOURCE_DIR}/LiberationSerif-Bold.ttf"
+        "mono=${liberation_fonts_SOURCE_DIR}/LiberationMono-Regular.ttf")
+    add_custom_command(
+        OUTPUT "${FONTS_CPP}"
+        COMMAND Python3::Interpreter -I "${CMAKE_SOURCE_DIR}/tools/embed_fonts.py" "${FONTS_CPP}" ${FONT_FILES}
+        DEPENDS "${CMAKE_SOURCE_DIR}/tools/embed_fonts.py"
+        COMMENT "Embedding fonts"
+        VERBATIM)
+
     file(GLOB WIN16_SOURCES CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/src/recomp/win16/*.cpp"
          "${CMAKE_SOURCE_DIR}/src/recomp/enhance/*.cpp")
     add_executable(myulk_recomp
@@ -104,8 +130,10 @@ if(EXISTS "${MYULK_EXE}")
         src/recomp/runtime/cpu.cpp
         src/recomp/runtime/runtime.cpp
         ${WIN16_SOURCES}
-        ${GEN_SOURCES})
-    target_include_directories(myulk_recomp PRIVATE src "${GEN_DIR}")
+        ${GEN_SOURCES}
+        "${FONTS_CPP}")
+    target_include_directories(myulk_recomp PRIVATE src "${GEN_DIR}" "${stb_SOURCE_DIR}")
+    set_source_files_properties("${FONTS_CPP}" PROPERTIES COMPILE_OPTIONS "$<IF:$<CXX_COMPILER_ID:MSVC>,/W0,-w>")
     target_link_libraries(myulk_recomp PRIVATE SDL3::SDL3-static)
     if(MSVC)
         target_compile_options(myulk_recomp PRIVATE /utf-8 /bigobj)

@@ -11,6 +11,7 @@
 #include <map>
 
 #include "recomp/runtime/runtime.hpp"
+#include "recomp/win16/text.hpp"
 #include "recomp/win16/win16.hpp"
 
 using recomp::Args;
@@ -27,13 +28,6 @@ uint16_t g_stock[17] = {};
 Surface g_screen(640, 480, 8);
 std::vector<Color> g_syspal;
 
-// 8x8 glyphs for 0x20..0x7F, rendered once with SDL's debug font, with
-// proportional metrics from each glyph's ink: first ink column and advance
-// (ink width + 1 pixel spacing), so text widths come close to the
-// proportional Windows fonts the forms were laid out with.
-uint8_t g_glyphs[96][8];
-uint8_t g_glyphLeft[96], g_glyphAdv[96];
-
 Color colorref(uint32_t cr) {
     // COLORREF 0x00BBGGRR; PALETTEINDEX (0x01xxxxxx) and PALETTERGB (0x02...)
     if ((cr >> 24) == 1) return nearest_index_color(uint8_t(cr));
@@ -42,41 +36,6 @@ Color colorref(uint32_t cr) {
 
 uint32_t to_colorref(Color c) { return ((c & 0xFF) << 16) | (c & 0xFF00) | ((c >> 16) & 0xFF); }
 
-void make_glyphs() {
-    SDL_Surface* s = SDL_CreateSurface(96 * 8, 8, SDL_PIXELFORMAT_RGBA32);
-    SDL_Renderer* r = s ? SDL_CreateSoftwareRenderer(s) : nullptr;
-    std::memset(g_glyphs, 0, sizeof g_glyphs);
-    if (!r) return;
-    SDL_SetRenderDrawColor(r, 0, 0, 0, 0);
-    SDL_RenderClear(r);
-    SDL_SetRenderDrawColor(r, 255, 255, 255, 255);
-    for (int ch = 0x20; ch < 0x80; ++ch) {
-        char str[2] = {char(ch), 0};
-        SDL_RenderDebugText(r, float((ch - 0x20) * 8), 0, str);
-    }
-    SDL_RenderPresent(r);
-    for (int g = 0; g < 96; ++g)
-        for (int y = 0; y < 8; ++y) {
-            uint8_t bits = 0;
-            for (int x = 0; x < 8; ++x) {
-                auto* p = static_cast<uint8_t*>(s->pixels) + y * s->pitch + (g * 8 + x) * 4;
-                if (p[0] > 128) bits |= uint8_t(0x80 >> x);
-            }
-            g_glyphs[g][y] = bits;
-        }
-    for (int g = 0; g < 96; ++g) {
-        uint8_t all = 0;
-        for (int y = 0; y < 8; ++y) all |= g_glyphs[g][y];
-        int left = 0, right = 7;
-        while (left < 8 && !(all & (0x80 >> left))) ++left;
-        while (right >= 0 && !(all & (0x80 >> right))) --right;
-        if (left > right) { g_glyphLeft[g] = 0; g_glyphAdv[g] = 4; continue; }   // space
-        g_glyphLeft[g] = uint8_t(left);
-        g_glyphAdv[g] = uint8_t(right - left + 2);
-    }
-    SDL_DestroyRenderer(r);
-    SDL_DestroySurface(s);
-}
 
 int map_x(const DC& dc, int x) {
     return (x - dc.winOrgX) * dc.vpExtX / (dc.winExtX ? dc.winExtX : 1) + dc.vpOrgX + dc.originX;
@@ -225,7 +184,6 @@ void gdi_init() {
         for (int i = 0; i < 10; ++i) g_syspal[i] = def[i];
         for (int i = 0; i < 10; ++i) g_syspal[246 + i] = def[10 + i];
     }
-    make_glyphs();
 }
 
 // ---- DCs ---------------------------------------------------------------------
@@ -324,87 +282,71 @@ static int font_cell_height(GdiObject* f) {
     return em + (em * 15 + 50) / 100;          // TrueType: em + ~15% internal leading
 }
 
-static int font_scale(GdiObject* f) { return std::max(1, (font_cell_height(f) + 4) / 16); }
-
 int text_height(uint16_t font) { return font_cell_height(gdi_get(font)); }
-
-// Base glyph and accent for a cp1252 character (Swedish letters get drawn accents).
-static unsigned char glyph_of(unsigned char ch, int* accent) {
-    *accent = 0;   // 1 ring (Å å), 2 dots (Ä ä Ö ö Ü ü), 3 acute (é É)
-    switch (ch) {
-        case 0xC5: *accent = 1; return 'A';
-        case 0xE5: *accent = 1; return 'a';
-        case 0xC4: *accent = 2; return 'A';
-        case 0xE4: *accent = 2; return 'a';
-        case 0xD6: *accent = 2; return 'O';
-        case 0xF6: *accent = 2; return 'o';
-        case 0xDC: *accent = 2; return 'U';
-        case 0xFC: *accent = 2; return 'u';
-        case 0xE9: *accent = 3; return 'e';
-        case 0xC9: *accent = 3; return 'E';
-        default: break;
-    }
-    return (ch < 0x20 || ch >= 0x80) ? '?' : ch;
-}
-
-static int char_advance(unsigned char ch, int sc, bool bold) {
-    int accent;
-    return g_glyphAdv[glyph_of(ch, &accent) - 0x20] * sc + (bold ? 1 : 0);
-}
 
 int text_width(uint16_t font, const std::string& text) {
     GdiObject* f = gdi_get(font);
-    int sc = font_scale(f);
-    bool bold = f && f->weight >= 700;
-    int w = 0;
-    for (unsigned char ch : text) w += char_advance(ch, sc, bold);
-    return w;
+    const ttf::Sized* sz = ttf::sized_for(f, font_cell_height(f));
+    float w = 0;
+    for (unsigned char ch : text) w += ttf::glyph(sz, ch).advance;
+    if (ttf::fake_bold(sz) && !text.empty()) w += 1;
+    return int(std::lround(w));
 }
 
+// Anti-aliased text: glyph coverage blended over the target (thresholded on
+// monochrome bitmaps). The baseline sits inside the Windows cell height so
+// layout and vertical position match the original raster fonts.
 void draw_text(DC& dc, int x, int y, const std::string& text, const Rect* opaque, int) {
     Surface* s = dc_surface(dc);
     if (!s) return;
     GdiObject* f = gdi_get(dc.font);
-    int sc = font_scale(f);
-    bool bold = f && f->weight >= 700;
+    int cell = font_cell_height(f);
+    const ttf::Sized* sz = ttf::sized_for(f, cell);
     Rect clip = dc_bounds(dc);
-    int h = text_height(dc.font);
     int dx0 = map_x(dc, x), dy0 = map_y(dc, y);
     if (dc.bkMode == 2) {   // OPAQUE
-        Rect bg = opaque ? map_rect(dc, *opaque) : Rect{dx0, dy0, dx0 + text_width(dc.font, text), dy0 + h};
+        Rect bg = opaque ? map_rect(dc, *opaque) : Rect{dx0, dy0, dx0 + text_width(dc.font, text), dy0 + cell};
         bg = bg.intersect(clip);
         for (int yy = bg.top; yy < bg.bottom; ++yy)
             for (int xx = bg.left; xx < bg.right; ++xx) s->set(xx, yy, dc.bkColor);
     }
-    int gy = dy0 + (h - 8 * sc) / 2;
-    int penX = dx0;
-    for (size_t i = 0; i < text.size(); ++i) {
-        int accent = 0;
-        unsigned char ch = glyph_of(static_cast<unsigned char>(text[i]), &accent);
-        int gx = penX - g_glyphLeft[ch - 0x20] * sc;
-        penX += char_advance(static_cast<unsigned char>(text[i]), sc, bold);
-        const uint8_t* g = g_glyphs[ch - 0x20];
-        for (int yy = 0; yy < 8; ++yy)
-            for (int xx = 0; xx < 8; ++xx)
-                if (g[yy] & (0x80 >> xx))
-                    for (int sy = 0; sy < sc; ++sy)
-                        for (int sx = 0; sx < sc + (bold ? 1 : 0); ++sx) {
-                            int px = gx + xx * sc + sx, py = gy + yy * sc + sy;
-                            if (clip.contains(px, py)) s->set(px, py, dc.textColor);
-                        }
-        if (accent) {
-            int top = gy - (ch >= 'a' ? 0 : 2 * sc);
-            auto dot = [&](int ox, int oy) {
-                for (int sy = 0; sy < sc; ++sy)
-                    for (int sx = 0; sx < sc; ++sx) {
-                        int px = gx + ox * sc + sx, py = top + oy * sc + sy;
-                        if (clip.contains(px, py)) s->set(px, py, dc.textColor);
+    float asc = ttf::ascent(sz), desc = ttf::descent(sz);
+    int baseline = dy0 + int(std::lround((float(cell) - (asc + desc)) / 2 + asc));
+    bool mono = s->bpp == 1;
+    Color tc = dc.textColor;
+    int passes = ttf::fake_bold(sz) ? 2 : 1;
+    float pen = float(dx0);
+    for (unsigned char ch : text) {
+        const ttf::Glyph& g = ttf::glyph(sz, ch);
+        int gx = int(std::lround(pen)) + g.xoff, gy = baseline + g.yoff;
+        for (int pass = 0; pass < passes; ++pass)
+            for (int yy = 0; yy < g.h; ++yy) {
+                int py = gy + yy;
+                if (py < clip.top || py >= clip.bottom) continue;
+                for (int xx = 0; xx < g.w; ++xx) {
+                    int px = gx + xx + pass;
+                    if (px < clip.left || px >= clip.right) continue;
+                    unsigned a = g.alpha[size_t(yy) * size_t(g.w) + size_t(xx)];
+                    if (!a) continue;
+                    a = std::min(255u, a * 5 / 4);   // a little more contrast at small sizes
+                    if (mono || a == 255) {
+                        if (!mono || a >= 128) s->set(px, py, tc);
+                        continue;
                     }
-            };
-            if (accent == 1) { dot(2, 0); dot(3, -1); dot(4, 0); }
-            if (accent == 2) { dot(2, 0); dot(5, 0); }
-            if (accent == 3) { dot(4, 0); dot(5, -1); }
-        }
+                    Color d = s->get(px, py);
+                    auto mix = [&](int sh) {
+                        unsigned sc = (tc >> sh) & 255, dc_ = (d >> sh) & 255;
+                        return ((sc * a + dc_ * (255 - a)) / 255) << sh;
+                    };
+                    s->set(px, py, mix(16) | mix(8) | mix(0));
+                }
+            }
+        pen += g.advance;
+    }
+    if (f && f->underline) {
+        int uy = baseline + 1;
+        for (int xx = dx0; xx < int(std::lround(pen)); ++xx)
+            if (clip.contains(xx, uy)) s->set(xx, uy, tc);
     }
 }
 
