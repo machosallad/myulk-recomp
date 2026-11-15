@@ -18,14 +18,22 @@ The two parts **alternate**. Each farm period runs one year, from 1 March to the
 ```
 new game ─► Chapter 1 (adventure) ─► Farm year 1  day 61..420   (1 Mar Y1 – end Feb Y2)
                                    ─► Chapter 2 ─► Farm year 2  day 421..780
-                                   ─► Chapter 3 ─► Farm year 3  day 781..1140
-                                   ─► final evaluation ─► success / failure ending
+                                   ─► Chapter 3 ─► Farm year 3  day 781..1080
+                                   ─► final evaluation on day 1081 (1 Jan, year 4) ─► ending, credits
 ```
+
+The whole cycle has been run in the recompiled game (with debug warps over the
+puzzles): chapter 1's ending opens farm year 1; its last day (419) starts
+chapter 2 at `11:3709`; chapter 2's ending (`11:3C1A`, after the bank dialogue)
+opens farm year 2; day 779 starts chapter 3 at `3:01FD`; chapter 3 ends in the
+`TMain` click game (`TMain.ImageMouseDown` → `5:0EB3`, launched by `4:0735` /
+`4:07BF`), whose last hit calls `5:3F21` and opens farm year 3; day 1081 runs
+the evaluation and the ending with credits.
 
 | Step | Code |
 |---|---|
 | New game: reset adventure state, mode 1 | `2:0B42`, from `TAdvForm.FormCreate` and the "new game" buttons |
-| Chapter 2 / 3 start: load the chapter's picture DLL, reset chapter state, mode 2 / 3 | `2:10B6` / `2:1216` |
+| Chapter 2 / 3 start: load the chapter's picture DLL, reset chapter state, give the starting items (`2:24AF` adds an inventory item), mode 2 / 3, first scene | `2:10B6` → `11:3709` / `2:1216` → `3:01FD` |
 | Chapter end → farm: set the start day, open `TForm1` modally | `7:2B03` (ch 1, day stays 61 from the farm reset `1:0ABF`), `11:3C1A` (ch 2, day 421), `5:3F21` (ch 3, day 781) |
 | Farm open: mode 4 | `TForm1.FormShow` |
 | Farm period end: on the last day of winter, by year: 2 → chapter 2, 3 → chapter 3, 4 → evaluation (total value > 0 plus two more checks) | `9:1E61`, called from `MainTimerTimer` |
@@ -118,9 +126,9 @@ The engine uses these `TAdvForm` components: `SoundPlayer1–4` (media players f
 | `2:234C` | 32 | `PlayMovie(wait, keep)` | play the movie, optionally continuing when done |
 | `2:1A37` / `2:1C23` / `2:1ED4` | ≈50 | `Say2/Say3/Say4(proc, sound…, picture…)` | a speech sequence: 2, 3 or 4 sound clips with matching portrait pictures, then `proc` |
 | `2:264A` | 49 | `Choose(proc1..4, text1..4)` | dialogue menu: up to 4 lines in `TalkLabel*`, each with its own continuation |
-| `2:24AF` | 50 | `ShowText(text)` | text overlay |
 | `2:241B` | 64 | `After(ms, proc)` | `PicTimer` one-shot callback |
 | `2:19D2`, `2:1B7F` | 70 / 22 | `EndStep()` / `EndStepWithPicture()` | mark busy, stop sound, continue on next notify |
+| `2:24AF` | | `AddItem(name)` | add an item to the inventory (`TInventory` at `TAdvForm+0x301`: far pointers to items, name `string[8]` at item+4, scroll index at +0x62, six visible slot rectangles at +0x74) |
 | `2:2573` | 41 | `RemoveItem(name)` | remove an item from the inventory by name |
 | `2:25C5` | 54 | `ClearSprites()` | free the sprite list |
 | `2:2602` | 46 | `ShowExit()` | show `ExitBtn` |

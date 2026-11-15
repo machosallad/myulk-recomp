@@ -34,6 +34,7 @@ int main(int argc, char** argv) {
         recomp::log("program returned normally");
     } catch (const win16::ExitProgram& e) {
         recomp::log("program exited with code %d", e.code);
+        if (std::getenv("MYULK_EXIT_TRACE")) recomp::log("at exit:%s", recomp::recent_trace().c_str());
         if (std::getenv("MYULK_API_STATS")) rt.print_api_stats();
         win16::shutdown();
         return e.code;

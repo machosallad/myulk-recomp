@@ -1,6 +1,7 @@
 // SDL front end: window, presenting the 640x480 screen, input translation.
 #include <SDL3/SDL.h>
 
+#include <algorithm>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -80,6 +81,10 @@ void present() {
 // trace ring shows it was entered. Steps reached by timers need no click.
 struct RouteState {
     std::vector<std::pair<int, uint16_t>> steps;
+    std::vector<std::string> items;   // per step: inventory item to use ("seg:off@ITEM")
+    std::vector<bool> warp;           // per step: "!seg:off" = put it in the forward slot (debug warp)
+    std::vector<int> talk;            // per step: "#N:seg:off" = click dialogue line N (1-4)
+    std::vector<bool> game;           // per step: "*seg:off" = play the TMain click game until reached
     size_t next = 0;
     uint64_t lastClick = 0, waitingSince = 0;
     uint32_t tracePos = 0;
@@ -106,7 +111,22 @@ void route_step(uint64_t now) {
                 std::string item = str.substr(p, comma == std::string::npos ? std::string::npos : comma - p);
                 int seg = 0;
                 unsigned off = 0;
-                if (std::sscanf(item.c_str(), "%d:%x", &seg, &off) == 2) r.steps.push_back({seg, uint16_t(off)});
+                bool warp = !item.empty() && item[0] == '!';
+                bool game = !item.empty() && item[0] == '*';
+                int talk = 0;
+                size_t skip = (warp || game) ? 1 : 0;
+                if (!item.empty() && item[0] == '#') {
+                    talk = std::atoi(item.c_str() + 1);
+                    skip = item.find(':') + 1;
+                }
+                if (std::sscanf(item.c_str() + skip, "%d:%x", &seg, &off) == 2) {
+                    r.steps.push_back({seg, uint16_t(off)});
+                    r.warp.push_back(warp);
+                    r.talk.push_back(talk);
+                    r.game.push_back(game);
+                    size_t at = item.find('@');
+                    r.items.push_back(at == std::string::npos ? std::string() : item.substr(at + 1));
+                }
                 if (comma == std::string::npos) break;
                 p = comma + 1;
             }
@@ -114,22 +134,61 @@ void route_step(uint64_t now) {
         }
     }
     if (r.next >= r.steps.size()) return;
-    auto [seg, off] = r.steps[r.next];
-    if (entered_since(r.tracePos, seg, off)) {
-        recomp::log("route: reached %d:%04X (%zu/%zu)", seg, off, r.next + 1, r.steps.size());
+    // furthest of the next few steps that has run (timer chains advance on their own)
+    size_t hit = r.steps.size();
+    for (size_t k = std::min(r.steps.size(), r.next + 8); k-- > r.next;)
+        if (entered_since(r.tracePos, r.steps[k].first, r.steps[k].second)) { hit = k; break; }
+    if (hit < r.steps.size()) {
+        recomp::log("route: reached %d:%04X (%zu/%zu)", r.steps[hit].first, r.steps[hit].second, hit + 1, r.steps.size());
         r.tracePos = recomp::g_trace.pos;
-        ++r.next;
+        r.next = hit + 1;
         r.waitingSince = now;
         r.reported = false;
         return;
     }
+    if (r.next >= r.steps.size()) return;
+    auto [seg, off] = r.steps[r.next];
     if (!r.waitingSince) r.waitingSince = now;
     recomp::Cpu& c = recomp::Runtime::get().cpu();
     uint16_t ds = recomp::Runtime::get().data_sel();
-    if (c.rd8(ds, 0x53C3) != 0 || now - r.lastClick < 800) return;   // scene busy / just clicked
     uint16_t sel = uint16_t((seg << 3) | 7);
+    if (!r.game[r.next] && (c.rd8(ds, 0x53C3) != 0 || now - r.lastClick < 800)) return;   // scene busy / just clicked
+    if (r.game[r.next]) {
+        // TMain (DS:57D4): target rectangle at Self + idx + 0x343 (left, top, right, bottom),
+        // idx as computed by the hit test 5:0EB3
+        if (now - r.lastClick < 700) return;
+        uint16_t mo = c.rd16(ds, 0x57D4), ms = c.rd16(ds, 0x57D6);
+        if (!ms) return;
+        auto w = [&](int o) { return int(int16_t(c.rd16(ms, uint16_t(mo + o)))); };
+        int idx = w(0x1A6) * 8 + w(0x1A0) * 0x205 + w(0x1A2) * 0x60F + w(0x1A4) * 0x1E4B;
+        int l = w(idx + 0x343), t = w(idx + 0x345), rr = w(idx + 0x347), b = w(idx + 0x349);
+        if (rr <= l || b <= t || l < 0 || rr > 450 || b > 250) return;
+        int x = 95 + (l + rr) / 2, y = 72 + (t + b) / 2;
+        recomp::log("route: click game target (%d,%d)-(%d,%d) at %d,%d", l, t, rr, b, x, y);
+        input_mouse_move(x, y);
+        input_mouse_button(x, y, 0, true);
+        input_mouse_button(x, y, 0, false);
+        r.lastClick = now;
+        return;
+    }
+    if (int line = r.talk[r.next]) {   // dialogue choice: TalkLabel1-4 below the scene
+        static const int top[4] = {2, 36, 70, 104};
+        int x = 150, y = 329 + top[std::clamp(line, 1, 4) - 1] + 7;
+        recomp::log("route: dialogue line %d -> %d:%04X, click %d,%d", line, seg, off, x, y);
+        input_mouse_move(x, y);
+        input_mouse_button(x, y, 0, true);
+        input_mouse_button(x, y, 0, false);
+        r.lastClick = now;
+        return;
+    }
+    if (r.warp[r.next]) {
+        c.wr16(ds, 0x4F3E, off);
+        c.wr16(ds, 0x4F40, sel);
+        recomp::log("route: warp %d:%04X via the forward slot", seg, off);
+        r.warp[r.next] = false;
+    }
     int slot = -1;
-    for (int i = 0; i < 18 && slot < 0; ++i)
+    for (int i = 0; i < 26 && slot < 0; ++i)
         if (c.rd16(ds, uint16_t(0x4F3E + 4 * i)) == off && c.rd16(ds, uint16_t(0x4F40 + 4 * i)) == sel) slot = i;
     if (slot < 0) {
         // a later step already clickable: we are past this one (or the trace ring wrapped)
@@ -164,7 +223,32 @@ void route_step(uint64_t now) {
     else if (slot == 15) { x = 70; y = 70; }   // "anywhere else"
     else {
         uint16_t fo = c.rd16(ds, 0x4C36), fs = c.rd16(ds, 0x4C38);   // AdvForm instance
-        uint16_t ro = uint16_t(fo + (slot < 15 ? 0x251 + 8 * (slot - 5) : 0x2A1 + 8 * (slot - 16)));
+        if (slot >= 18) {
+            // item use: hold the named inventory item (AdvForm+0x309, item mode +0x224)
+            const std::string& want = r.items[r.next];
+            uint16_t io = c.rd16(fs, uint16_t(fo + 0x301)), is = c.rd16(fs, uint16_t(fo + 0x303));
+            bool found = want.empty();
+            for (int k = 0; k < 24 && !found && is; ++k) {
+                uint16_t eo = c.rd16(is, uint16_t(io + 4 * k)), es = c.rd16(is, uint16_t(io + 4 * k + 2));
+                if (!es) continue;
+                std::string name;
+                int len = c.rd8(es, uint16_t(eo + 4));
+                for (int j = 0; j < len && j < 8; ++j) name += char(c.rd8(es, uint16_t(eo + 5 + j)));
+                if (name == want) {
+                    c.wr16(fs, uint16_t(fo + 0x309), eo);
+                    c.wr16(fs, uint16_t(fo + 0x30B), es);
+                    found = true;
+                }
+            }
+            if (!found) {
+                if (!r.reported) recomp::log("route: item %s not in the inventory", want.c_str());
+                r.reported = true;
+                return;
+            }
+            c.wr8(fs, uint16_t(fo + 0x224), 1);
+        }
+        uint16_t ro = uint16_t(fo + (slot < 15 ? 0x251 + 8 * (slot - 5) :
+                                     slot < 18 ? 0x2A1 + 8 * (slot - 16) : 0x2B1 + 8 * (slot - 18)));
         int l = int16_t(c.rd16(fs, ro)), t = int16_t(c.rd16(fs, uint16_t(ro + 2)));
         int rr = int16_t(c.rd16(fs, uint16_t(ro + 4))), b = int16_t(c.rd16(fs, uint16_t(ro + 6)));
         x = (l + rr) / 2;
@@ -246,26 +330,43 @@ void automation(uint64_t now) {
             if (!special) input_char(static_cast<unsigned char>(k.text[i]));
         }
     }
-    // MYULK_POKE="ms:OFF=VAL;...": write a byte into the data segment (debug: set game flags)
-    static bool poked = false;
-    if (!poked) {
+    // MYULK_POKE="ms:OFF=VAL;OFF=VAL|ms:...": write data-segment bytes (more than two hex
+    // digits: a word) at the given times (debug: set game flags, warp via exit slots)
+    static std::vector<std::pair<uint64_t, std::string>> pokes;
+    static bool pokesInit = false;
+    if (!pokesInit) {
+        pokesInit = true;
         if (const char* pk = SDL_getenv("MYULK_POKE")) {
-            int ms = std::atoi(pk);
-            if (now >= uint64_t(ms)) {
-                poked = true;
-                std::string s = pk;
+            std::string all = pk;
+            size_t p = 0;
+            while (p <= all.size()) {
+                size_t bar = all.find('|', p);
+                std::string g = all.substr(p, bar == std::string::npos ? std::string::npos : bar - p);
+                if (!g.empty()) pokes.push_back({uint64_t(std::atoi(g.c_str())), g});
+                if (bar == std::string::npos) break;
+                p = bar + 1;
+            }
+        }
+    }
+    for (auto& pg : pokes) {
+        {
+            if (!pg.second.empty() && now >= pg.first) {
+                std::string s = pg.second;
+                pg.second.clear();
                 size_t p = s.find(':');
                 while (p != std::string::npos && p + 1 < s.size()) {
                     unsigned off = 0, val = 0;
-                    if (std::sscanf(s.c_str() + p + 1, "%x=%x", &off, &val) == 2) {
-                        recomp::Runtime::get().cpu().wr8(recomp::Runtime::get().data_sel(), uint16_t(off), uint8_t(val));
-                        recomp::log("poke DS:%04X = %02X", off, val);
+                    int n0 = 0, n1 = 0;
+                    if (std::sscanf(s.c_str() + p + 1, "%x=%n%x%n", &off, &n0, &val, &n1) == 2) {
+                        auto& cpu = recomp::Runtime::get().cpu();
+                        uint16_t ds = recomp::Runtime::get().data_sel();
+                        if (n1 - n0 > 2) cpu.wr16(ds, uint16_t(off), uint16_t(val));   // more than 2 digits: word
+                        else cpu.wr8(ds, uint16_t(off), uint8_t(val));
+                        recomp::log("poke DS:%04X = %X", off, val);
                     }
                     p = s.find(';', p + 1);
                 }
             }
-        } else {
-            poked = true;
         }
     }
     route_step(now);

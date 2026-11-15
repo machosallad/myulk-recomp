@@ -20,7 +20,7 @@ RECOMP_SEL(32) RECOMP_SEL(33) RECOMP_SEL(34)
 
 // Ring buffer of recently entered functions, printed on fatal errors.
 struct TraceRing {
-    static constexpr int kSize = 4096;
+    static constexpr int kSize = 65536;
     uint32_t entries[kSize] = {};
     uint16_t ds[kSize] = {};
     int pos = 0;

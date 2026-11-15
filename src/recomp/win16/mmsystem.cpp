@@ -3,6 +3,7 @@
 // into the device's display window at the MCI_PUT rectangle.
 #include <SDL3/SDL.h>
 
+#include <cstdlib>
 #include <map>
 #include <memory>
 #include <vector>
@@ -151,8 +152,10 @@ void video_draw(Video& v) {
 void video_play(Video& v, uint32_t from, uint32_t to) {
     v.posMs = std::min(from, v.avi.lengthMs());
     v.toMs = std::min(to, v.avi.lengthMs());
-    static const bool skip = SDL_getenv("MYULK_SKIP_MOVIES") != nullptr;   // testing aid
-    if (skip) v.posMs = v.toMs;
+    // testing aid: MYULK_SKIP_MOVIES=1 skips every movie, =ms only those started before then
+    static const char* skipEnv = SDL_getenv("MYULK_SKIP_MOVIES");
+    static const uint64_t skipUntil = skipEnv ? (std::atoi(skipEnv) <= 1 ? UINT64_MAX : uint64_t(std::atoi(skipEnv))) : 0;
+    if (SDL_GetTicks() < skipUntil) v.posMs = v.toMs;
     v.startTick = SDL_GetTicks();
     v.playing = v.posMs < v.toMs;
     v.stop_audio();

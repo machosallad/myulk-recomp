@@ -90,6 +90,24 @@ static std::string trace_text() {
     return s + watch_text();
 }
 
+std::string recent_trace() {
+    std::string s = trace_text();
+    // the last game-code routines (segments 1-22), oldest first
+    std::vector<uint32_t> game;
+    for (int i = TraceRing::kSize - 1; i >= 0 && game.size() < 48; --i) {
+        uint32_t e = g_trace.entries[(g_trace.pos + i) & (TraceRing::kSize - 1)];
+        if (e && (e >> 16) >= 1 && (e >> 16) <= 22 && std::find(game.begin(), game.end(), e) == game.end())
+            game.push_back(e);
+    }
+    s += "\n  recent game routines:";
+    for (auto it = game.rbegin(); it != game.rend(); ++it) {
+        char b[16];
+        std::snprintf(b, sizeof b, " %u:%04X", *it >> 16, *it & 0xFFFF);
+        s += b;
+    }
+    return s;
+}
+
 struct FatalError : std::runtime_error {
     explicit FatalError(const std::string& m) : std::runtime_error(m + trace_text()) {}
 };

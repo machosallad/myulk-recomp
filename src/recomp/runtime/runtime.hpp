@@ -103,6 +103,7 @@ std::string read_cstr(Cpu& c, uint32_t farptr, size_t max = 4096);
 void write_cstr(Cpu& c, uint32_t farptr, const std::string& s, size_t max);
 
 void log(const char* fmt, ...);
+std::string recent_trace();   // BP backtrace + recently entered functions (debugging)
 
 // Installed by the Windows layer: handles INT n (DOS INT 21h etc.).
 extern void (*g_interrupt_handler)(Cpu&, int);

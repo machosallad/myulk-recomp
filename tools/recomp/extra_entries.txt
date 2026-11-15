@@ -1,3 +1,4 @@
 # Additional function entry points (seg:offset, hex) for code only reached
 # through computed pointers that discovery cannot see. Add an address here
 # when the runtime reports "call to unknown code".
+33:1831   # ClassCreate except handler (frame built by hand at 33:1801, table 33:1827)
