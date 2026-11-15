@@ -6,6 +6,12 @@
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "8080", "-d", "build/web"],
       "port": 8080
+    },
+    {
+      "name": "web-package",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8081", "-d", "dist/myulk-web"],
+      "port": 8081
     }
   ]
 }

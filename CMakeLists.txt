@@ -137,6 +137,8 @@ if(EXISTS "${MYULK_EXE}")
     target_link_libraries(myulk_recomp PRIVATE SDL3::SDL3-static)
     if(MSVC)
         target_compile_options(myulk_recomp PRIVATE /utf-8 /bigobj)
+        # a Windows program, no console window (stderr still works when redirected)
+        target_link_options(myulk_recomp PRIVATE /SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup)
         # generated code: no warnings, moderate optimisation keeps compile times sane
         set_source_files_properties(${GEN_SOURCES} PROPERTIES COMPILE_OPTIONS "/W0;/O1")
     else()

@@ -1,12 +1,13 @@
 # Building
 
-The port is C++20 with SDL3. CMake downloads SDL3 and nlohmann/json on the first configure.
+For the short version (set up, build, play, package) see [playing.md](playing.md). This page has the details.
 
-The game needs the extracted original data (see [extraction.md](extraction.md)). At runtime it looks for `extracted/resources`:
+The project is C++20 with SDL3; CMake downloads SDL3, stb, the Liberation fonts and nlohmann/json on the first configure. There are two programs:
 
-1. in the `MYULK_DATA` environment variable,
-2. relative to the working directory,
-3. relative to the executable.
+- **`myulk_recomp`**, the game: the recompiled original (see [recompiler.md](recompiler.md)). It needs the CD's files in `extracted/iso` at build time (`MYULK_EXE` points CMake elsewhere) and at run time looks for `MYULK\MYULK.EXE` in, in order: the first command-line argument (a path to `MYULK.EXE`), `MYULK_GAME_DIR`, a `game` folder next to the program, the program's folder, and `extracted/iso` relative to the working directory or the build folder.
+- **`myulk`**, an earlier hand-written port of the first scenes, kept for reference. It reads the resources from `extracted/resources` (see [extraction.md](extraction.md)): from `MYULK_DATA`, the working directory or the program's folder.
+
+**Packages:** `python tools/package.py desktop|web [--game DIR]` copies a built program into `dist/` with the licences, a player README and a `game` folder (filled from `DIR` if given), and zips it. On Windows `myulk_recomp` is a GUI program (no console window); its log goes to stderr when that is redirected.
 
 ## Tools
 

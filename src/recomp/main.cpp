@@ -5,6 +5,9 @@
 #include <exception>
 #include <filesystem>
 #include <string>
+#include <vector>
+
+#include <SDL3/SDL.h>
 
 #include "funcs.hpp"
 #include "recomp/runtime/runtime.hpp"
@@ -28,11 +31,27 @@ EM_ASYNC_JS(void, mount_saves, (), {
 
 namespace fs = std::filesystem;
 
+// The game files from the CD: a folder holding MYULK, PICTDLL, ART, ... (the
+// CD's root). Looked for in this order: a path to MYULK.EXE on the command
+// line, MYULK_GAME_DIR, "game" next to the program (release packages), the
+// program's own folder, then the repository layout (extracted/iso).
 static std::string find_exe(int argc, char** argv) {
     if (argc > 1 && fs::exists(argv[1])) return argv[1];
-    for (const char* p : {"extracted/iso/MYULK/MYULK.EXE", "../extracted/iso/MYULK/MYULK.EXE",
-                          "../../extracted/iso/MYULK/MYULK.EXE", "/game/MYULK/MYULK.EXE"})
-        if (fs::exists(p)) return p;
+    std::vector<fs::path> roots;
+    if (const char* d = std::getenv("MYULK_GAME_DIR")) roots.emplace_back(d);
+#ifndef __EMSCRIPTEN__
+    if (const char* base = SDL_GetBasePath()) {
+        roots.emplace_back(fs::path(base) / "game");
+        roots.emplace_back(fs::path(base));
+        roots.emplace_back(fs::path(base) / ".." / ".." / "extracted" / "iso");   // build/native
+    }
+#endif
+    for (const char* p : {"extracted/iso", "../extracted/iso", "../../extracted/iso", "/game"}) roots.emplace_back(p);
+    for (const fs::path& r : roots) {
+        std::error_code ec;
+        fs::path exe = r / "MYULK" / "MYULK.EXE";
+        if (fs::exists(exe, ec)) return exe.lexically_normal().string();
+    }
     return {};
 }
 
@@ -48,7 +67,16 @@ int main(int argc, char** argv) {
     std::string exe = find_exe(argc, argv);
     win16::webdata::ensure(exe);
     if (exe.empty()) {
-        std::fprintf(stderr, "MYULK.EXE not found (pass its path as the first argument)\n");
+        const char* msg =
+            "Spelfilerna hittades inte / The game files were not found.\n\n"
+            "Kopiera inneh\xC3\xA5llet p\xC3\xA5 Myulk-cd:n till mappen \"game\" bredvid programmet, "
+            "s\xC3\xA5 att game\\MYULK\\MYULK.EXE finns.\n\n"
+            "Copy the contents of the Myulk CD into a folder named \"game\" next to the program, "
+            "so that game\\MYULK\\MYULK.EXE exists (or set MYULK_GAME_DIR).";
+        std::fprintf(stderr, "%s\n", msg);
+#ifndef __EMSCRIPTEN__
+        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Myulk", msg, nullptr);
+#endif
         return 1;
     }
     auto& rt = recomp::Runtime::get();

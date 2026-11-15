@@ -8,6 +8,7 @@
 #       -> C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools
 #   - CMake            -> C:\Program Files\CMake
 #   - Ninja            -> winget's package folder (on PATH via winget links)
+#   - Python 3.12 + capstone (pip, per user), 7-Zip
 #   - Emscripten SDK   -> C:\Tools\emsdk (or -EmsdkDir)
 #
 # The Build Tools installer asks for administrator rights (UAC prompt).
@@ -59,6 +60,19 @@ Install-WingetPackage "Kitware.CMake"
 Step "Ninja"
 Install-WingetPackage "Ninja-build.Ninja"
 
+Step "Python 3 and capstone (the recompiler runs at build time)"
+if (-not (Get-Command python -ErrorAction SilentlyContinue) -or
+    -not ((& python --version 2>&1) -match "Python 3\.(1[0-9])")) {
+    Install-WingetPackage "Python.Python.3.12"
+    $env:Path = [Environment]::GetEnvironmentVariable("Path", "User") + ";" + $env:Path
+}
+& python -m pip install --user --upgrade capstone
+if ($LASTEXITCODE -ne 0) { throw "pip install capstone failed" }
+
+Step "7-Zip (to unpack the CD image)"
+if (-not (Test-Path "$env:ProgramFiles\7-Zip\7z.exe")) { Install-WingetPackage "7zip.7zip" }
+else { Write-Host "    7-Zip already installed" }
+
 if (-not $SkipWeb) {
     Step "Emscripten SDK -> $EmsdkDir"
     if (-not (Get-Command git -ErrorAction SilentlyContinue)) { Install-WingetPackage "Git.Git" }
@@ -84,13 +98,14 @@ if (-not $SkipWeb) {
 
 Step "Done"
 Write-Host @"
-Open a NEW terminal, then build:
+Open a NEW terminal in the repository folder, then (see docs/playing.md):
 
-  Desktop:  open "x64 Native Tools Command Prompt for VS 2022" (Start menu), cd to the repo, and run
-              cmake --preset native
-              cmake --build --preset native
-              ctest --preset native
+  1. Unpack your CD:   "C:\Program Files\7-Zip\7z.exe" x -y -oextracted\iso <your Myulk.iso>
+                       (or copy the CD's contents to extracted\iso)
+  2. Build and play:   tools\build-native.bat
+                       build\native\myulk_recomp.exe
+  3. A package:        python tools\package.py desktop
 
-  Web:      cmake --preset web
-            cmake --build --preset web
+  Web:  cmake --preset web
+        cmake --build --preset web --target myulk_recomp
 "@

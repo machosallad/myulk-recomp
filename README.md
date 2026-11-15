@@ -1,12 +1,78 @@
-# myulk-recomp
+# Myulk – Kampen om det öppna landskapet, recompiled
 
-A modern reimplementation of *Myulk – Kampen om det öppna landskapet* (1996), a Swedish farm management game originally built as a 16-bit Windows 3.1 Delphi application.
+*Myulk* (1996) is a Swedish adventure and farm game. You inherit the run-down farm Öppanäng, solve puzzles in the adventure parts (Ödegården, Staden, Underjorden) and run a dairy farm for three years in between. It was made with Delphi 1 for Windows 3.1, so it no longer runs on today's computers.
 
-Goal: run on modern desktops and in the browser (C++20 + SDL, planned), using the original game data from your own copy of the CD.
+This project brings it back by **static recompilation**: a tool translates the original 16-bit program, `MYULK.EXE`, into C++. A small, newly written Windows 3.1 layer on SDL3 runs that code on Windows today and in the browser. The game you play is the original game, every scene, puzzle and rule, with its own pictures, films and sounds from your CD. On top of that come optional modern conveniences, each of which can be switched off.
 
-**This repository contains no original game data.** Put your ISO at `iso/Myulk.iso`. Both `iso/` and `extracted/` are gitignored.
+**No game files are included.** You need your own copy of the Myulk CD.
 
-- [docs/extraction.md](docs/extraction.md) – how assets are extracted and what the original game is made of
-- [docs/code-map.md](docs/code-map.md) – recovered class structure, event handlers and program layout of the original EXE
-- [docs/building.md](docs/building.md) – building and running the C++ port (desktop and browser)
-- [docs/game-outline.md](docs/game-outline.md) – how the game works: screens, calendar, save format, state, adventure engine, plan for the port
+## What you get
+
+- **The whole game.** The intro, all three adventure chapters, the farm years, the ending.
+- **Desktop and browser.** A Windows program, and a WebAssembly build for Chrome and Edge, including phones and tablets (touch).
+- **Play it as in 1996, or modern.** The first start asks how you want to play. Every helper has its own switch in the settings (F2 › Spelhjälp):
+  - a click skips the film or line being played
+  - quick-save and quick-load (F5/F9), autosave
+  - a modern save and load screen with pictures, names and dates
+  - "Fortsätt" at start: continue your latest save in a few seconds
+  - arrow keys, right-click and the mouse wheel to move around
+  - hold H to see everything you can click in a scene
+  - farm helper: pause (P), next day with a click on the day clock (or N), notes about money and seasons; farm speed 1×–8×
+- **The handbook** (F1, or the game's own Handbok button). The original help file, with its glossary of farming words and hints for every part of the adventure, in a modern viewer with search.
+- **For today's screens.** Sharp or smooth scaling, pure integer scaling, an optional filter that smooths the art's 256-colour dither, crisp or smooth TrueType text, fullscreen, a window that remembers its place, separate music and speech volumes, F12 screenshots.
+- **Saves stay compatible.** They use the original `.MLK` format, written by the game's own code.
+
+## Playing
+
+You build the game yourself from this source code and your CD (the reason is under [Legal](#legal)). On Windows it takes three steps:
+
+```bat
+powershell -ExecutionPolicy Bypass -File tools\setup-windows.ps1
+"C:\Program Files\7-Zip\7z.exe" x -y -oextracted\iso C:\path\to\Myulk.iso
+tools\build-native.bat
+```
+
+Then start `build\native\myulk_recomp.exe`, or make a folder to keep with `python tools\package.py desktop`. **[docs/playing.md](docs/playing.md)** explains each step, the browser version, the keys and where saves go.
+
+## How it works
+
+```
+your CD ─► MYULK.EXE ─► tools/recomp (Python + capstone) ─► C++ (one function per routine)
+                                                              │
+         src/recomp/runtime   emulated CPU state, segmented memory, x87, the EXE's data
+         src/recomp/win16     KERNEL, USER, GDI, MMSYSTEM on SDL3: windows, controls,
+                              fonts, Cinepak films, sound, files
+         src/recomp/enhance   the modern extras: settings, saves, handbook, helpers
+```
+
+The recompiler finds every routine of the program by following its code from the entry points: 3,926 routines and about 176,000 instructions, none left unsupported. It writes each one as a C++ function that works on a model of the 16-bit CPU. The program's 235 Windows API calls go to a newly written implementation of the parts of Windows 3.1 the game uses. Nothing is emulated instruction by instruction at run time, and none of the game logic is rewritten by hand. **[docs/recompiler.md](docs/recompiler.md)** describes the whole pipeline.
+
+## Repository
+
+| Folder | Contents |
+|---|---|
+| `tools/recomp/` | the static recompiler (`recomp.py`), extra entry points, routine hooks |
+| `src/recomp/` | runtime, Windows 3.1 layer, modern extras, entry point |
+| `web/` | the page for the browser build |
+| `tools/` | setup, build and packaging scripts, data tools, analysis helpers |
+| `docs/` | documentation (below) |
+| `analysis/` | notes and tables from studying the original program |
+| `src/` (other folders), `tests/` | an earlier hand-written port of the first scenes, kept for reference (`myulk` target) |
+
+Not in the repository, and ignored by git: `iso/` and `extracted/` (your CD), `build/` (including the generated C++), `decomp/` and `ghidra_project/` (analysis of the original program).
+
+## Documentation
+
+- [docs/playing.md](docs/playing.md): setting up, building, playing, keys, saves, the browser
+- [docs/recompiler.md](docs/recompiler.md): how the recompilation works
+- [docs/building.md](docs/building.md): building in detail, every feature and setting, test automation
+- [docs/game-outline.md](docs/game-outline.md): how the game works: screens, calendar, save format, adventure engine
+- [docs/code-map.md](docs/code-map.md): classes, event handlers and layout of the original program
+- [docs/extraction.md](docs/extraction.md): what the original game is made of, and extracting its resources
+- [docs/third-party.md](docs/third-party.md): libraries, fonts and references used
+
+## Legal
+
+*Myulk* and its contents belong to their rights holders. This repository contains only code written for this project: no game files, no code from the original program and no generated code.
+
+The program you build contains code **translated from your copy of `MYULK.EXE`**, so it is a personal copy, like the game files themselves. Please don't share built programs, packages or game files. Share the source code, which anyone with the CD can build. The project's own code is licensed under the terms in [LICENSE](LICENSE); the third-party parts are listed in [docs/third-party.md](docs/third-party.md).

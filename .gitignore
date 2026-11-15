@@ -5,6 +5,8 @@ extracted/
 # Build output
 build/
 out/
+# Packages (personal builds; may contain the game files)
+dist/
 
 __pycache__/
 *.pyc

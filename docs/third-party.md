@@ -9,6 +9,16 @@ Fetched by CMake at build time (pinned by URL and SHA-256 in `CMakeLists.txt`); 
 | [stb_truetype](https://github.com/nothings/stb) | rendering TrueType text in the Windows layer | public domain / MIT |
 | [Liberation fonts 2.1.5](https://github.com/liberationfonts/liberation-fonts) | the game's text (embedded into `myulk_recomp`) | SIL Open Font License 1.1 |
 
+Used while building, not part of the program:
+
+| Tool | Use | License |
+|---|---|---|
+| [Capstone](https://www.capstone-engine.org/) (Python package) | disassembling `MYULK.EXE` in the recompiler | BSD-3-Clause |
+| [Emscripten](https://emscripten.org/) | the browser build | MIT / University of Illinois NCSA |
+| [Ghidra](https://ghidra-sre.org/) | studying the original program (not needed to build) | Apache 2.0 |
+
+`tools/package.py` puts the licences of the components linked into the program (SDL 3, stb, Liberation fonts) into each package's `licenses` folder.
+
 ## Fonts
 
 The recompiled game draws text with the Liberation fonts, which have the same character widths as the Windows fonts the game was laid out with:
