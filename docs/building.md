@@ -59,12 +59,20 @@ Linux and macOS use the same commands with the system compiler.
 Run these from a shell where `emsdk_env` has been sourced (`EMSDK` is set):
 
 ```bash
-cmake --preset web
-cmake --build --preset web
-python -m http.server -d build/web 8080     # open http://localhost:8080/myulk.html
+cmake --preset web -DPython3_EXECUTABLE=<python with capstone>
+cmake --build --preset web --target myulk_recomp
+python -m http.server -d build/web 8080     # open http://localhost:8080/myulk_recomp.html
 ```
 
-The web build packages `extracted/resources` and `extracted/iso/SOUNDS` into `myulk.data` (about 170 MB) with `--preload-file`. That file contains the original game's data, so don't publish it.
+`myulk_recomp` is the recompiled original game in the browser:
+
+- **Browser support:** it uses WebAssembly JSPI (so the game's blocking message loop can wait for the browser) and native wasm exceptions (for Delphi exceptions). Current Chrome and Edge support both; the page says so if a browser lacks JSPI.
+- **Start:** the page loads the data, then asks for a click. Browsers only allow sound after the user has interacted with the page.
+- **Data:** the build packs your extracted CD (`extracted/iso`: MYULK, PICTDLL, ART, SOUNDS, LJUD, MOVIES, IMAGES, about 265 MB) into `myulk_recomp.data` with `--preload-file`, mounted at `/game` (C:\ inside the game). That file is the original game's data: don't publish it.
+- **Saves** are stored in the browser's IndexedDB (mounted at `/saves`), so they survive reloads.
+- `-DPython3_EXECUTABLE` must name a Python with capstone installed, because emsdk brings its own Python for the recompiler step.
+
+The older `myulk` target (the hand-written port) still builds as `myulk.html`.
 
 ## The current app
 

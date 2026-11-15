@@ -467,7 +467,13 @@ void host_pump(int blockMs) {
     if (!g_renderer) return;
     mm_poll();
     SDL_Event ev;
+#ifdef __EMSCRIPTEN__
+    // never block the browser thread: yield (JSPI) and then poll
+    emscripten_sleep(blockMs > 0 ? unsigned(blockMs) : 0);
+    bool have = SDL_PollEvent(&ev);
+#else
     bool have = blockMs > 0 ? SDL_WaitEventTimeout(&ev, blockMs) : SDL_PollEvent(&ev);
+#endif
     // scripted runs ignore the real mouse so it cannot disturb them
     static const bool scripted = SDL_getenv("MYULK_ROUTE") || SDL_getenv("MYULK_CLICKS");
     while (have) {
@@ -520,9 +526,6 @@ void host_pump(int blockMs) {
         g_lastPresent = now;
     }
     automation(now);
-#ifdef __EMSCRIPTEN__
-    emscripten_sleep(0);
-#endif
 }
 
 }  // namespace win16

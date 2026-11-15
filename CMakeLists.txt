@@ -112,6 +112,33 @@ if(EXISTS "${MYULK_EXE}")
     else()
         set_source_files_properties(${GEN_SOURCES} PROPERTIES COMPILE_OPTIONS "-w;-O1")
     endif()
+
+    if(EMSCRIPTEN)
+        # The game's message loop blocks (GetMessage, ShowModal, MCI_WAIT); JSPI
+        # lets those waits yield to the browser without instrumenting the code.
+        # Delphi exceptions use C++ exceptions, so native wasm exceptions too.
+        target_compile_options(myulk_recomp PRIVATE -fwasm-exceptions -sWASM_LEGACY_EXCEPTIONS=0)
+        set_target_properties(myulk_recomp PROPERTIES SUFFIX ".html")
+        # The user's extracted CD, mounted at /game (C:\ inside the game).
+        set(GAME_ISO "${MYULK_EXTRACTED_DIR}/iso")
+        set(GAME_PRELOAD)
+        foreach(d MYULK PICTDLL ART SOUNDS LJUD MOVIES IMAGES)
+            list(APPEND GAME_PRELOAD "--preload-file=${GAME_ISO}/${d}@/game/${d}")
+        endforeach()
+        target_link_options(myulk_recomp PRIVATE
+            -fwasm-exceptions
+            -sWASM_LEGACY_EXCEPTIONS=0
+            -sJSPI
+            -sALLOW_MEMORY_GROWTH=1
+            -sINITIAL_MEMORY=128MB
+            -sSTACK_SIZE=2MB
+            -sINVOKE_RUN=0
+            -sEXPORTED_RUNTIME_METHODS=callMain
+            -lidbfs.js
+            ${GAME_PRELOAD}
+            "--shell-file=${CMAKE_SOURCE_DIR}/web/recomp_shell.html")
+        set_property(TARGET myulk_recomp APPEND PROPERTY LINK_DEPENDS "${CMAKE_SOURCE_DIR}/web/recomp_shell.html")
+    endif()
 endif()
 
 # --- tests --------------------------------------------------------------------

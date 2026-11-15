@@ -10,17 +10,36 @@
 #include "recomp/runtime/runtime.hpp"
 #include "recomp/win16/win16.hpp"
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+
+// Saves live in IndexedDB: mount it at /saves and load what is stored there
+// before the game starts (the VFS overlay writes into /saves/drive_c).
+EM_ASYNC_JS(void, mount_saves, (), {
+    try { FS.mkdir('/saves'); } catch (e) {}
+    FS.mount(IDBFS, {}, '/saves');
+    await new Promise((resolve) => FS.syncfs(true, (err) => {
+        if (err) console.warn('loading saves failed', err);
+        resolve();
+    }));
+});
+#endif
+
 namespace fs = std::filesystem;
 
 static std::string find_exe(int argc, char** argv) {
     if (argc > 1 && fs::exists(argv[1])) return argv[1];
     for (const char* p : {"extracted/iso/MYULK/MYULK.EXE", "../extracted/iso/MYULK/MYULK.EXE",
-                          "../../extracted/iso/MYULK/MYULK.EXE", "/data/iso/MYULK/MYULK.EXE"})
+                          "../../extracted/iso/MYULK/MYULK.EXE", "/game/MYULK/MYULK.EXE"})
         if (fs::exists(p)) return p;
     return {};
 }
 
 int main(int argc, char** argv) {
+#ifdef __EMSCRIPTEN__
+    mount_saves();
+    setenv("MYULK_SAVE_DIR", "/saves/drive_c", 1);
+#endif
     std::string exe = find_exe(argc, argv);
     if (exe.empty()) {
         std::fprintf(stderr, "MYULK.EXE not found (pass its path as the first argument)\n");

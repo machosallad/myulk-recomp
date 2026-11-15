@@ -42,6 +42,7 @@ struct FindEntry {
     std::string name;   // 8.3 upper case
     uint32_t size = 0;
     bool dir = false;
+    bool label = false;   // volume label (attribute 8)
 };
 std::vector<FindEntry> find(const std::string& dosPattern, int attrMask);
 

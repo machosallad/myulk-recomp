@@ -101,7 +101,7 @@ void dos_error(Cpu& c, int code) {
 
 void fill_dta(Cpu& c, const vfs::FindEntry& e) {
     uint16_t s = sel_of(g_dta), o = off_of(g_dta);
-    c.wr8(s, uint16_t(o + 0x15), e.dir ? 0x10 : 0x20);
+    c.wr8(s, uint16_t(o + 0x15), e.label ? 0x08 : e.dir ? 0x10 : 0x20);
     c.wr16(s, uint16_t(o + 0x16), 0);
     c.wr16(s, uint16_t(o + 0x18), uint16_t(((1996 - 1980) << 9) | (1 << 5) | 1));
     c.wr32(s, uint16_t(o + 0x1A), e.size);

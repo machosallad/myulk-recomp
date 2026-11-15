@@ -7,6 +7,15 @@
 
 namespace recomp {
 
+// Bodies of routines with Delphi exception handlers stay separate from their
+// try/catch wrapper: exception pads inside their irreducible control flow
+// miscompile for WebAssembly.
+#if defined(_MSC_VER)
+#define RECOMP_NOINLINE __declspec(noinline)
+#else
+#define RECOMP_NOINLINE __attribute__((noinline))
+#endif
+
 // Selector of NE segment n: (n << 3) | 7 (LDT, ring 3), as the generator emits.
 constexpr uint16_t sel_of(int n) { return uint16_t((n << 3) | 7); }
 #define RECOMP_SEL(n) constexpr uint16_t SEL##n = sel_of(n);

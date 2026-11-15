@@ -4,8 +4,13 @@
 #include <cctype>
 #include <filesystem>
 #include <map>
+#include <set>
 
 #include "recomp/runtime/runtime.hpp"
+
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
 
 namespace fs = std::filesystem;
 
@@ -15,6 +20,7 @@ namespace {
 std::string g_root;         // host folder for C:\ .
 std::string g_cwd = "C:\\";
 std::map<int, std::FILE*> g_files;
+std::set<int> g_writable;   // handles opened for writing (saves to persist on close)
 int g_next = 5;
 
 std::string upper(std::string s) {
@@ -169,6 +175,7 @@ int open(const std::string& dosPath, int mode, int* error) {
     }
     int id = g_next++;
     g_files[id] = f;
+    if ((mode & 3) != 0) g_writable.insert(id);
     return id;
 }
 
@@ -185,6 +192,7 @@ int create(const std::string& dosPath, int* error) {
     }
     int id = g_next++;
     g_files[id] = f;
+    g_writable.insert(id);
     return id;
 }
 
@@ -193,6 +201,28 @@ bool close(int h) {
     if (it == g_files.end()) return h < 5;
     std::fclose(it->second);
     g_files.erase(it);
+    bool written = g_writable.erase(h) > 0;
+#ifdef __EMSCRIPTEN__
+    // persist saves (IndexedDB behind /saves) after a file opened for writing;
+    // one sync at a time, a request during a sync runs once it is done
+    if (written) {
+        EM_ASM({
+            if (typeof IDBFS === 'undefined') return;
+            var run = function () {
+                Module.__saveSync = 1;
+                FS.syncfs(false, function (e) {
+                    if (e) console.warn('saving failed', e);
+                    var again = Module.__saveSync === 2;
+                    Module.__saveSync = 0;
+                    if (again) run();
+                });
+            };
+            if (Module.__saveSync) Module.__saveSync = 2; else run();
+        });
+    }
+#else
+    (void)written;
+#endif
     return true;
 }
 
@@ -255,6 +285,13 @@ std::vector<FindEntry> find(const std::string& dosPattern, int attrMask) {
     auto slash = n.rfind('\\');
     std::string dir = n.substr(0, slash), pat = n.substr(slash + 1);
     if (dir.size() == 2) dir += "\\";
+    if (attrMask == 0x08) {   // volume label search: drive C: is the game CD
+        FindEntry fe;
+        fe.name = "MYULK";
+        fe.label = true;
+        out.push_back(fe);
+        return out;
+    }
     std::error_code ec;
     std::map<std::string, FindEntry> found;   // overlay entries replace base ones
     auto scan = [&](const std::string& h) {

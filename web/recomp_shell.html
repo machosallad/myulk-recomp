@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Myulk</title>
+  <style>
+    html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+    #canvas {
+      display: block; width: 100vw; height: 100vh;
+      outline: none; cursor: none;
+    }
+    #status {
+      position: fixed; inset: 0; display: flex; flex-direction: column; gap: 12px;
+      align-items: center; justify-content: center;
+      color: #ddd; font: 18px system-ui, sans-serif; text-align: center;
+      background: #000;
+    }
+    #status small { color: #888; font-size: 14px; }
+    #status.ready { cursor: pointer; }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" tabindex="-1" oncontextmenu="event.preventDefault()"></canvas>
+  <div id="status">Laddar spelet…</div>
+  <script>
+    var statusEl = document.getElementById('status');
+    var started = false;
+    function show(html, ready) {
+      statusEl.innerHTML = html;
+      statusEl.style.display = html ? 'flex' : 'none';
+      statusEl.classList.toggle('ready', !!ready);
+    }
+    if (!('Suspending' in WebAssembly)) {
+      show('Den här webbläsaren saknar stöd för WebAssembly JSPI.<br><small>Använd en aktuell Chrome, Edge eller Firefox.</small>');
+    }
+    var Module = {
+      canvas: document.getElementById('canvas'),
+      setStatus: function (text) {
+        if (started) return;
+        var m = /\((\d+)\/(\d+)\)/.exec(text || '');
+        if (m) show('Laddar spelet… ' + Math.round(100 * m[1] / m[2]) + ' %');
+        else if (text) show(text);
+      },
+      onRuntimeInitialized: function () {
+        show('Myulk – Kampen om det öppna landskapet<br><small>Klicka för att starta</small>', true);
+        statusEl.addEventListener('click', function () {
+          if (started) return;
+          started = true;
+          show('');
+          Module.canvas.focus();
+          Module.callMain([]);
+        }, { once: true });
+      },
+      print: function (t) { console.log(t); },
+      printErr: function (t) { console.warn(t); }
+    };
+    Module.canvas.addEventListener('click', function () { Module.canvas.focus(); });
+  </script>
+  {{{ SCRIPT }}}
+</body>
+</html>

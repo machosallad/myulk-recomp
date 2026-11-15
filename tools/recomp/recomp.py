@@ -513,15 +513,11 @@ class Emitter:
             return "\n".join(out)
         addrs = sorted(f.insns)
         if f.handlers:
-            # Delphi exception handlers: the body runs inside a C++ try block;
-            # entry_ selects a handler label (finally handlers called by the
-            # RTL) and a DelphiJump thrown for one of our except handlers by
-            # the matching activation (same frame BP) resumes there.
-            out[0] = f"static void {f.name}_impl(Cpu& c, uint16_t entry_) {{"
+            # Delphi exception handlers: entry_ selects a handler label (finally
+            # handlers called by the RTL, except handlers re-entered by the
+            # wrapper below when the matching activation catches a DelphiJump).
+            out[0] = f"RECOMP_NOINLINE static void {f.name}_body(Cpu& c, uint16_t entry_) {{"
             out.append(f"    RECOMP_TRACE({segn}, 0x{f.entry:04X});")
-            out.append("    const uint16_t bp_ = entry_ ? c.bp() : (uint16_t)(c.sp() - 2);")
-            out.append("    for (;;) {")
-            out.append("    try {")
             cases = " ".join(f"case 0x{h:04X}: goto L_{h:04X};" for h in sorted(f.handlers))
             out.append(f"    switch (entry_) {{ {cases} default: break; }}")
         else:
@@ -557,15 +553,25 @@ class Emitter:
         for s in sorted(f.stops):
             out.append(f"L_{s:04X}: c.fell_off({segn}, 0x{s:04X}); return;")
         if f.handlers:
+            # The body above has no try block (exception pads inside its goto-heavy,
+            # irreducible control flow miscompile for WebAssembly); this wrapper
+            # catches DelphiJump for our frame and re-enters the body at the label.
             exc = [h for h, k in sorted(f.handlers.items()) if k == "except"]
-            out.append("    } catch (const DelphiJump& j_) {")
-            out.append(f"        if (j_.sel != SEL{segn} || c.bp() != bp_) throw;")
+            out.append("}")
+            out.append(f"static void {f.name}_impl(Cpu& c, uint16_t entry_) {{")
+            out.append("    const uint16_t bp_ = entry_ ? c.bp() : (uint16_t)(c.sp() - 2);")
+            out.append("    for (;;) {")
+            out.append("        try {")
+            out.append(f"            {f.name}_body(c, entry_);")
+            out.append("            return;")
+            out.append("        } catch (const DelphiJump& j_) {")
+            out.append(f"            if (j_.sel != SEL{segn} || c.bp() != bp_) throw;")
             if exc:
                 cases = " ".join(f"case 0x{h:04X}:" for h in exc)
-                out.append(f"        switch (j_.off) {{ {cases} entry_ = j_.off; continue; default: throw; }}")
+                out.append(f"            switch (j_.off) {{ {cases} entry_ = j_.off; continue; default: throw; }}")
             else:
-                out.append("        throw;")
-            out.append("    }")
+                out.append("            throw;")
+            out.append("        }")
             out.append("    }")
             out.append("}")
             out.append(f"void {f.name}(Cpu& c) {{ {f.name}_impl(c, 0); }}")
