@@ -90,6 +90,23 @@ static std::string trace_text() {
     return s + watch_text();
 }
 
+namespace {
+std::map<uint32_t, Fn>& hooks() {
+    static std::map<uint32_t, Fn> h;
+    return h;
+}
+}
+Fn hook_for(uint16_t sel, uint16_t off) {
+    auto& h = hooks();
+    if (h.empty()) return nullptr;
+    auto it = h.find((uint32_t(sel) << 16) | off);
+    return it == h.end() ? nullptr : it->second;
+}
+void set_hook(uint16_t sel, uint16_t off, Fn fn) {
+    if (fn) hooks()[(uint32_t(sel) << 16) | off] = fn;
+    else hooks().erase((uint32_t(sel) << 16) | off);
+}
+
 std::string recent_trace() {
     std::string s = trace_text();
     // the last game-code routines (segments 1-22), oldest first

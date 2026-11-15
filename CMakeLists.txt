@@ -92,11 +92,13 @@ if(EXISTS "${MYULK_EXE}")
                 "${MYULK_EXE}" "${GEN_DIR}"
                 --extra-entries "${CMAKE_SOURCE_DIR}/tools/recomp/extra_entries.txt"
         DEPENDS ${RECOMP_TOOL} "${MYULK_EXE}" "${CMAKE_SOURCE_DIR}/tools/recomp/extra_entries.txt"
+                "${CMAKE_SOURCE_DIR}/tools/recomp/hooks.txt"
                 "${CMAKE_SOURCE_DIR}/analysis/imports.csv"
         COMMENT "Recompiling MYULK.EXE"
         VERBATIM)
 
-    file(GLOB WIN16_SOURCES CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/src/recomp/win16/*.cpp")
+    file(GLOB WIN16_SOURCES CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/src/recomp/win16/*.cpp"
+         "${CMAKE_SOURCE_DIR}/src/recomp/enhance/*.cpp")
     add_executable(myulk_recomp
         src/recomp/main.cpp
         src/recomp/runtime/cpu.cpp

@@ -58,6 +58,10 @@ struct ImportInfo {
 extern const ImportInfo kImports[];   // index = ImportId used by generated code
 extern const int kImportCount;
 
+// Replacement for a routine listed in tools/recomp/hooks.txt (nullptr: none).
+Fn hook_for(uint16_t sel, uint16_t off);
+void set_hook(uint16_t sel, uint16_t off, Fn fn);
+
 // Call an imported Windows function (return address already pushed).
 void imp_call(Cpu& c, int id);
 // Segment / offset half of an import used as an immediate. For KERNEL value

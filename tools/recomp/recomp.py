@@ -891,6 +891,16 @@ def main() -> int:
             if line:
                 s, o = line.split(":")
                 extra.append((int(s), int(o, 16)))
+    # Routines the C++ side may replace (hooks.txt): f_X checks for a hook and
+    # otherwise runs the original, which stays callable as f_X_orig.
+    hooks = set()
+    hooks_file = os.path.join(HERE, "hooks.txt")
+    if os.path.isfile(hooks_file):
+        for line in open(hooks_file, encoding="utf-8"):
+            line = line.split("#")[0].strip()
+            if line:
+                s, o = line.split(":")
+                hooks.add((int(s), int(o, 16)))
     root = os.path.dirname(os.path.dirname(HERE))
     os.makedirs(out, exist_ok=True)
     img = Image(exe)
@@ -914,6 +924,8 @@ def main() -> int:
             handler_entries.append((f.seg, h, f"{f.name}__{'h' if k == 'finally' else 'x'}{h:04X}"))
     for f in sorted(funcs.values(), key=lambda f: (f.seg, f.entry)):
         header.append(f"void {f.name}(Cpu& c);")
+        if (f.seg, f.entry) in hooks and not f.bad:
+            header.append(f"void {f.name}_orig(Cpu& c);")
     for _, _, name in handler_entries:
         header.append(f"void {name}(Cpu& c);")
     header.append("}")
@@ -924,7 +936,13 @@ def main() -> int:
                 "#ifdef _MSC_VER", "#pragma warning(disable: 4102 4100 4189 4065)", "#endif",
                 "namespace recomp {"]
         for f in sorted(fs, key=lambda f: f.entry):
-            body.append(em.emit_func(f))
+            code = em.emit_func(f)
+            if (f.seg, f.entry) in hooks and not f.bad:
+                code = code.replace(f"void {f.name}(Cpu& c) {{", f"void {f.name}_orig(Cpu& c) {{", 1)
+                code += (f"\nvoid {f.name}(Cpu& c) {{\n"
+                         f"    if (Fn h_ = hook_for(SEL{f.seg}, 0x{f.entry:04X})) {{ h_(c); return; }}\n"
+                         f"    {f.name}_orig(c);\n}}")
+            body.append(code)
             body.append("")
         body.append("}")
         with open(os.path.join(out, f"seg{seg:02d}.cpp"), "w", encoding="utf-8") as fh:

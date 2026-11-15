@@ -592,9 +592,23 @@ bool get_next(Msg& out, uint16_t hwnd, uint16_t mn, uint16_t mx, bool remove) {
 
 // ---- input from the host ----------------------------------------------------
 
+namespace {
+InputOverlay* g_overlay = nullptr;
+uint16_t g_cursorBeforeOverlay = 0;
+}
+
+void set_input_overlay(InputOverlay* overlay) {
+    if (overlay && !g_overlay) { g_cursorBeforeOverlay = g_cursor; g_cursor = g_arrow; }
+    if (!overlay && g_overlay) g_cursor = g_cursorBeforeOverlay;
+    g_overlay = overlay;
+}
+
+void screen_invalidate() { invalidate_screen_rect(Rect{0, 0, 640, 480}); }
+
 void input_mouse_move(int x, int y) {
     g_mouseX = x;
     g_mouseY = y;
+    if (g_overlay) { g_overlay->mouse(x, y, -1, false); return; }
     uint16_t target = g_capture ? g_capture : window_from_point(x, y);
     if (!target || (!g_capture && !enabled_chain(target))) return;
     int ox, oy;
@@ -611,6 +625,7 @@ void input_mouse_move(int x, int y) {
 void input_mouse_button(int x, int y, int button, bool down) {
     g_mouseX = x;
     g_mouseY = y;
+    if (g_overlay) { g_overlay->mouse(x, y, button, down); return; }
     if (button >= 0 && button < 3) g_buttons[button] = down;
     uint16_t target = g_capture ? g_capture : window_from_point(x, y);
     if (!target || (!g_capture && !enabled_chain(target))) return;
@@ -623,12 +638,14 @@ void input_mouse_button(int x, int y, int button, bool down) {
 }
 
 void input_key(int vk, bool down) {
+    if (g_overlay) { g_overlay->key(vk, down); return; }
     if (vk > 0 && vk < 256) g_keys[vk] = down;
     uint16_t target = g_focus ? g_focus : g_active;
     if (target) post_message(target, down ? WM_KEYDOWN : WM_KEYUP, uint16_t(vk), 1);
 }
 
 void input_char(int ch) {
+    if (g_overlay) { g_overlay->character(ch); return; }
     uint16_t target = g_focus ? g_focus : g_active;
     if (target) post_message(target, WM_CHAR, uint16_t(ch), 1);
 }

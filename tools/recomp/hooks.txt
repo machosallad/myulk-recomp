@@ -1,0 +1,4 @@
+# Routines that C++ code may replace at runtime (seg:offset, hex). The
+# generated f_<seg>_<off> checks recomp::hook_for() and otherwise runs the
+# original, which stays callable as f_<seg>_<off>_orig.
+29:575A   # TForm.ShowModal: the modern save/load screen (src/recomp/enhance/savescreen.cpp)

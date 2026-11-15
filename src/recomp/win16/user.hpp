@@ -57,6 +57,17 @@ void host_text_input(bool active);
 void user_init();
 void dump_windows();   // log visible windows (debugging)
 
+// A native screen drawn over the game (e.g. the save screen) receives all
+// input while it is set; the game gets none. Coordinates are 640x480.
+struct InputOverlay {
+    virtual ~InputOverlay() = default;
+    virtual void mouse(int x, int y, int button, bool down) = 0;   // button -1: moved
+    virtual void key(int vk, bool down) = 0;
+    virtual void character(int ch) = 0;                           // Windows-1252
+};
+void set_input_overlay(InputOverlay* overlay);
+void screen_invalidate();   // have every window repaint
+
 // ---- window internals for the predefined control classes (controls.cpp) ----
 struct WndInfo {
     uint16_t parent = 0, id = 0;
