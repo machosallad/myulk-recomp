@@ -1,6 +1,6 @@
 # Game outline
 
-What the original game does and how its code is organized, as recovered so far. This is the plan the C++ architecture builds on. Addresses are `seg:offset` (see [code-map.md](code-map.md)) and `DS:xxxx` for the data segment.
+What the original game does and how its code is organized, as recovered from the program. Addresses are `seg:offset` (see [code-map.md](code-map.md)) and `DS:xxxx` for the data segment.
 
 ## The game in one paragraph
 
@@ -158,13 +158,9 @@ Port note: keep this API as it is in C++ and port each scene procedure as a func
 | 19 | buildings and repairs (`MyByggnad`, `MyReparation`), `TautoButton` |
 | 21–22 | media player, sprites, file controls |
 
-## Implications for the C++ port
+## How this shaped the port
 
-1. **Simulation core:** plain C++ with no UI dependency. Calendar, status, fields, cows, machines and buildings are ported routine by routine from segs 1 and 14–19, with a deterministic `tick()` that matches `MainTimerTimer`'s order and Real48-compatible math. It's testable without graphics.
-2. **Adventure:** re-implement the small engine API above and port the scene procedures as C++ functions using continuations (lambdas). Turning scenes into data can come later, once the behaviour matches.
-3. **UI:** forms are rendered from the extracted form JSON at 640×480 and scaled. A widget set covering what the forms use: Image, Label, Panel, Shape, Timer, autoButton, Gauge, drag-highlight, media player.
-4. **Saves:** keep the 4,199-byte `.mlk` layout as the import format, so original save games load. Use a modern format of our own for new saves.
-5. **Platforms:** SDL for desktop, Emscripten for the browser. Videos converted with ffmpeg; WAVs play as is.
+The first plan was a hand-written port: the simulation, the adventure engine and the forms rewritten in C++ from the facts on this page. The first scenes were done that way (the `myulk` target, kept for reference). The project then switched to **static recompilation**, which translates all of the original code instead of rewriting it, so every rule, formula and scene behaves exactly as in 1996 ([recompiler.md](recompiler.md)). This page is still the map for the Windows layer and the modern extras: the farm helper reads the farm block, the quick-save drives `TMenuForm`'s handlers, the save screen reads the save layout, and the hotspot hints read the exit slots.
 
 ## Open questions
 

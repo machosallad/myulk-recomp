@@ -1,0 +1,36 @@
+# Continuous integration. GitHub has no copy of the game, so the recompiled
+# game itself (myulk_recomp, which needs MYULK.EXE) is not built here: CI builds
+# everything else (the earlier hand-written port, the unit tests) and checks
+# that the Python tools compile.
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ilammy/msvc-dev-cmd@v1
+      - name: Configure
+        run: cmake --preset native
+      - name: Build
+        run: cmake --build --preset native
+      - name: Test
+        run: ctest --preset native
+
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install capstone
+        run: python -m pip install capstone
+      - name: Compile the tools
+        run: python -m compileall -q tools
+      - name: The recompiler's imports load
+        run: python -c "import sys; sys.path.insert(0, 'tools'); sys.path.insert(0, 'tools/recomp'); import ne, recomp"

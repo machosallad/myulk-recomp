@@ -96,9 +96,9 @@ python -m http.server -d build/web 8080     # open http://localhost:8080/myulk_r
 
 The older `myulk` target (the hand-written port) still builds as `myulk.html`.
 
-## The current app
+## The earlier hand-written port (`myulk`)
 
-`myulk` starts **the game**: the intro postcards and the first area of chapter 1 (see `src/adventure/scenes.cpp`).
+Before the recompiler, the first scenes were rewritten by hand. That program is kept for reference; it is not the game. `myulk` starts the intro postcards and the first area of chapter 1 (see `src/adventure/scenes.cpp`).
 
 - **Click** the scene to move. The cursor shows what a click does: arrows for turning or looking up/down, the hand for going forward or using a hotspot, the back arrow for leaving a close-up.
 - **F11:** fullscreen. **Esc:** quit.

@@ -66,9 +66,11 @@ Event properties (`OnClick = ButtonClick` etc.) name the Delphi methods that hol
 - `tools/dfm.py` – Delphi binary form (TPF0) decoder plus text renderer
 - `tools/extract_resources.py` – drives the above over every EXE/DLL
 
-## Notes for the port
+## How the recompiled game uses the files
 
-- Cinepak is supported by ffmpeg; convert videos once at build time (e.g. to WebM/VP9 or a frame sequence) so the runtime doesn't need a Cinepak decoder. ffmpeg is not installed yet.
+The recompiled game doesn't need this extraction: it reads the CD's files as they are, like the original did. This page is for studying the game and for the earlier hand-written port.
+
+- Films are decoded at run time (`src/recomp/win16/avi.cpp`, a Cinepak decoder), so nothing is converted.
 - 8-bit PCM WAV loads directly with SDL.
-- The EXE also builds file names at runtime (`GA%d%d.bmp`, `Gabt%d.bmp`), so the full asset list has to come from the code, not just from the forms.
-- `MYULK.HLP` (WinHelp) probably holds the in-game manual and rules text. It is not extracted yet.
+- The EXE builds some file names at run time (`GA%d%d.bmp`, `Gabt%d.bmp`), which is one reason to run the original code rather than list the assets.
+- `MYULK.HLP` (WinHelp) is the in-game handbook; the handbook viewer reads it directly (`src/recomp/enhance/helpfile.cpp`).

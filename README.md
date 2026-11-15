@@ -1,10 +1,18 @@
 # Myulk – Kampen om det öppna landskapet, recompiled
 
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+![Platforms: Windows, browser](https://img.shields.io/badge/platforms-Windows%20%7C%20browser-informational)
+![C++20 + SDL3](https://img.shields.io/badge/C%2B%2B20-SDL3-success)
+
 *Myulk* (1996) is a Swedish adventure and farm game. You inherit the run-down farm Öppanäng, solve puzzles in the adventure parts (Ödegården, Staden, Underjorden) and run a dairy farm for three years in between. It was made with Delphi 1 for Windows 3.1, so it no longer runs on today's computers.
 
 This project brings it back by **static recompilation**: a tool translates the original 16-bit program, `MYULK.EXE`, into C++. A small, newly written Windows 3.1 layer on SDL3 runs that code on Windows today and in the browser. The game you play is the original game, every scene, puzzle and rule, with its own pictures, films and sounds from your CD. On top of that come optional modern conveniences, each of which can be switched off.
 
 **No game files are included.** You need your own copy of the Myulk CD.
+
+| First start: choose your CD | How do you want to play? | Every helper can be switched off |
+|---|---|---|
+| ![The first-start screen asks for the Myulk CD](docs/images/first-start.png) | ![The play-style question: with improvements, or as in 1996](docs/images/play-style.png) | ![The settings menu, gameplay helpers page](docs/images/settings.png) |
 
 ## What you get
 
@@ -49,6 +57,16 @@ your CD ─► MYULK.EXE ─► tools/recomp (Python + capstone) ─► C++ (one
 
 The recompiler finds every routine of the program by following its code from the entry points: 3,926 routines and about 176,000 instructions, none left unsupported. It writes each one as a C++ function that works on a model of the 16-bit CPU. The program's 235 Windows API calls go to a newly written implementation of the parts of Windows 3.1 the game uses. Nothing is emulated instruction by instruction at run time, and none of the game logic is rewritten by hand. **[docs/recompiler.md](docs/recompiler.md)** describes the whole pipeline.
 
+## Status
+
+- The whole game plays from the intro to the ending: all three adventure chapters and the three farm years, including saving and loading.
+- Tested on Windows 11, and in current Chrome and Edge on the desktop. Touch was tested with an emulated phone, not yet on real devices.
+- Linux and macOS should build with the same CMake presets (SDL3 and portable C++20), but haven't been tried yet.
+- The browser version needs WebAssembly JSPI, which Firefox and Safari don't enable yet, so it doesn't run on iPhones and iPads.
+- One edition of the CD is known. A program built from it accepts only that `MYULK.EXE`; another edition would need its own build.
+
+Found a problem? Please open an issue with what you did, what happened, and whether it was the desktop or the browser version. A save file (`.MLK`) from just before helps a lot.
+
 ## Repository
 
 | Folder | Contents |
@@ -72,6 +90,10 @@ Not in the repository, and ignored by git: `iso/` and `extracted/` (your CD), `b
 - [docs/code-map.md](docs/code-map.md): classes, event handlers and layout of the original program
 - [docs/extraction.md](docs/extraction.md): what the original game is made of, and extracting its resources
 - [docs/third-party.md](docs/third-party.md): libraries, fonts and references used
+
+## Contributing
+
+Contributions are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md). The one firm rule: nothing from the game (files, screenshots of it, text from it, or code generated from it) goes into the repository.
 
 ## Legal
 
