@@ -27,8 +27,12 @@ uint16_t g_stock[17] = {};
 Surface g_screen(640, 480, 8);
 std::vector<Color> g_syspal;
 
-// 8x8 glyphs for 0x20..0x7F, rendered once with SDL's debug font
+// 8x8 glyphs for 0x20..0x7F, rendered once with SDL's debug font, with
+// proportional metrics from each glyph's ink: first ink column and advance
+// (ink width + 1 pixel spacing), so text widths come close to the
+// proportional Windows fonts the forms were laid out with.
 uint8_t g_glyphs[96][8];
+uint8_t g_glyphLeft[96], g_glyphAdv[96];
 
 Color colorref(uint32_t cr) {
     // COLORREF 0x00BBGGRR; PALETTEINDEX (0x01xxxxxx) and PALETTERGB (0x02...)
@@ -60,6 +64,16 @@ void make_glyphs() {
             }
             g_glyphs[g][y] = bits;
         }
+    for (int g = 0; g < 96; ++g) {
+        uint8_t all = 0;
+        for (int y = 0; y < 8; ++y) all |= g_glyphs[g][y];
+        int left = 0, right = 7;
+        while (left < 8 && !(all & (0x80 >> left))) ++left;
+        while (right >= 0 && !(all & (0x80 >> right))) --right;
+        if (left > right) { g_glyphLeft[g] = 0; g_glyphAdv[g] = 4; continue; }   // space
+        g_glyphLeft[g] = uint8_t(left);
+        g_glyphAdv[g] = uint8_t(right - left + 2);
+    }
     SDL_DestroyRenderer(r);
     SDL_DestroySurface(s);
 }
@@ -314,10 +328,37 @@ static int font_scale(GdiObject* f) { return std::max(1, (font_cell_height(f) + 
 
 int text_height(uint16_t font) { return font_cell_height(gdi_get(font)); }
 
+// Base glyph and accent for a cp1252 character (Swedish letters get drawn accents).
+static unsigned char glyph_of(unsigned char ch, int* accent) {
+    *accent = 0;   // 1 ring (Å å), 2 dots (Ä ä Ö ö Ü ü), 3 acute (é É)
+    switch (ch) {
+        case 0xC5: *accent = 1; return 'A';
+        case 0xE5: *accent = 1; return 'a';
+        case 0xC4: *accent = 2; return 'A';
+        case 0xE4: *accent = 2; return 'a';
+        case 0xD6: *accent = 2; return 'O';
+        case 0xF6: *accent = 2; return 'o';
+        case 0xDC: *accent = 2; return 'U';
+        case 0xFC: *accent = 2; return 'u';
+        case 0xE9: *accent = 3; return 'e';
+        case 0xC9: *accent = 3; return 'E';
+        default: break;
+    }
+    return (ch < 0x20 || ch >= 0x80) ? '?' : ch;
+}
+
+static int char_advance(unsigned char ch, int sc, bool bold) {
+    int accent;
+    return g_glyphAdv[glyph_of(ch, &accent) - 0x20] * sc + (bold ? 1 : 0);
+}
+
 int text_width(uint16_t font, const std::string& text) {
     GdiObject* f = gdi_get(font);
-    int avg = std::max(5, font_cell_height(f) * 7 / 16);   // System: 16 -> 7
-    return int(text.size()) * avg + ((f && f->weight >= 700) ? 1 : 0);
+    int sc = font_scale(f);
+    bool bold = f && f->weight >= 700;
+    int w = 0;
+    for (unsigned char ch : text) w += char_advance(ch, sc, bold);
+    return w;
 }
 
 void draw_text(DC& dc, int x, int y, const std::string& text, const Rect* opaque, int) {
@@ -336,23 +377,12 @@ void draw_text(DC& dc, int x, int y, const std::string& text, const Rect* opaque
             for (int xx = bg.left; xx < bg.right; ++xx) s->set(xx, yy, dc.bkColor);
     }
     int gy = dy0 + (h - 8 * sc) / 2;
+    int penX = dx0;
     for (size_t i = 0; i < text.size(); ++i) {
-        unsigned char ch = static_cast<unsigned char>(text[i]);
-        int accent = 0;   // 1 ring (Å å), 2 dots (Ä ä Ö ö), 3 acute (é)
-        switch (ch) {
-            case 0xC5: ch = 'A'; accent = 1; break;
-            case 0xE5: ch = 'a'; accent = 1; break;
-            case 0xC4: ch = 'A'; accent = 2; break;
-            case 0xE4: ch = 'a'; accent = 2; break;
-            case 0xD6: ch = 'O'; accent = 2; break;
-            case 0xF6: ch = 'o'; accent = 2; break;
-            case 0xE9: ch = 'e'; accent = 3; break;
-            case 0xC9: ch = 'E'; accent = 3; break;
-            default: break;
-        }
-        if (ch < 0x20 || ch >= 0x80) ch = '?';
-        int adv = std::max(5, font_cell_height(f) * 7 / 16);
-        int gx = dx0 + int(i) * adv + (adv - 8 * sc) / 2;
+        int accent = 0;
+        unsigned char ch = glyph_of(static_cast<unsigned char>(text[i]), &accent);
+        int gx = penX - g_glyphLeft[ch - 0x20] * sc;
+        penX += char_advance(static_cast<unsigned char>(text[i]), sc, bold);
         const uint8_t* g = g_glyphs[ch - 0x20];
         for (int yy = 0; yy < 8; ++yy)
             for (int xx = 0; xx < 8; ++xx)
