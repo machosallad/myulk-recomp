@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 
+#include "recomp/enhance/dedither.hpp"
 #include "recomp/enhance/quick.hpp"
 #include "recomp/enhance/settings.hpp"
 #include "recomp/runtime/generated_support.hpp"
@@ -183,7 +184,8 @@ void draw_hints(Surface& t) {
 void cycle_scaling() {
     int m = (settings::scaling() + 1) % settings::kScalingCount;
     settings::set_int("scaling", m);
-    static const char* names[] = {"Bild: skarpa pixlar", "Bild: mjuk skalning", "Bild: utj\xE4mnad"};
+    static const char* names[] = {"Bild: skarpa pixlar", "Bild: mjuk skalning", "Bild: utj\xE4mnad",
+                                  "Bild: heltalsskalning"};
     show_toast(names[m]);
 }
 void toggle_text() {
@@ -209,11 +211,20 @@ int g_midScale = 0;
 
 void present() {
     bool toast = SDL_GetTicks() < g_toastUntil, hints = hints_active();
-    const Surface& s = toast || hints ? compose_toast(screen(), toast, hints) : screen();
+    const Surface& base = settings::dedither() ? dedither(screen()) : screen();
+    const Surface& s = toast || hints ? compose_toast(base, toast, hints) : base;
     SDL_UpdateTexture(g_tex, nullptr, s.px.data(), s.w * 4);
     SDL_SetRenderDrawColor(g_renderer, 0, 0, 0, 255);
     SDL_RenderClear(g_renderer);
     int mode = settings::scaling();
+    // pure integer scaling: only whole multiples, a border around the rest
+    static SDL_RendererLogicalPresentation presentation = SDL_LOGICAL_PRESENTATION_LETTERBOX;
+    SDL_RendererLogicalPresentation want =
+        mode == settings::kInteger ? SDL_LOGICAL_PRESENTATION_INTEGER_SCALE : SDL_LOGICAL_PRESENTATION_LETTERBOX;
+    if (want != presentation) {
+        SDL_SetRenderLogicalPresentation(g_renderer, 640, 480, want);
+        presentation = want;
+    }
     if (mode == settings::kSharpSmooth) {
         // "sharp bilinear": enlarge by the largest whole factor with sharp pixels,
         // then smoothly to the window, so pixels stay crisp without uneven sizes
@@ -630,7 +641,12 @@ void automation(uint64_t now) {
         SDL_Surface* surf = nullptr;
         if (SDL_getenv("MYULK_SHOT_WINDOW")) {   // what the window shows (scaling, notes)
             present();
+            int lw, lh;
+            SDL_RendererLogicalPresentation mode;
+            SDL_GetRenderLogicalPresentation(g_renderer, &lw, &lh, &mode);
+            SDL_SetRenderLogicalPresentation(g_renderer, 0, 0, SDL_LOGICAL_PRESENTATION_DISABLED);
             surf = SDL_RenderReadPixels(g_renderer, nullptr);
+            SDL_SetRenderLogicalPresentation(g_renderer, lw, lh, mode);
         } else {
             surf = SDL_CreateSurfaceFrom(s.w, s.h, SDL_PIXELFORMAT_XRGB8888, s.px.data(), s.w * 4);
         }
@@ -649,7 +665,9 @@ bool display_init() {
         recomp::log("SDL_Init: %s", SDL_GetError());
         return false;
     }
-    if (!SDL_CreateWindowAndRenderer("Myulk", 1280, 960, SDL_WINDOW_RESIZABLE, &g_window, &g_renderer)) {
+    int ww = 1280, wh = 960;   // MYULK_WINDOW=WxH: starting window size (tests)
+    if (const char* ws = SDL_getenv("MYULK_WINDOW")) std::sscanf(ws, "%dx%d", &ww, &wh);
+    if (!SDL_CreateWindowAndRenderer("Myulk", ww, wh, SDL_WINDOW_RESIZABLE, &g_window, &g_renderer)) {
         recomp::log("window: %s", SDL_GetError());
         return false;
     }

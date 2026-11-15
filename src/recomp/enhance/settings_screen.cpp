@@ -24,8 +24,9 @@ struct Option {
 
 const std::vector<Option>& options() {
     static const std::vector<Option> o = {
-        {"Bildskalning", "scaling", settings::kSharpSmooth, {0, 1, 2},
-         {"skarpa pixlar", "mjuk skalning", "utj\xE4mnad"}},
+        {"Bildskalning", "scaling", settings::kSharpSmooth, {0, 1, 2, 3},
+         {"skarpa pixlar", "mjuk skalning", "utj\xE4mnad", "heltalsskalning"}},
+        {"Avdithring (mjukare f\xE4rgytor)", "dedither", 0, {0, 1}, {"av", "p\xE5"}},
         {"Text", "crisp_text", 0, {0, 1}, {"mjuk", "skarp (som originalet)"}},
         {"Volym", "volume", 100, {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100}, {}},
         {"Helsk\xE4rm", "", 0, {0, 1}, {"av", "p\xE5"}},
@@ -71,7 +72,7 @@ protected:
         panel(p, pr, "Inst\xE4llningar");
         const auto& opts = options();
         for (size_t i = 0; i < opts.size(); ++i) {
-            int y = 84 + int(i) * 38;
+            int y = 84 + int(i) * 34;
             Rect rowR{pr.left + 12, y - 4, pr.right - 12, y + 30};
             if (int(i) == row_) p.fill(rowR, 0x26303C);
             p.text(pr.left + 24, y + 6, opts[i].label, int(i) == row_ ? kText : kDim);
@@ -81,7 +82,7 @@ protected:
             std::string v = p.fit(shown(opts[i]), 150);
             p.text(372 + (152 - p.width(v)) / 2, y + 5, v, kAccent);
         }
-        int by = 84 + int(opts.size()) * 38 + 10;
+        int by = 84 + int(opts.size()) * 34 + 10;
         button(p, Rect{pr.left + 24, by, pr.left + 184, by + 32}, "Snabbspara (F5)", kQuickSave);
         button(p, Rect{pr.left + 196, by, pr.left + 356, by + 32}, "Snabbladda (F9)", kQuickLoad);
         button(p, Rect{pr.right - 124, by, pr.right - 24, by + 32}, "Klar", kDone, kAccent);
