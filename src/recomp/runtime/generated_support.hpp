@@ -1,6 +1,7 @@
 // Declarations shared by the generated code and the runtime.
 #pragma once
 
+#include <cstddef>
 #include <cstdint>
 
 #include "recomp/runtime/cpu.hpp"
@@ -49,6 +50,14 @@ struct FuncEntry {
 };
 extern const FuncEntry kFuncs[];
 extern const int kFuncCount;
+
+// The MYULK.EXE the generated code was made from (size, FNV-1a 64 hash).
+extern const uint64_t kExeHash;
+extern const uint32_t kExeSize;
+inline uint64_t fnv1a64(const uint8_t* p, size_t n, uint64_t h = 0xCBF29CE484222325ull) {
+    for (size_t i = 0; i < n; ++i) h = (h ^ p[i]) * 0x100000001B3ull;
+    return h;
+}
 
 struct ImportInfo {
     const char* module;

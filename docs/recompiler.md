@@ -19,7 +19,7 @@ The generated C++ is derived from the original program, so it is written into th
 
 ## 1. Reading the executable
 
-`tools/ne.py` parses the NE format: the segment table, each segment's relocations (fixups), the imported modules and the entry point. The recompiler applies the relocations itself, so it knows for every far call, far pointer and segment reference what it points to: another segment of the program (selector `n << 3 | 7` for segment `n`), or an imported Windows function (module and ordinal, for example `USER.171`, `WinHelp`).
+`tools/ne.py` parses the NE format: the segment table, each segment's relocations (fixups), the imported modules and the entry point. The recompiler also records the size and a hash of the file in the generated code, and the program only runs with exactly that `MYULK.EXE`; the code and the data it reads from the player's copy must belong together. The recompiler applies the relocations itself, so it knows for every far call, far pointer and segment reference what it points to: another segment of the program (selector `n << 3 | 7` for segment `n`), or an imported Windows function (module and ordinal, for example `USER.171`, `WinHelp`).
 
 ## 2. Finding the code
 

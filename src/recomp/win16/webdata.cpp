@@ -23,15 +23,29 @@ EM_ASYNC_JS(char*, web_fetch_text, (const char* url), {
     }
 });
 
+// Text stored in a browser cache under a URL (malloc'ed), or null: the game
+// files imported from the player's CD image live in the cache "myulk-own".
+EM_ASYNC_JS(char*, web_cached_text, (const char* cacheName, const char* url), {
+    try {
+        if (typeof caches === 'undefined') return 0;
+        const cache = await caches.open(UTF8ToString(cacheName));
+        const r = await cache.match(UTF8ToString(url));
+        return r ? stringToNewUTF8(await r.text()) : 0;
+    } catch (e) {
+        return 0;
+    }
+});
+
 // Download a URL into a file of the in-memory file system; 1 on success.
-// Files are kept in Cache Storage ("myulk-game-<key>", key from the manifest)
-// so later visits read them locally; without Cache Storage (no secure
-// context) it is a plain fetch.
-EM_ASYNC_JS(int, web_fetch_file, (const char* url, const char* path, const char* cacheKey), {
-    const u = UTF8ToString(url), p = UTF8ToString(path), key = UTF8ToString(cacheKey);
+// Files are kept in Cache Storage (`cacheName`: "myulk-game-<key>", key from
+// the server's manifest, or "myulk-own" for imported files) so later visits
+// read them locally; without Cache Storage (no secure context) it is a plain
+// fetch.
+EM_ASYNC_JS(int, web_fetch_file, (const char* url, const char* path, const char* cacheName), {
+    const u = UTF8ToString(url), p = UTF8ToString(path), name = UTF8ToString(cacheName);
     let cache = null;
     try {
-        if (typeof caches !== 'undefined') cache = await caches.open('myulk-game-' + key);
+        if (typeof caches !== 'undefined') cache = await caches.open(name);
     } catch (e) { cache = null; }
     try {
         let r = cache ? await cache.match(u) : null;
@@ -56,9 +70,10 @@ EM_ASYNC_JS(int, web_fetch_file, (const char* url, const char* path, const char*
 });
 
 // Keep the cached game files from being evicted (browsers decide whether to
-// grant it) and drop caches of other manifest versions.
-EM_JS(void, web_cache_setup, (const char* cacheKey), {
-    const key = 'myulk-game-' + UTF8ToString(cacheKey);
+// grant it) and drop caches of other versions of the server's files (the
+// imported files in "myulk-own" stay).
+EM_JS(void, web_cache_setup, (const char* cacheName), {
+    const key = UTF8ToString(cacheName);
     if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
     if (typeof caches !== 'undefined')
         caches.keys().then((names) => names.forEach((n) => {
@@ -71,26 +86,37 @@ namespace win16::webdata {
 namespace {
 std::string g_root;
 std::map<std::string, long> g_pending;   // host path -> size, not fetched yet
-std::string g_cacheKey;                  // hash of the manifest: names the browser cache
+std::string g_cacheName;                 // the browser cache holding the files
 }
 
 #ifdef __EMSCRIPTEN__
 bool init(const std::string& root) {
     namespace fs = std::filesystem;
     g_root = root;
+    // the server's game files, or the ones imported from the player's CD
     char* text = web_fetch_text("game/manifest.txt");
+    bool own = false;
     if (!text) {
-        recomp::log("web data: game/manifest.txt not found");
+        text = web_cached_text("myulk-own", "game/manifest.txt");
+        own = text != nullptr;
+    }
+    if (!text) {
+        recomp::log("web data: no game files on the server or in this browser");
         return false;
     }
     std::string all = text;
     std::free(text);
-    uint32_t h = 2166136261u;   // FNV-1a
-    for (unsigned char ch : all) h = (h ^ ch) * 16777619u;
-    char key[16];
-    std::snprintf(key, sizeof key, "%08x", h);
-    g_cacheKey = key;
-    web_cache_setup(g_cacheKey.c_str());
+    if (own) {
+        g_cacheName = "myulk-own";
+    } else {
+        uint32_t h = 2166136261u;   // FNV-1a of the manifest names the cache
+        for (unsigned char ch : all) h = (h ^ ch) * 16777619u;
+        char key[24];
+        std::snprintf(key, sizeof key, "myulk-game-%08x", h);
+        g_cacheName = key;
+    }
+    web_cache_setup(g_cacheName.c_str());
+    g_pending.clear();
     std::error_code ec;
     size_t p = 0, count = 0;
     while (p < all.size()) {
@@ -105,7 +131,7 @@ bool init(const std::string& root) {
         g_pending[host] = std::atol(line.c_str() + tab + 1);
         ++count;
     }
-    recomp::log("web data: %zu files available on demand", count);
+    recomp::log("web data: %zu files available on demand (%s)", count, own ? "imported" : "server");
     return true;
 }
 
@@ -113,7 +139,7 @@ void ensure(const std::string& hostPath) {
     auto it = g_pending.find(hostPath);
     if (it == g_pending.end()) return;
     std::string url = "game/" + hostPath.substr(g_root.size() + 1);
-    if (web_fetch_file(url.c_str(), hostPath.c_str(), g_cacheKey.c_str())) g_pending.erase(it);
+    if (web_fetch_file(url.c_str(), hostPath.c_str(), g_cacheName.c_str())) g_pending.erase(it);
 }
 
 long pending_size(const std::string& hostPath) {

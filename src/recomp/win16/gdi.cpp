@@ -152,6 +152,9 @@ uint8_t nearest_index(Color c) {
 }
 
 void gdi_init() {
+    static bool done = false;   // the first-start screen may have set it up already
+    if (done) return;
+    done = true;
     auto add_stock = [](int i, ObjType t, int style, Color c) {
         auto o = std::make_unique<GdiObject>();
         o->type = t;

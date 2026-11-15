@@ -24,7 +24,9 @@ This project brings it back by **static recompilation**: a tool translates the o
 
 ## Playing
 
-You build the game yourself from this source code and your CD (the reason is under [Legal](#legal)). On Windows it takes three steps:
+**With a built program**, all you need is your CD. On the first start the game asks for it: choose the CD image (`.iso`, or `.bin`/`.cue`), the CD drive or a folder with the CD's files, or drop it on the window. It checks that it's the right edition and copies the game's files once, in a few seconds; from then on it starts straight away. The browser version works the same way: the page asks for the CD image, reads it in the browser and keeps the files there. Nothing is uploaded.
+
+**Building it** from this source code needs your CD as well, since the recompiler translates your `MYULK.EXE`. On Windows:
 
 ```bat
 powershell -ExecutionPolicy Bypass -File tools\setup-windows.ps1
@@ -32,7 +34,7 @@ powershell -ExecutionPolicy Bypass -File tools\setup-windows.ps1
 tools\build-native.bat
 ```
 
-Then start `build\native\myulk_recomp.exe`, or make a folder to keep with `python tools\package.py desktop`. **[docs/playing.md](docs/playing.md)** explains each step, the browser version, the keys and where saves go.
+Then start `build\native\myulk_recomp.exe`, or make a program folder with `python tools\package.py desktop`. **[docs/playing.md](docs/playing.md)** explains each step, packages, the browser version, the keys and where saves go.
 
 ## How it works
 
@@ -75,4 +77,6 @@ Not in the repository, and ignored by git: `iso/` and `extracted/` (your CD), `b
 
 *Myulk* and its contents belong to their rights holders. This repository contains only code written for this project: no game files, no code from the original program and no generated code.
 
-The program you build contains code **translated from your copy of `MYULK.EXE`**, so it is a personal copy, like the game files themselves. Please don't share built programs, packages or game files. Share the source code, which anyone with the CD can build. The project's own code is under the [MIT licence](LICENSE); the third-party parts are listed in [docs/third-party.md](docs/third-party.md).
+A built program contains **code translated from `MYULK.EXE`** (the game's logic), but none of the CD's files: the pictures, films, sounds, text and data are read from each player's own copy, and the program only runs with the edition of the game it was made from. A package made with `--game` also contains the CD's files and is meant for your own use. The game belongs to its rights holders; think about that before passing built programs on.
+
+The project's own code is under the [MIT licence](LICENSE); the third-party parts are listed in [docs/third-party.md](docs/third-party.md).

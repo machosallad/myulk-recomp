@@ -14,6 +14,8 @@ struct ExitProgram {
 // Register all implemented API functions and set up the environment.
 // gameDir is the folder holding MYULK.EXE (the original MYULK\ directory).
 void install(recomp::Runtime& rt, const std::string& gameDir);
+// Only the window and drawing, before a game is loaded (the first-start screen).
+void init_host();
 void shutdown();
 void fatal(const std::string& message);
 

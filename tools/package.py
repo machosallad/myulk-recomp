@@ -1,20 +1,19 @@
-"""Make a ready-to-play package of the recompiled game, for your own use.
-
-The program contains code translated from MYULK.EXE, so a package is a
-personal build: it may not be shared, and neither may the game files. What
-can be shared is this repository's source, which anyone can build with their
-own copy of the CD.
+"""Make a ready-to-play package of the recompiled game.
 
 Usage:
     python tools/package.py desktop [--game DIR] [--out dist]
     python tools/package.py web     [--game DIR] [--out dist]
 
 desktop: build/native/myulk_recomp.exe -> dist/myulk-desktop/Myulk.exe, with
-         the licences and a "game" folder for the CD files.
-web:     build/web/myulk_recomp.* -> dist/myulk-web/ (index.html), with the
-         licences and an empty "game" folder.
---game:  copy the CD files (the folder holding MYULK, PICTDLL, ...) in as well,
-         so the package is complete. For the web this also writes the
+         the licences and a player README.
+web:     build/web/myulk_recomp.* -> dist/myulk-web/ (index.html), likewise.
+
+Without --game a package holds no game files: on first start each player
+chooses their own CD image (.iso, .bin/.cue), CD drive or folder, which is
+checked and copied once (src/recomp/enhance/setup.cpp). The program still
+contains code translated from MYULK.EXE, but none of the CD's files.
+--game:  include the CD files (the folder holding MYULK, PICTDLL, ...), so
+         the package plays at once. For the web this also writes the
          manifest the page needs (tools/web_data.py).
 
 Build first: tools\\build-native.bat (desktop) or cmake --build --preset web
@@ -49,9 +48,9 @@ KEYS / TANGENTER
 SAVES / SPARADE SPEL
 {saves}
 
-This is a personal build made from the myulk-recomp source code. It contains
-code translated from the original game and must not be shared, and neither
-may the game files. Licences for the parts it uses are in "licenses".
+Made from the myulk-recomp source code. The program contains code translated
+from the original game{contents}. Myulk belongs to its rights holders.
+Licences for the parts the program uses are in "licenses".
 """
 
 DESKTOP_WHAT = "Start Myulk.exe. Windows 10/11, 64-bit."
@@ -60,22 +59,27 @@ DESKTOP_SAVES = ("  In %APPDATA%\\myulk-recomp\\Myulk\\drive_c\\MYULK, the game 
                  "  changed. Settings: settings.txt in %APPDATA%\\myulk-recomp\\Myulk.")
 WEB_WHAT = ("The game for the browser (Chrome or Edge; it needs WebAssembly JSPI).\n"
             "Serve this folder over http://localhost or https:// and open index.html.")
-WEB_MANIFEST = """
-  The page also needs game/manifest.txt. Make it with the tool in the
-  source code:  python tools/web_data.py <your CD folder> <this folder>/game
-  (python tools/package.py web --game <your CD folder> does all of it.)
-"""
 WEB_RUN = """
 STARTING / STARTA
   python -m http.server 8080      then open http://localhost:8080/
-  Only on your own computer or network: the game files must not be put on
-  a public web site.
+  Other computers need an https:// address for the browser to keep the files.
 """
 WEB_SAVES = "  In the browser (IndexedDB) for this address; they stay after reloading."
-GAME_MISSING = """  The game itself is not included. Copy the contents of your Myulk CD into
-  the folder "game" here, so that game{sep}MYULK{sep}MYULK.EXE exists.
-  Spelet ingår inte. Kopiera innehållet på din Myulk-cd till mappen "game",
-  så att game{sep}MYULK{sep}MYULK.EXE finns.
+GAME_MISSING_DESKTOP = """  Not included: you need your own Myulk CD. On the first start, choose the
+  CD image (.iso, or .bin/.cue), the CD drive or a folder with the CD's
+  files, or drop it on the window. The files are checked and copied once;
+  after that the CD is not needed.
+  Ingår inte: du behöver en egen Myulk-cd. Vid första starten väljer du
+  cd-avbilden (.iso eller .bin/.cue), cd-enheten eller en mapp med cd:ns
+  filer, eller drar den till fönstret. Filerna kontrolleras och kopieras en
+  gång; sedan behövs inte skivan.
+"""
+GAME_MISSING_WEB = """  Not on the server: each player needs their own Myulk CD image. On the
+  first visit the page asks for it (.iso or .bin, or drop it on the page).
+  It is read and kept in the player's browser; nothing is uploaded.
+  Finns inte på servern: varje spelare behöver en egen avbild av Myulk-cd:n.
+  Vid första besöket ber sidan om den (.iso eller .bin, eller dra den hit).
+  Den läses och sparas i spelarens webbläsare; inget laddas upp.
 """
 GAME_INCLUDED = """  The files from the Myulk CD are in the folder "game"; nothing to install.
   Filerna från Myulk-cd:n finns i mappen "game"; inget behöver installeras.
@@ -111,8 +115,9 @@ def write_readme(dst: str, web: bool, with_game: bool) -> None:
     sep = "/" if web else "\\"
     text = PLAYER_README.format(
         what=WEB_WHAT if web else DESKTOP_WHAT,
-        game=GAME_INCLUDED if with_game else GAME_MISSING.format(sep=sep),
-        start=(("" if with_game else WEB_MANIFEST) + WEB_RUN) if web else DESKTOP_START,
+        game=GAME_INCLUDED if with_game else (GAME_MISSING_WEB if web else GAME_MISSING_DESKTOP),
+        start=WEB_RUN if web else DESKTOP_START,
+        contents=" and the game's files from the CD" if with_game else ", but none of the game's files",
         saves=WEB_SAVES if web else DESKTOP_SAVES,
         sep=sep)
     with open(os.path.join(dst, "README.txt"), "w", encoding="utf-8-sig", newline="\r\n") as fh:
@@ -133,8 +138,8 @@ def desktop(args) -> str:
     dst = os.path.join(args.out, "myulk-desktop")
     fresh(dst)
     shutil.copy(exe, os.path.join(dst, "Myulk.exe" if os.name == "nt" else "myulk"))
-    os.makedirs(os.path.join(dst, "game"))
     if args.game:
+        os.makedirs(os.path.join(dst, "game"))
         copy_game(args.game, os.path.join(dst, "game"))
     copy_licenses(build, dst)
     write_readme(dst, web=False, with_game=bool(args.game))
@@ -151,7 +156,6 @@ def web(args) -> str:
     shutil.copy(os.path.join(build, "myulk_recomp.html"), os.path.join(dst, "index.html"))
     for f in ("myulk_recomp.js", "myulk_recomp.wasm"):
         shutil.copy(os.path.join(build, f), os.path.join(dst, f))
-    os.makedirs(os.path.join(dst, "game"))
     if args.game:
         subprocess.run([sys.executable, os.path.join(ROOT, "tools", "web_data.py"), args.game,
                         os.path.join(dst, "game")], check=True)
@@ -172,8 +176,7 @@ def main() -> int:
         archive = shutil.make_archive(dst, "zip", os.path.dirname(dst), os.path.basename(dst))
         print(f"zipped: {archive}")
     print(f"package: {dst}")
-    if args.game:
-        print("This package contains the game files: it is for your own use only.")
+    print("includes the game files" if args.game else "no game files: players choose their CD image on first start")
     return 0
 
 

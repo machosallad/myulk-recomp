@@ -984,6 +984,14 @@ def main() -> int:
         n_disp += 1
     disp.append("};")
     disp.append(f"const int kFuncCount = {n_disp};")
+    # the executable this code was made from: the program only runs with the
+    # same MYULK.EXE (checked at start and when importing a CD)
+    data = open(exe, "rb").read()
+    h = 0xCBF29CE484222325
+    for byte in data:
+        h = ((h ^ byte) * 0x100000001B3) & 0xFFFFFFFFFFFFFFFF
+    disp.append(f"extern const uint64_t kExeHash = 0x{h:016X}ull;   // FNV-1a 64")
+    disp.append(f"extern const uint32_t kExeSize = {len(data)};")
     disp.append("}")
     with open(os.path.join(out, "dispatch.cpp"), "w", encoding="utf-8") as fh:
         fh.write("\n".join(disp) + "\n")

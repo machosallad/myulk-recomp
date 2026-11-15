@@ -62,6 +62,11 @@ void install(recomp::Runtime& rt, const std::string& gameDir) {
     detail::install_all(rt);
 }
 
+void init_host() {
+    display_init();
+    gdi_init();
+}
+
 void shutdown() { display_shutdown(); }
 
 void fatal(const std::string& message) { std::fprintf(stderr, "Myulk: %s\n", message.c_str()); }

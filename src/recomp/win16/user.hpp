@@ -8,6 +8,8 @@
 
 #include "recomp/win16/gdi.hpp"
 
+struct SDL_Window;
+
 namespace win16 {
 
 constexpr uint16_t WM_CREATE = 0x0001, WM_DESTROY = 0x0002, WM_MOVE = 0x0003, WM_SIZE = 0x0005,
@@ -73,6 +75,10 @@ bool input_wheel(float dy);   // to the overlay, if one is open
 // `command`/`data` as for WinHelp (HELP_CONTEXT, HELP_CONTENTS, ...).
 void run_help_screen(const std::string& file, unsigned command, uint32_t data);
 void request_help();   // open the handbook at the next safe point (F1, settings menu)
+// Host window helpers (display.cpp) for the first-start screen.
+::SDL_Window* host_window();
+std::string host_take_dropped();      // a file or folder dropped on the window, or ""
+void host_system_cursor(bool show);   // the system's arrow instead of the game's cursor
 
 // A short note at the bottom of the screen (display.cpp).
 void show_note(const std::string& text);

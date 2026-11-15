@@ -9,7 +9,11 @@
 
 #include <SDL3/SDL.h>
 
+#include <fstream>
+#include <iterator>
+
 #include "funcs.hpp"
+#include "recomp/enhance/setup.hpp"
 #include "recomp/runtime/runtime.hpp"
 #include "recomp/win16/webdata.hpp"
 #include "recomp/win16/win16.hpp"
@@ -35,18 +39,25 @@ namespace fs = std::filesystem;
 // CD's root). Looked for in this order: a path to MYULK.EXE on the command
 // line, MYULK_GAME_DIR, "game" next to the program (release packages), the
 // program's own folder, then the repository layout (extracted/iso).
+// The files imported from the player's CD on first start (setup.cpp) come
+// after the program's own folder. MYULK_FORCE_SETUP=1 looks only at
+// MYULK_GAME_DIR and the imported files (tests of the first-start screen).
 static std::string find_exe(int argc, char** argv) {
     if (argc > 1 && fs::exists(argv[1])) return argv[1];
     std::vector<fs::path> roots;
     if (const char* d = std::getenv("MYULK_GAME_DIR")) roots.emplace_back(d);
 #ifndef __EMSCRIPTEN__
-    if (const char* base = SDL_GetBasePath()) {
+    const bool onlyImported = std::getenv("MYULK_FORCE_SETUP") != nullptr;
+    const char* base = SDL_GetBasePath();
+    if (base && !onlyImported) {
         roots.emplace_back(fs::path(base) / "game");
         roots.emplace_back(fs::path(base));
-        roots.emplace_back(fs::path(base) / ".." / ".." / "extracted" / "iso");   // build/native
     }
+    if (std::string imported = win16::setup::imported_dir(); !imported.empty()) roots.emplace_back(fs::u8path(imported));
+    if (base && !onlyImported) roots.emplace_back(fs::path(base) / ".." / ".." / "extracted" / "iso");   // build/native
+    if (!onlyImported)
 #endif
-    for (const char* p : {"extracted/iso", "../extracted/iso", "../../extracted/iso", "/game"}) roots.emplace_back(p);
+        for (const char* p : {"extracted/iso", "../extracted/iso", "../../extracted/iso", "/game"}) roots.emplace_back(p);
     for (const fs::path& r : roots) {
         std::error_code ec;
         fs::path exe = r / "MYULK" / "MYULK.EXE";
@@ -55,28 +66,47 @@ static std::string find_exe(int argc, char** argv) {
     return {};
 }
 
+static void error_box(const char* msg) {
+    std::fprintf(stderr, "%s\n", msg);
+#ifndef __EMSCRIPTEN__
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Myulk", msg, nullptr);
+#endif
+}
+
+static bool exe_ok(const std::string& path) {
+    std::ifstream in(fs::u8path(path), std::ios::binary);
+    std::vector<uint8_t> data((std::istreambuf_iterator<char>(in)), {});
+    return win16::setup::exe_matches(data);
+}
+
 int main(int argc, char** argv) {
 #ifdef __EMSCRIPTEN__
     mount_saves();
     setenv("MYULK_SAVE_DIR", "/saves/drive_c", 1);
+    // game files from the server, or imported earlier into this browser;
+    // otherwise the player chooses their CD image now
     if (!win16::webdata::init("/game")) {
-        std::fprintf(stderr, "game data not found (game/manifest.txt)\n");
-        return 1;
+        win16::init_host();
+        if (!win16::setup::run() || !win16::webdata::init("/game")) return 0;
     }
 #endif
     std::string exe = find_exe(argc, argv);
+#ifndef __EMSCRIPTEN__
+    if (exe.empty()) {   // first start: "choose your Myulk disc"
+        win16::init_host();
+        if (!win16::setup::run()) return 0;
+        exe = (fs::u8path(win16::setup::imported_dir()) / "MYULK" / "MYULK.EXE").string();
+    }
+#endif
     win16::webdata::ensure(exe);
     if (exe.empty()) {
-        const char* msg =
-            "Spelfilerna hittades inte / The game files were not found.\n\n"
-            "Kopiera inneh\xC3\xA5llet p\xC3\xA5 Myulk-cd:n till mappen \"game\" bredvid programmet, "
-            "s\xC3\xA5 att game\\MYULK\\MYULK.EXE finns.\n\n"
-            "Copy the contents of the Myulk CD into a folder named \"game\" next to the program, "
-            "so that game\\MYULK\\MYULK.EXE exists (or set MYULK_GAME_DIR).";
-        std::fprintf(stderr, "%s\n", msg);
-#ifndef __EMSCRIPTEN__
-        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Myulk", msg, nullptr);
-#endif
+        error_box("Spelfilerna hittades inte / The game files were not found.");
+        return 1;
+    }
+    if (!exe_ok(exe)) {
+        error_box("Den h\xC3\xA4r versionen av MYULK.EXE passar inte programmet (en annan utg\xC3\xA5va av spelet, "
+                  "eller en skadad fil).\n\nThis MYULK.EXE does not match the program (another edition of the "
+                  "game, or a damaged file).");
         return 1;
     }
     auto& rt = recomp::Runtime::get();

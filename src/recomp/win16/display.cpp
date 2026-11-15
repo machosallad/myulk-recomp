@@ -212,6 +212,8 @@ void toggle_pause() {
 bool g_settingsRequested = false;
 void open_settings() { g_settingsRequested = true; }
 bool g_helpRequested = false;   // F1 or the settings menu: the handbook
+std::string g_dropped;          // a file dropped on the window (first-start screen)
+bool g_systemCursor = false;    // the system arrow instead of the game's cursor
 
 // F12: the picture as shown (de-dithered when that is on), without notes
 void take_screenshot() {
@@ -290,7 +292,7 @@ void present() {
         SDL_SetTextureScaleMode(g_tex, mode == settings::kSmooth ? SDL_SCALEMODE_LINEAR : SDL_SCALEMODE_NEAREST);
         SDL_RenderTexture(g_renderer, g_tex, nullptr, nullptr);
     }
-    if (const CursorImage* cur = current_cursor()) {
+    if (const CursorImage* cur = g_systemCursor ? nullptr : current_cursor()) {
         if (cur != g_cursorFor) {
             if (g_cursorTex) SDL_DestroyTexture(g_cursorTex);
             g_cursorTex = nullptr;
@@ -727,6 +729,7 @@ void automation(uint64_t now) {
 }  // namespace
 
 bool display_init() {
+    if (g_window) return true;   // already open (the first-start screen)
     if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO)) {
         recomp::log("SDL_Init: %s", SDL_GetError());
         return false;
@@ -824,6 +827,9 @@ void host_pump(int blockMs) {
                 if (!input_wheel(dy)) nav::wheel(dy);
                 break;
             }
+            case SDL_EVENT_DROP_FILE:
+                if (ev.drop.data) g_dropped = ev.drop.data;
+                break;
             case SDL_EVENT_WINDOW_MOVED:
             case SDL_EVENT_WINDOW_RESIZED:
             case SDL_EVENT_WINDOW_MAXIMIZED:
@@ -912,6 +918,18 @@ void host_pump(int blockMs) {
 }
 
 void request_help() { g_helpRequested = true; }
+
+::SDL_Window* host_window() { return g_window; }
+std::string host_take_dropped() {
+    std::string d;
+    d.swap(g_dropped);
+    return d;
+}
+void host_system_cursor(bool show) {
+    g_systemCursor = show;
+    if (show) SDL_ShowCursor();
+    else SDL_HideCursor();
+}
 
 void show_note(const std::string& text) { show_toast(text); }
 
