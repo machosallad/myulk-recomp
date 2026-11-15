@@ -1050,6 +1050,7 @@ uint32_t edit_proc(uint16_t h, uint16_t msg, uint16_t wp, uint32_t lp) {
         case WM_LBUTTONDOWN:
         case WM_LBUTTONDBLCLK: {
             wnd_set_focus(h);
+            if (!e.readOnly) host_text_input(true);   // a tap on the field (phones need a recent tap)
             std::string t = wnd_text(h);
             WndInfo wi;
             wnd_info(h, wi);
@@ -1093,10 +1094,12 @@ uint32_t edit_proc(uint16_t h, uint16_t msg, uint16_t wp, uint32_t lp) {
             e.selStart = 0;
             e.selEnd = wnd_text(h).size();
             wnd_invalidate(h);
+            if (!e.readOnly) host_text_input(true);
             notify(h, 0x100);   // EN_SETFOCUS
             return 0;
         case WM_KILLFOCUS:
             wnd_invalidate(h);
+            host_text_input(false);
             notify(h, 0x200);   // EN_KILLFOCUS
             return 0;
         default: return wnd_default_proc(h, msg, wp, lp);

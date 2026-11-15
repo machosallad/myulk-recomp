@@ -2,43 +2,81 @@
 <html lang="sv">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#000000">
   <title>Myulk</title>
   <style>
-    html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+    html, body {
+      margin: 0; height: 100%; background: #000; overflow: hidden;
+      overscroll-behavior: none; -webkit-user-select: none; user-select: none;
+      -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent;
+    }
     #canvas {
-      display: block; width: 100vw; height: 100vh;
-      outline: none; cursor: none;
+      display: block; width: 100vw; height: 100vh; height: 100dvh;
+      outline: none; cursor: none; touch-action: none;
     }
     #status {
       position: fixed; inset: 0; display: flex; flex-direction: column; gap: 12px;
-      align-items: center; justify-content: center;
+      align-items: center; justify-content: center; padding: 16px;
       color: #ddd; font: 18px system-ui, sans-serif; text-align: center;
       background: #000;
     }
     #status small { color: #888; font-size: 14px; }
+    #status.ready { cursor: pointer; }
     #fetching {
       position: fixed; right: 12px; bottom: 10px; display: none;
       color: #bbb; font: 13px system-ui, sans-serif; pointer-events: none;
     }
-    #status.ready { cursor: pointer; }
+    /* touch devices: fullscreen toggle in a corner */
+    #fullscreen {
+      position: fixed; top: 8px; right: 8px; display: none;
+      width: 40px; height: 40px; border: 0; border-radius: 8px;
+      background: rgba(255, 255, 255, 0.12); color: #ddd; font-size: 20px; line-height: 40px;
+      touch-action: manipulation;
+    }
+    /* hidden field that brings up the phone's keyboard for the game's text boxes */
+    #kbd {
+      position: fixed; left: 0; top: 0; width: 1px; height: 1px;
+      opacity: 0; border: 0; padding: 0; font-size: 16px; /* 16px: no zoom on iOS */
+    }
   </style>
 </head>
 <body>
   <canvas id="canvas" tabindex="-1" oncontextmenu="event.preventDefault()"></canvas>
   <div id="status">Laddar spelet…</div>
   <div id="fetching">Laddar…</div>
+  <button id="fullscreen" aria-label="Helskärm">⛶</button>
+  <input id="kbd" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="done">
   <script>
     var statusEl = document.getElementById('status');
+    var kbd = document.getElementById('kbd');
+    var fsButton = document.getElementById('fullscreen');
+    var touch = matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 0;
     var started = false;
+
     function show(html, ready) {
       statusEl.innerHTML = html;
       statusEl.style.display = html ? 'flex' : 'none';
       statusEl.classList.toggle('ready', !!ready);
     }
+    function goFullscreen() {
+      var el = document.documentElement;
+      var req = el.requestFullscreen || el.webkitRequestFullscreen;
+      if (!req || document.fullscreenElement) return Promise.resolve();
+      return Promise.resolve(req.call(el, { navigationUI: 'hide' })).then(function () {
+        if (screen.orientation && screen.orientation.lock) return screen.orientation.lock('landscape');
+      }).catch(function () {});
+    }
+    fsButton.addEventListener('click', function () {
+      if (document.fullscreenElement) document.exitFullscreen(); else goFullscreen();
+    });
+
     if (!('Suspending' in WebAssembly)) {
       show('Den här webbläsaren saknar stöd för WebAssembly JSPI.<br><small>Använd en aktuell Chrome, Edge eller Firefox.</small>');
     }
+
     var Module = {
       canvas: document.getElementById('canvas'),
       setStatus: function (text) {
@@ -48,11 +86,13 @@
         else if (text) show(text);
       },
       onRuntimeInitialized: function () {
-        show('Myulk – Kampen om det öppna landskapet<br><small>Klicka för att starta</small>', true);
+        show('Myulk – Kampen om det öppna landskapet<br><small>' +
+             (touch ? 'Tryck för att starta · vrid gärna till liggande läge' : 'Klicka för att starta') + '</small>', true);
         statusEl.addEventListener('click', function () {
           if (started) return;
           started = true;
           show('');
+          if (touch) { goFullscreen(); fsButton.style.display = 'block'; }
           Module.canvas.focus();
           Module.callMain([]);
         }, { once: true });
@@ -66,10 +106,30 @@
           if (active === 0) { clearTimeout(timer); timer = 0; el.style.display = 'none'; }
         };
       })(),
+      // The game's text boxes: on touch devices, focus the hidden field so the
+      // phone's keyboard opens; typed text is queued for the game to collect.
+      textQueue: '',
+      showKeyboard: function (on) {
+        if (!touch) return;   // physical keyboards reach the game directly
+        if (on) { kbd.value = ''; kbd.focus({ preventScroll: true }); }
+        else { kbd.blur(); Module.canvas.focus(); }
+      },
       print: function (t) { console.log(t); },
       printErr: function (t) { console.warn(t); }
     };
-    Module.canvas.addEventListener('click', function () { Module.canvas.focus(); });
+    kbd.addEventListener('input', function () {
+      if (kbd.value) { Module.textQueue += kbd.value; kbd.value = ''; }
+    });
+    kbd.addEventListener('keydown', function (e) {
+      // an empty field sends no input event for these
+      if (e.key === 'Backspace') { Module.textQueue += '\b'; e.preventDefault(); }
+      else if (e.key === 'Enter') { Module.textQueue += '\r'; e.preventDefault(); kbd.blur(); Module.canvas.focus(); }
+      e.stopPropagation();
+    });
+    Module.canvas.addEventListener('click', function () { if (document.activeElement !== kbd) Module.canvas.focus(); });
+    // no pinch zoom, double-tap zoom or pull-to-refresh over the game
+    document.addEventListener('gesturestart', function (e) { e.preventDefault(); });
+    document.addEventListener('touchmove', function (e) { if (e.touches.length > 1) e.preventDefault(); }, { passive: false });
   </script>
   {{{ SCRIPT }}}
 </body>

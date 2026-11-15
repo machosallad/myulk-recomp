@@ -15,6 +15,18 @@
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
+
+// On-screen keyboard (web/recomp_shell.html): open/close it and collect the
+// text typed there ("\b" backspace, "\r" enter), as UTF-8.
+EM_JS(void, web_show_keyboard, (int on), {
+    if (Module.showKeyboard) Module.showKeyboard(!!on);
+});
+EM_JS(char*, web_take_text, (), {
+    const s = Module.textQueue || '';
+    if (!s) return 0;
+    Module.textQueue = '';
+    return stringToNewUTF8(s);
+});
 #endif
 
 namespace win16 {
@@ -283,14 +295,20 @@ void automation(uint64_t now) {
             }
         }
     }
+    // MYULK_CLICK_HOLD=ms: release the button that much later (like a finger tap)
+    static const int hold = SDL_getenv("MYULK_CLICK_HOLD") ? std::atoi(SDL_getenv("MYULK_CLICK_HOLD")) : 0;
+    static std::vector<Click> releases;
     for (auto& c : g_clicks) {
         if (!c.done && now >= c.at) {
             c.done = true;
             input_mouse_move(c.x, c.y);
             input_mouse_button(c.x, c.y, 0, true);
-            input_mouse_button(c.x, c.y, 0, false);
+            if (hold > 0) releases.push_back({now + uint64_t(hold), c.x, c.y, false});
+            else input_mouse_button(c.x, c.y, 0, false);
         }
     }
+    for (auto& rl : releases)
+        if (!rl.done && now >= rl.at) { rl.done = true; input_mouse_button(rl.x, rl.y, 0, false); }
     // MYULK_KEYS="ms:text;ms:text": typed characters; {enter} {esc} {bs} {tab}
     struct Keys { uint64_t at; std::string text; bool done; };
     static std::vector<Keys> keys;
@@ -454,6 +472,14 @@ bool display_init() {
     return true;
 }
 
+void host_text_input(bool active) {
+#ifdef __EMSCRIPTEN__
+    web_show_keyboard(active ? 1 : 0);
+#else
+    (void)active;
+#endif
+}
+
 void display_shutdown() {
     if (g_renderer) SDL_DestroyRenderer(g_renderer);
     if (g_window) SDL_DestroyWindow(g_window);
@@ -520,6 +546,23 @@ void host_pump(int blockMs) {
         }
         have = SDL_PollEvent(&ev);
     }
+#ifdef __EMSCRIPTEN__
+    if (char* typed = web_take_text()) {   // on-screen keyboard
+        for (const unsigned char* p = reinterpret_cast<unsigned char*>(typed); *p; ++p) {
+            if (*p == '\b' || *p == '\r') {
+                int vk = *p == '\b' ? 0x08 : 0x0D;
+                input_key(vk, true);
+                input_char(vk);
+                input_key(vk, false);
+            } else if (*p == 0xC3 && p[1]) {
+                input_char(0x40 + *++p);   // UTF-8 Latin-1 letters (å ä ö ...) -> cp1252
+            } else if (*p < 0x80) {
+                input_char(*p);
+            }
+        }
+        std::free(typed);
+    }
+#endif
     uint64_t now = SDL_GetTicks();
     if (now - g_lastPresent >= 15) {
         present();

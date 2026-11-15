@@ -24,10 +24,49 @@ std::map<int, std::FILE*> g_files;
 std::set<int> g_writable;   // handles opened for writing (saves to persist on close)
 int g_next = 5;
 
+// DOS-side names are Windows-1252 bytes, upper-cased like Windows does
+// (including å ä ö é ...).
 std::string upper(std::string s) {
-    for (char& c : s) c = char(std::toupper(static_cast<unsigned char>(c)));
+    for (char& c : s) {
+        unsigned char u = static_cast<unsigned char>(c);
+        if (u >= 'a' && u <= 'z') c = char(u - 32);
+        else if (u >= 0xE0 && u <= 0xFE && u != 0xF7) c = char(u - 32);
+    }
     return s;
 }
+
+// Host file names: Windows uses the same 8-bit code page as the game; other
+// hosts (the web build, Linux, macOS) use UTF-8, so names are converted.
+#if defined(_WIN32)
+std::string host_name(const std::string& dos) { return dos; }
+std::string dos_name(const std::string& host) { return host; }
+#else
+std::string host_name(const std::string& dos) {
+    std::string out;
+    for (unsigned char b : dos) {
+        if (b < 0x80) { out += char(b); continue; }
+        out += char(0xC0 | (b >> 6));
+        out += char(0x80 | (b & 0x3F));
+    }
+    return out;
+}
+std::string dos_name(const std::string& host) {
+    std::string out;
+    for (size_t i = 0; i < host.size(); ++i) {
+        unsigned char b = static_cast<unsigned char>(host[i]);
+        if (b < 0x80) { out += char(b); continue; }
+        if ((b & 0xE0) == 0xC0 && i + 1 < host.size()) {
+            unsigned cp = ((b & 0x1Fu) << 6) | (static_cast<unsigned char>(host[i + 1]) & 0x3Fu);
+            out += cp < 0x100 ? char(cp) : '?';
+            ++i;
+            continue;
+        }
+        out += '?';
+        while (i + 1 < host.size() && (static_cast<unsigned char>(host[i + 1]) & 0xC0) == 0x80) ++i;
+    }
+    return out;
+}
+#endif
 
 std::vector<std::string> split(const std::string& p) {
     std::vector<std::string> out;
@@ -47,11 +86,11 @@ std::vector<std::string> split(const std::string& p) {
 // Find a directory entry by case-insensitive name.
 std::string match(const fs::path& dir, const std::string& name) {
     std::error_code ec;
-    if (fs::exists(dir / name, ec)) return name;
+    if (fs::exists(dir / host_name(name), ec)) return host_name(name);
     std::string want = upper(name);
     for (const auto& e : fs::directory_iterator(dir, ec)) {
         std::string n = e.path().filename().string();
-        if (upper(n) == want) return n;
+        if (upper(dos_name(n)) == want) return n;
     }
     return {};
 }
@@ -107,7 +146,7 @@ std::string g_overlay;
 
 fs::path overlay_path(const std::string& normalized) {
     fs::path p(g_overlay);
-    for (const auto& c : split(normalized.substr(2))) p /= c;
+    for (const auto& c : split(normalized.substr(2))) p /= host_name(c);
     return p;
 }
 
@@ -146,7 +185,7 @@ std::string base_host(const std::string& n, bool forCreate) {
     for (size_t i = 0; i < parts.size(); ++i) {
         std::string m = match(cur, parts[i]);
         if (m.empty()) {
-            if (forCreate && i + 1 == parts.size()) return (cur / parts[i]).string();
+            if (forCreate && i + 1 == parts.size()) return (cur / host_name(parts[i])).string();
             return {};
         }
         cur /= m;
@@ -305,7 +344,7 @@ std::vector<FindEntry> find(const std::string& dosPattern, int attrMask) {
     auto scan = [&](const std::string& h) {
         if (h.empty() || !fs::is_directory(h, ec)) return;
         for (const auto& e : fs::directory_iterator(h, ec)) {
-            std::string name = upper(e.path().filename().string());
+            std::string name = upper(dos_name(e.path().filename().string()));
             bool isdir = e.is_directory(ec);
             if (isdir && !(attrMask & 0x10)) continue;
             if (!wildmatch(pat, name)) continue;

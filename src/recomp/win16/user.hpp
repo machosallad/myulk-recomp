@@ -50,6 +50,9 @@ void cursor_position(int* x, int* y);
 // Called while the program waits for messages: present the screen, pump SDL.
 // `blockMs`: how long the host may sleep waiting for input.
 void host_pump(int blockMs);
+// A text box gained or lost the focus: on touch devices the web page opens the
+// on-screen keyboard (no effect elsewhere).
+void host_text_input(bool active);
 
 void user_init();
 void dump_windows();   // log visible windows (debugging)
