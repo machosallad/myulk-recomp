@@ -11,6 +11,7 @@
 #include <map>
 
 #include "recomp/runtime/runtime.hpp"
+#include "recomp/enhance/settings.hpp"
 #include "recomp/win16/text.hpp"
 #include "recomp/win16/win16.hpp"
 
@@ -312,7 +313,8 @@ void draw_text(DC& dc, int x, int y, const std::string& text, const Rect* opaque
     }
     float asc = ttf::ascent(sz), desc = ttf::descent(sz);
     int baseline = dy0 + int(std::lround((float(cell) - (asc + desc)) / 2 + asc));
-    bool mono = s->bpp == 1;
+    // monochrome targets and the "crisp text" setting: no blending, like raster fonts
+    bool mono = s->bpp == 1 || settings::crisp_text();
     Color tc = dc.textColor;
     int passes = ttf::fake_bold(sz) ? 2 : 1;
     float pen = float(dx0);

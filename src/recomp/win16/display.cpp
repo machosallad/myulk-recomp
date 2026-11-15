@@ -5,9 +5,11 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <memory>
 #include <string>
 #include <vector>
 
+#include "recomp/enhance/settings.hpp"
 #include "recomp/runtime/generated_support.hpp"
 #include "recomp/runtime/runtime.hpp"
 #include "recomp/win16/user.hpp"
@@ -55,12 +57,93 @@ int vk_from_sdl(SDL_Keycode k) {
     }
 }
 
+// ---- on-screen note (F7/F8 settings) -------------------------------------------
+std::string g_toast;
+uint64_t g_toastUntil = 0;
+std::shared_ptr<Surface> g_toastSurf;
+uint16_t g_toastDC = 0, g_toastFont = 0;
+
+void show_toast(const std::string& text) {
+    g_toast = text;
+    g_toastUntil = SDL_GetTicks() + 1800;
+}
+
+// The screen with the note drawn on top (into a copy, so the game's picture
+// is untouched).
+const Surface& compose_toast(const Surface& s) {
+    if (!g_toastSurf) {
+        g_toastSurf = std::make_shared<Surface>(s.w, s.h, 32);
+        g_toastDC = dc_create_memory();
+        if (DC* dc = dc_get(g_toastDC)) dc->bitmap = gdi_create_bitmap(g_toastSurf);
+        auto f = std::make_unique<GdiObject>();
+        f->type = ObjType::Font; f->face = "Arial"; f->height = -16; f->weight = 700;
+        g_toastFont = gdi_add(std::move(f));
+    }
+    Surface& t = *g_toastSurf;
+    t.px = s.px;
+    int w = text_width(g_toastFont, g_toast) + 28, h = 30;
+    Rect r{(t.w - w) / 2, t.h - h - 18, (t.w + w) / 2, t.h - 18};
+    for (int y = r.top; y < r.bottom; ++y)
+        for (int x = r.left; x < r.right; ++x) {
+            Color c = t.get(x, y);
+            t.set(x, y, ((c >> 2) & 0x3F3F3F) + 0x101418);   // darkened backdrop
+        }
+    if (DC* dc = dc_get(g_toastDC)) {
+        dc->font = g_toastFont;
+        dc->textColor = 0xF0F0F0;
+        dc->bkMode = 1;
+        draw_text(*dc, r.left + 14, r.top + (h - text_height(g_toastFont)) / 2, g_toast, nullptr, 0);
+    }
+    return t;
+}
+
+// F7: picture scaling, F8: text style (saved in the settings file)
+void cycle_scaling() {
+    int m = (settings::scaling() + 1) % settings::kScalingCount;
+    settings::set_int("scaling", m);
+    static const char* names[] = {"Bild: skarpa pixlar", "Bild: mjuk skalning", "Bild: utj\xE4mnad"};
+    show_toast(names[m]);
+}
+void toggle_text() {
+    bool crisp = !settings::crisp_text();
+    settings::set_int("crisp_text", crisp ? 1 : 0);
+    screen_invalidate();   // redraw all text in the new style
+    show_toast(crisp ? "Text: skarp (som originalet)" : "Text: mjuk");
+}
+
+SDL_Texture* g_mid = nullptr;   // integer-scaled copy for "mjuk skalning"
+int g_midScale = 0;
+
 void present() {
-    Surface& s = screen();
+    const Surface& s = SDL_GetTicks() < g_toastUntil ? compose_toast(screen()) : screen();
     SDL_UpdateTexture(g_tex, nullptr, s.px.data(), s.w * 4);
     SDL_SetRenderDrawColor(g_renderer, 0, 0, 0, 255);
     SDL_RenderClear(g_renderer);
-    SDL_RenderTexture(g_renderer, g_tex, nullptr, nullptr);
+    int mode = settings::scaling();
+    if (mode == settings::kSharpSmooth) {
+        // "sharp bilinear": enlarge by the largest whole factor with sharp pixels,
+        // then smoothly to the window, so pixels stay crisp without uneven sizes
+        int ow = 0, oh = 0;
+        SDL_GetCurrentRenderOutputSize(g_renderer, &ow, &oh);
+        int k = std::max(1, std::min(ow / s.w, oh / s.h));
+        if (k != g_midScale || !g_mid) {
+            if (g_mid) SDL_DestroyTexture(g_mid);
+            g_mid = SDL_CreateTexture(g_renderer, SDL_PIXELFORMAT_XRGB8888, SDL_TEXTUREACCESS_TARGET, s.w * k, s.h * k);
+            SDL_SetTextureScaleMode(g_mid, SDL_SCALEMODE_LINEAR);
+            g_midScale = k;
+        }
+        SDL_SetTextureScaleMode(g_tex, SDL_SCALEMODE_NEAREST);
+        if (g_mid && SDL_SetRenderTarget(g_renderer, g_mid)) {
+            SDL_RenderTexture(g_renderer, g_tex, nullptr, nullptr);
+            SDL_SetRenderTarget(g_renderer, nullptr);
+            SDL_RenderTexture(g_renderer, g_mid, nullptr, nullptr);
+        } else {
+            SDL_RenderTexture(g_renderer, g_tex, nullptr, nullptr);
+        }
+    } else {
+        SDL_SetTextureScaleMode(g_tex, mode == settings::kSmooth ? SDL_SCALEMODE_LINEAR : SDL_SCALEMODE_NEAREST);
+        SDL_RenderTexture(g_renderer, g_tex, nullptr, nullptr);
+    }
     if (const CursorImage* cur = current_cursor()) {
         if (cur != g_cursorFor) {
             if (g_cursorTex) SDL_DestroyTexture(g_cursorTex);
@@ -332,6 +415,8 @@ void automation(uint64_t now) {
         if (k.done || now < k.at) continue;
         k.done = true;
         for (size_t i = 0; i < k.text.size(); ++i) {
+            if (k.text.compare(i, 4, "{f7}") == 0) { cycle_scaling(); i += 3; continue; }
+            if (k.text.compare(i, 4, "{f8}") == 0) { toggle_text(); i += 3; continue; }
             static const std::pair<const char*, int> named[] = {{"{enter}", 0x0D}, {"{esc}", 0x1B}, {"{bs}", 0x08}, {"{tab}", 0x09}};
             bool special = false;
             for (auto& [name, vk] : named) {
@@ -443,7 +528,13 @@ void automation(uint64_t now) {
             path = dot == std::string::npos ? path + suffix : path.substr(0, dot) + suffix + path.substr(dot);
         }
         Surface& s = screen();
-        SDL_Surface* surf = SDL_CreateSurfaceFrom(s.w, s.h, SDL_PIXELFORMAT_XRGB8888, s.px.data(), s.w * 4);
+        SDL_Surface* surf = nullptr;
+        if (SDL_getenv("MYULK_SHOT_WINDOW")) {   // what the window shows (scaling, notes)
+            present();
+            surf = SDL_RenderReadPixels(g_renderer, nullptr);
+        } else {
+            surf = SDL_CreateSurfaceFrom(s.w, s.h, SDL_PIXELFORMAT_XRGB8888, s.px.data(), s.w * 4);
+        }
         bool ok = surf && SDL_SaveBMP(surf, path.c_str());
         if (surf) SDL_DestroySurface(surf);
         recomp::log("screenshot %s: %s", path.c_str(), ok ? "saved" : SDL_GetError());
@@ -524,6 +615,8 @@ void host_pump(int blockMs) {
                     SDL_SetWindowFullscreen(g_window, !full);
                     break;
                 }
+                if (ev.key.key == SDLK_F7) { if (!ev.key.repeat) cycle_scaling(); break; }
+                if (ev.key.key == SDLK_F8) { if (!ev.key.repeat) toggle_text(); break; }
                 if (int vk = vk_from_sdl(ev.key.key)) input_key(vk, true);
                 if (ev.key.key == SDLK_RETURN) input_char(13);
                 if (ev.key.key == SDLK_BACKSPACE) input_char(8);
