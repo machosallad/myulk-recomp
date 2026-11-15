@@ -119,12 +119,15 @@ if(EXISTS "${MYULK_EXE}")
         # Delphi exceptions use C++ exceptions, so native wasm exceptions too.
         target_compile_options(myulk_recomp PRIVATE -fwasm-exceptions -sWASM_LEGACY_EXCEPTIONS=0)
         set_target_properties(myulk_recomp PROPERTIES SUFFIX ".html")
-        # The user's extracted CD, mounted at /game (C:\ inside the game).
-        set(GAME_ISO "${MYULK_EXTRACTED_DIR}/iso")
-        set(GAME_PRELOAD)
-        foreach(d MYULK PICTDLL ART SOUNDS LJUD MOVIES IMAGES)
-            list(APPEND GAME_PRELOAD "--preload-file=${GAME_ISO}/${d}@/game/${d}")
-        endforeach()
+        # The user's extracted CD is copied next to the page (game/) with a
+        # manifest; the page fetches each file the first time the game opens it
+        # (src/recomp/win16/webdata.cpp). It appears at /game (C:\ in the game).
+        add_custom_target(myulk_web_data
+            COMMAND Python3::Interpreter -I "${CMAKE_SOURCE_DIR}/tools/web_data.py"
+                    "${MYULK_EXTRACTED_DIR}/iso" "${CMAKE_BINARY_DIR}/game"
+            COMMENT "Copying game data for the web build"
+            VERBATIM)
+        add_dependencies(myulk_recomp myulk_web_data)
         target_link_options(myulk_recomp PRIVATE
             -fwasm-exceptions
             -sWASM_LEGACY_EXCEPTIONS=0
@@ -135,7 +138,8 @@ if(EXISTS "${MYULK_EXE}")
             -sINVOKE_RUN=0
             -sEXPORTED_RUNTIME_METHODS=callMain
             -lidbfs.js
-            ${GAME_PRELOAD}
+            -sFORCE_FILESYSTEM=1
+            -sEXPORTED_FUNCTIONS=_main,_malloc,_free
             "--shell-file=${CMAKE_SOURCE_DIR}/web/recomp_shell.html")
         set_property(TARGET myulk_recomp APPEND PROPERTY LINK_DEPENDS "${CMAKE_SOURCE_DIR}/web/recomp_shell.html")
     endif()

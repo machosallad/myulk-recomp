@@ -17,12 +17,17 @@
       background: #000;
     }
     #status small { color: #888; font-size: 14px; }
+    #fetching {
+      position: fixed; right: 12px; bottom: 10px; display: none;
+      color: #bbb; font: 13px system-ui, sans-serif; pointer-events: none;
+    }
     #status.ready { cursor: pointer; }
   </style>
 </head>
 <body>
   <canvas id="canvas" tabindex="-1" oncontextmenu="event.preventDefault()"></canvas>
   <div id="status">Laddar spelet…</div>
+  <div id="fetching">Laddar…</div>
   <script>
     var statusEl = document.getElementById('status');
     var started = false;
@@ -52,6 +57,15 @@
           Module.callMain([]);
         }, { once: true });
       },
+      // game files are fetched on first use; note it when that takes a while
+      onGameFetch: (function () {
+        var active = 0, timer = 0, el = document.getElementById('fetching');
+        return function (start) {
+          active += start ? 1 : -1;
+          if (active > 0 && !timer) timer = setTimeout(function () { el.style.display = 'block'; }, 300);
+          if (active === 0) { clearTimeout(timer); timer = 0; el.style.display = 'none'; }
+        };
+      })(),
       print: function (t) { console.log(t); },
       printErr: function (t) { console.warn(t); }
     };

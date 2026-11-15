@@ -8,6 +8,7 @@
 
 #include "funcs.hpp"
 #include "recomp/runtime/runtime.hpp"
+#include "recomp/win16/webdata.hpp"
 #include "recomp/win16/win16.hpp"
 
 #ifdef __EMSCRIPTEN__
@@ -39,8 +40,13 @@ int main(int argc, char** argv) {
 #ifdef __EMSCRIPTEN__
     mount_saves();
     setenv("MYULK_SAVE_DIR", "/saves/drive_c", 1);
+    if (!win16::webdata::init("/game")) {
+        std::fprintf(stderr, "game data not found (game/manifest.txt)\n");
+        return 1;
+    }
 #endif
     std::string exe = find_exe(argc, argv);
+    win16::webdata::ensure(exe);
     if (exe.empty()) {
         std::fprintf(stderr, "MYULK.EXE not found (pass its path as the first argument)\n");
         return 1;

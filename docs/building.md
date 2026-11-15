@@ -68,7 +68,7 @@ python -m http.server -d build/web 8080     # open http://localhost:8080/myulk_r
 
 - **Browser support:** it uses WebAssembly JSPI (so the game's blocking message loop can wait for the browser) and native wasm exceptions (for Delphi exceptions). Current Chrome and Edge support both; the page says so if a browser lacks JSPI.
 - **Start:** the page loads the data, then asks for a click. Browsers only allow sound after the user has interacted with the page.
-- **Data:** the build packs your extracted CD (`extracted/iso`: MYULK, PICTDLL, ART, SOUNDS, LJUD, MOVIES, IMAGES, about 265 MB) into `myulk_recomp.data` with `--preload-file`, mounted at `/game` (C:\ inside the game). That file is the original game's data: don't publish it.
+- **Data on demand:** the build copies the folders the game reads from your extracted CD (`extracted/iso`: MYULK, PICTDLL, ART, SOUNDS, LJUD, MOVIES, IMAGES; 967 files, about 265 MB) to `build/web/game/` and writes `game/manifest.txt` (`tools/web_data.py`). The page itself is about 14 MB. At start it fetches only the manifest and creates the folder tree with empty placeholders at `/game` (C:\ inside the game); each file is downloaded the first time the game opens it (`src/recomp/win16/webdata.cpp`), and a small "Laddar…" note shows while that takes a moment. `build/web/game/` is the original game's data: don't publish it.
 - **Saves** are stored in the browser's IndexedDB (mounted at `/saves`), so they survive reloads.
 - `-DPython3_EXECUTABLE` must name a Python with capstone installed, because emsdk brings its own Python for the recompiler step.
 

@@ -7,6 +7,7 @@
 #include <set>
 
 #include "recomp/runtime/runtime.hpp"
+#include "recomp/win16/webdata.hpp"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
@@ -112,19 +113,26 @@ fs::path overlay_path(const std::string& normalized) {
 
 std::string base_host(const std::string& n, bool forCreate);
 
+// Base (game data) path; on the web the file is fetched on first use.
+std::string base_file(const std::string& n, bool forCreate) {
+    std::string b = base_host(n, forCreate);
+    if (!b.empty()) webdata::ensure(b);
+    return b;
+}
+
 std::string to_host(const std::string& dosPath, bool forCreate) {
     std::string n = normalize(dosPath);
-    if (g_overlay.empty()) return base_host(n, forCreate);
+    if (g_overlay.empty()) return base_file(n, forCreate);
     std::error_code ec;
     fs::path o = overlay_path(n);
     if (!forCreate) {
         if (fs::exists(o, ec)) return o.string();
-        return base_host(n, false);
+        return base_file(n, false);
     }
     // for writing: copy an existing base file into the overlay first
     fs::create_directories(o.parent_path(), ec);
     if (!fs::exists(o, ec)) {
-        std::string b = base_host(n, false);
+        std::string b = base_file(n, false);
         if (!b.empty() && fs::is_regular_file(b, ec)) fs::copy_file(b, o, ec);
     }
     return o.string();
@@ -304,7 +312,8 @@ std::vector<FindEntry> find(const std::string& dosPattern, int attrMask) {
             FindEntry fe;
             fe.name = name;
             fe.dir = isdir;
-            fe.size = isdir ? 0 : uint32_t(e.file_size(ec));
+            long pending = isdir ? -1 : webdata::pending_size(e.path().string());
+            fe.size = isdir ? 0 : pending >= 0 ? uint32_t(pending) : uint32_t(e.file_size(ec));
             found[name] = fe;
         }
     };
