@@ -10,6 +10,8 @@ This project brings it back by **static recompilation**: a tool translates the o
 
 **No game files are included.** You need your own copy of the Myulk CD.
 
+Project website (Swedish and English): **https://machosallad.github.io/myulk-recomp/**
+
 | First start: choose your CD | How do you want to play? | Every helper can be switched off |
 |---|---|---|
 | ![The first-start screen asks for the Myulk CD](docs/images/first-start.png) | ![The play-style question: with improvements, or as in 1996](docs/images/play-style.png) | ![The settings menu, gameplay helpers page](docs/images/settings.png) |

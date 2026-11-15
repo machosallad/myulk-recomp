@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="sv" data-lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Myulk, åter i spel</title>
+  <meta name="description" content="Myulk – Kampen om det öppna landskapet (1996) på dagens datorer och i webbläsaren, genom statisk omkompilering. Med din egen cd.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600&family=Young+Serif&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    // language: ?lang=, then the visitor's earlier choice, then the browser
+    (function () {
+      var lang = new URLSearchParams(location.search).get('lang');
+      try { lang = lang || localStorage.getItem('myulk-lang'); } catch (e) {}
+      if (lang !== 'sv' && lang !== 'en') lang = (navigator.language || '').toLowerCase().indexOf('sv') === 0 ? 'sv' : 'en';
+      document.documentElement.setAttribute('data-lang', lang);
+      document.documentElement.lang = lang;
+      document.title = lang === 'sv' ? 'Myulk, åter i spel' : 'Myulk, playable again';
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip" href="#om"><span lang="sv">Hoppa till innehållet</span><span lang="en">Skip to content</span></a>
+
+  <header class="top">
+    <a class="brand" href="#">Myulk</a>
+    <nav aria-label="Sidor">
+      <a href="#om"><span lang="sv">Spelet</span><span lang="en">The game</span></a>
+      <a href="#hur"><span lang="sv">Så fungerar det</span><span lang="en">How it works</span></a>
+      <a href="#spela"><span lang="sv">Spela</span><span lang="en">Play</span></a>
+      <a href="https://github.com/machosallad/myulk-recomp">GitHub</a>
+    </nav>
+    <button class="lang" type="button" aria-label="Byt språk / Change language">
+      <span lang="sv">English</span><span lang="en">Svenska</span>
+    </button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-text">
+        <h1>Myulk</h1>
+        <p class="subtitle">Kampen om det öppna landskapet</p>
+        <p class="lead" lang="sv">Spelet från 1996 om gården Öppanäng, nu på dagens datorer och i webbläsaren. Samma gåtor, samma kor, samma tre år på gården, med din egen cd.</p>
+        <p class="lead" lang="en">The 1996 Swedish game about the farm Öppanäng, now on today's computers and in the browser. The same puzzles, the same cows, the same three years on the farm, with your own CD.</p>
+        <p class="actions">
+          <a class="button" href="#spela"><span lang="sv">Så spelar du</span><span lang="en">How to play</span></a>
+          <a class="button quiet" href="https://github.com/machosallad/myulk-recomp"><span lang="sv">Källkoden på GitHub</span><span lang="en">Source on GitHub</span></a>
+        </p>
+      </div>
+      <figure class="land" aria-hidden="true">
+        <svg viewBox="0 0 600 520" role="presentation">
+          <defs>
+            <pattern id="plough" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(28)">
+              <rect width="9" height="9" fill="var(--soil)"/>
+              <rect width="9" height="3" fill="var(--soil-dark)"/>
+            </pattern>
+            <pattern id="rows" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(-14)">
+              <rect width="12" height="12" fill="var(--grass)"/>
+              <rect width="12" height="4" fill="var(--grass-dark)"/>
+            </pattern>
+            <pattern id="rape" width="6" height="6" patternUnits="userSpaceOnUse">
+              <rect width="6" height="6" fill="var(--rape)"/>
+              <circle cx="3" cy="3" r="1.1" fill="var(--rape-dark)"/>
+            </pattern>
+          </defs>
+          <g class="fields">
+            <path style="--i:0" d="M20 40 L230 18 L250 150 L40 178 Z" fill="url(#rows)"/>
+            <path style="--i:1" d="M248 14 L470 30 L455 128 L262 148 Z" fill="url(#rape)"/>
+            <path style="--i:2" d="M476 32 L590 44 L586 210 L462 196 Z" fill="var(--meadow)"/>
+            <path style="--i:3" d="M42 186 L252 158 L268 300 L60 330 Z" fill="url(#plough)"/>
+            <path style="--i:4" d="M266 156 L456 136 L470 270 L282 298 Z" fill="var(--pasture)"/>
+            <path style="--i:5" d="M462 206 L586 220 L580 380 L476 372 Z" fill="url(#rows)"/>
+            <path style="--i:6" d="M62 340 L270 310 L290 470 L78 500 Z" fill="url(#rape)"/>
+            <path style="--i:7" d="M286 306 L470 280 L478 380 L304 430 Z" fill="url(#plough)"/>
+            <path style="--i:8" d="M300 440 L476 390 L578 392 L574 506 L310 510 Z" fill="var(--meadow)"/>
+          </g>
+          <path class="road" d="M0 470 C 120 440, 170 360, 258 304 S 380 200, 460 202 S 560 150, 600 120" fill="none"/>
+          <g class="trees">
+            <circle cx="458" cy="214" r="11"/><circle cx="474" cy="222" r="9"/><circle cx="446" cy="228" r="8"/>
+            <circle cx="40" cy="182" r="9"/><circle cx="54" cy="192" r="7"/>
+            <circle cx="292" cy="438" r="10"/><circle cx="306" cy="448" r="8"/>
+          </g>
+          <g class="farm" transform="translate(-131 -79) scale(1.35)">
+            <rect x="350" y="222" width="46" height="26" fill="var(--falu)"/>
+            <path d="M346 222 L373 204 L400 222 Z" fill="var(--roof)"/>
+            <rect x="404" y="232" width="22" height="16" fill="var(--house)"/>
+            <path d="M401 232 L415 222 L429 232 Z" fill="var(--roof)"/>
+          </g>
+        </svg>
+      </figure>
+    </section>
+
+    <section id="om" class="band">
+      <div class="col-head">
+        <h2><span lang="sv">Spelet</span><span lang="en">The game</span></h2>
+      </div>
+      <div class="col-body">
+        <p lang="sv">Du har ärvt den förfallna gården Öppanäng. Innan du kan bli bonde väntar ett äventyr i tre delar, på Ödegården, i Staden och i Underjorden, med gåtor att lösa och människor att prata med. Mellan dem driver du gården: köper kor, plöjer och sår, tar in skörden och håller pengarna i ordning, år efter år.</p>
+        <p lang="en">You have inherited the run-down farm Öppanäng. Before you can farm it there is an adventure in three parts, on Ödegården, in Staden (the town) and in Underjorden (the underworld), with puzzles to solve and people to talk to. In between you run the farm: buy cows, plough and sow, bring in the harvest and keep the money in order, year after year.</p>
+        <p lang="sv">Myulk gjordes för Windows 3.1 och har inte gått att spela på vanliga datorer på länge. Det här projektet tar tillbaka det, utan att ändra på spelet.</p>
+        <p lang="en">Myulk was made for Windows 3.1 and hasn't run on ordinary computers for a long time. This project brings it back, without changing the game.</p>
+        <dl class="facts">
+          <div><dt lang="sv">Utgivet</dt><dt lang="en">Released</dt><dd>1996</dd></div>
+          <div><dt lang="sv">Ursprungligen</dt><dt lang="en">Originally</dt><dd>Windows 3.1, 640 × 480</dd></div>
+          <div><dt lang="sv">Nu</dt><dt lang="en">Now</dt><dd lang="sv">Windows och webbläsaren</dd><dd lang="en">Windows and the browser</dd></div>
+          <div><dt lang="sv">Språk</dt><dt lang="en">Language</dt><dd lang="sv">Svenska</dd><dd lang="en">Swedish</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="col-head">
+        <h2><span lang="sv">Som 1996, eller lite enklare</span><span lang="en">As in 1996, or a little easier</span></h2>
+        <p class="note" lang="sv">Allt här går att stänga av, en sak i taget eller allt på en gång.</p>
+        <p class="note" lang="en">Everything here can be switched off, one thing at a time or all at once.</p>
+      </div>
+      <div class="col-body">
+        <ul class="features" lang="sv">
+          <li><strong>Hoppa över</strong> filmer och repliker med ett klick.</li>
+          <li><strong>Snabbspara och autospara</strong>, och en ny spara-skärm med bild och datum.</li>
+          <li><strong>Fortsätt</strong> där du slutade, direkt vid start.</li>
+          <li><strong>Gå med piltangenterna</strong>, högerklick och mushjulet.</li>
+          <li><strong>Visa allt klickbart</strong> i en scen genom att hålla H.</li>
+          <li><strong>Gårdshjälp:</strong> paus, nästa dag med ett klick, notiser om pengar och årstider, och gården i upp till åtta gånger farten.</li>
+          <li><strong>Handboken</strong> från spelet, med ordlista och ledtrådar, i en modern läsare med sökning.</li>
+          <li><strong>Skarp bild på stora skärmar</strong>, ren heltalsskalning, mjuk text och ett filter som jämnar ut de gamla 256 färgerna.</li>
+        </ul>
+        <ul class="features" lang="en">
+          <li><strong>Skip</strong> films and lines with a click.</li>
+          <li><strong>Quick-save and autosave</strong>, and a new save screen with pictures and dates.</li>
+          <li><strong>Continue</strong> where you left off, right at start.</li>
+          <li><strong>Walk with the arrow keys</strong>, right-click and the mouse wheel.</li>
+          <li><strong>See everything clickable</strong> in a scene by holding H.</li>
+          <li><strong>Farm helper:</strong> pause, next day with a click, notes about money and seasons, and the farm at up to eight times the speed.</li>
+          <li><strong>The game's handbook</strong>, with its glossary and hints, in a modern viewer with search.</li>
+          <li><strong>A sharp picture on big screens</strong>, pure integer scaling, smooth text and a filter that evens out the old 256 colours.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="shots" aria-labelledby="shots-title">
+      <h2 id="shots-title" class="visually-hidden"><span lang="sv">Skärmbilder</span><span lang="en">Screenshots</span></h2>
+      <figure>
+        <img src="images/first-start.png" width="640" height="480" loading="lazy" alt="">
+        <figcaption><span lang="sv">Första starten: välj din cd.</span><span lang="en">First start: choose your CD.</span></figcaption>
+      </figure>
+      <figure>
+        <img src="images/play-style.png" width="640" height="480" loading="lazy" alt="">
+        <figcaption><span lang="sv">Med förbättringar eller som originalet.</span><span lang="en">With improvements, or as the original.</span></figcaption>
+      </figure>
+      <figure>
+        <img src="images/settings.png" width="640" height="480" loading="lazy" alt="">
+        <figcaption><span lang="sv">Varje hjälp har sin egen knapp.</span><span lang="en">Every helper has its own switch.</span></figcaption>
+      </figure>
+    </section>
+
+    <section id="hur" class="band">
+      <div class="col-head">
+        <h2><span lang="sv">Så fungerar det</span><span lang="en">How it works</span></h2>
+      </div>
+      <div class="col-body">
+        <p lang="sv">Ingen emulator och ingen omskrivning. Ett verktyg översätter originalprogrammet, rutin för rutin, till C++, och ett nyskrivet lager gör det som Windows 3.1 gjorde. Det som spelas är originalspelet, med bilder, filmer och ljud från din cd.</p>
+        <p lang="en">No emulator and no rewrite. A tool translates the original program, routine by routine, into C++, and a newly written layer does what Windows 3.1 did. What you play is the original game, with the pictures, films and sounds from your CD.</p>
+        <ol class="pipeline">
+          <li><span class="step" lang="sv">MYULK.EXE från din cd</span><span class="step" lang="en">MYULK.EXE from your CD</span><span class="detail" lang="sv">16-bitars Windows-program, byggt i Delphi</span><span class="detail" lang="en">16-bit Windows program, built with Delphi</span></li>
+          <li><span class="step" lang="sv">Omkompilatorn hittar varje rutin</span><span class="step" lang="en">The recompiler finds every routine</span><span class="detail" lang="sv">3 926 rutiner, 176 000 instruktioner</span><span class="detail" lang="en">3,926 routines, 176,000 instructions</span></li>
+          <li><span class="step" lang="sv">Varje rutin blir en C++-funktion</span><span class="step" lang="en">Each routine becomes a C++ function</span><span class="detail" lang="sv">med originalinstruktionen bredvid</span><span class="detail" lang="en">with the original instruction next to it</span></li>
+          <li><span class="step" lang="sv">Ett nytt Windows 3.1 på SDL3</span><span class="step" lang="en">A new Windows 3.1 on SDL3</span><span class="detail" lang="sv">235 Windows-funktioner: fönster, grafik, ljud, filmer</span><span class="detail" lang="en">235 Windows functions: windows, graphics, sound, films</span></li>
+          <li><span class="step" lang="sv">Spelet, på Windows och i webbläsaren</span><span class="step" lang="en">The game, on Windows and in the browser</span><span class="detail" lang="sv">C++20 och WebAssembly</span><span class="detail" lang="en">C++20 and WebAssembly</span></li>
+        </ol>
+        <p><a href="https://github.com/machosallad/myulk-recomp/blob/main/docs/recompiler.md"><span lang="sv">Hela beskrivningen av omkompileringen (engelska)</span><span lang="en">The full description of the recompilation</span></a></p>
+      </div>
+    </section>
+
+    <section id="spela" class="band">
+      <div class="col-head">
+        <h2><span lang="sv">Spela</span><span lang="en">Play</span></h2>
+      </div>
+      <div class="col-body">
+        <ol class="steps">
+          <li>
+            <h3><span lang="sv">Din egen Myulk-cd</span><span lang="en">Your own Myulk CD</span></h3>
+            <p lang="sv">Skivan eller en avbild av den (iso, bin eller cue). Inget från spelet finns i projektet.</p>
+            <p lang="en">The disc, or an image of it (iso, bin or cue). Nothing from the game is in the project.</p>
+          </li>
+          <li>
+            <h3><span lang="sv">Bygg programmet</span><span lang="en">Build the program</span></h3>
+            <p lang="sv">Källkoden och en guide finns på GitHub. På Windows är det tre kommandon, och resten är väntan.</p>
+            <p lang="en">The source code and a guide are on GitHub. On Windows it's three commands, and the rest is waiting.</p>
+          </li>
+          <li>
+            <h3><span lang="sv">Välj cd:n vid första starten</span><span lang="en">Choose the CD on first start</span></h3>
+            <p lang="sv">Programmet kontrollerar skivan och kopierar spelets filer en gång. Sedan startar det direkt.</p>
+            <p lang="en">The program checks the disc and copies the game's files once. After that it starts straight away.</p>
+          </li>
+        </ol>
+        <p><a class="button" href="https://github.com/machosallad/myulk-recomp/blob/main/docs/playing.md"><span lang="sv">Guiden på GitHub</span><span lang="en">The guide on GitHub</span></a></p>
+        <p class="note" lang="sv">Webbläsarversionen kräver Chrome eller Edge.</p>
+        <p class="note" lang="en">The browser version needs Chrome or Edge.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p lang="sv">Myulk – Kampen om det öppna landskapet tillhör sina rättighetsinnehavare. myulk-recomp är ett fritt hobbyprojekt utan koppling till dem; projektets egen kod är MIT-licensierad och innehåller inga av spelets filer.</p>
+    <p lang="en">Myulk – Kampen om det öppna landskapet belongs to its rights holders. myulk-recomp is a free hobby project not affiliated with them; the project's own code is MIT-licensed and contains none of the game's files.</p>
+    <p><a href="https://github.com/machosallad/myulk-recomp">github.com/machosallad/myulk-recomp</a></p>
+  </footer>
+
+  <script>
+    document.querySelector('.lang').addEventListener('click', function () {
+      var next = document.documentElement.getAttribute('data-lang') === 'sv' ? 'en' : 'sv';
+      document.documentElement.setAttribute('data-lang', next);
+      document.documentElement.lang = next;
+      document.title = next === 'sv' ? 'Myulk, åter i spel' : 'Myulk, playable again';
+      try { localStorage.setItem('myulk-lang', next); } catch (e) {}
+    });
+  </script>
+</body>
+</html>
