@@ -32,8 +32,20 @@ SDL_AudioDeviceID audio_device() {
     return g_dev;
 }
 
+// Separate volumes (settings menu): music is the MU_*.WAV loops, everything
+// else (speech, effects, movie sound) is "speech and sounds".
+bool is_music(const std::string& dosPath) {
+    std::string up;
+    for (char ch : dosPath) up += char(std::toupper(static_cast<unsigned char>(ch)));
+    size_t slash = up.find_last_of("\\/:");
+    return up.compare(slash == std::string::npos ? 0 : slash + 1, 3, "MU_") == 0;
+}
+float music_gain() { return float(settings::get_int("music_volume", 100)) / 100.0f; }
+float speech_gain() { return float(settings::get_int("speech_volume", 100)) / 100.0f; }
+
 struct Sound {
     SDL_AudioStream* stream = nullptr;
+    bool music = false;
     std::vector<uint8_t> data;
     bool loop = false;
     bool playing = false;
@@ -62,6 +74,8 @@ bool sound_load(Sound& s, const std::string& dosPath) {
     int bps = SDL_AUDIO_BYTESIZE(spec.format) * spec.channels;
     s.lengthMs = bps && spec.freq ? uint32_t(uint64_t(len) * 1000 / (uint64_t(bps) * spec.freq)) : 0;
     s.stream = SDL_CreateAudioStream(&spec, &spec);
+    s.music = is_music(dosPath);
+    if (s.stream) SDL_SetAudioStreamGain(s.stream, s.music ? music_gain() : speech_gain());
     if (!s.stream || !audio_device() || !SDL_BindAudioStream(g_dev, s.stream)) return false;
     return true;
 }
@@ -172,6 +186,7 @@ void video_play(Video& v, uint32_t from, uint32_t to) {
         size_t a = size_t(uint64_t(v.posMs) * v.avi.audioRate / 1000) * bps;
         size_t b = std::min(v.avi.audio.size(), size_t(uint64_t(v.toMs) * v.avi.audioRate / 1000) * bps);
         v.audio = SDL_CreateAudioStream(&spec, &spec);
+        if (v.audio) SDL_SetAudioStreamGain(v.audio, speech_gain());
         if (v.audio && audio_device() && SDL_BindAudioStream(g_dev, v.audio) && a < b) {
             SDL_PutAudioStreamData(v.audio, v.avi.audio.data() + a, int(b - a));
             SDL_FlushAudioStream(v.audio);
@@ -210,10 +225,7 @@ bool mm_skip_media() {
     bool skipped = false;
     for (auto& [id, d] : g_mci) {
         if (!d.notifyPending) continue;
-        std::string up;
-        for (char ch : d.element) up += char(std::toupper(static_cast<unsigned char>(ch)));
-        size_t slash = up.find_last_of("\\/:");
-        if (up.compare(slash == std::string::npos ? 0 : slash + 1, 3, "MU_") == 0) continue;
+        if (is_music(d.element)) continue;
         if (d.video) {
             if (!d.video->playing) continue;
             d.video->posMs = d.video->toMs;
@@ -235,6 +247,15 @@ bool mm_skip_media() {
     return skipped;
 }
 
+// Is the game waiting for a movie or a speech clip (anything mm_skip_media skips)?
+bool mm_waiting() {
+    for (auto& [id, d] : g_mci) {
+        if (!d.notifyPending || is_music(d.element)) continue;
+        if (d.video ? d.video->playing : sound_busy(d.snd)) return true;
+    }
+    return g_snd.playing && !g_snd.loop && g_sndBlocking;
+}
+
 // A native screen is open: pause all sound and hold the movie clocks.
 bool g_mmPaused = false;
 uint64_t g_pauseStart = 0;
@@ -254,6 +275,15 @@ void mm_pause(bool paused) {
 
 void mm_set_volume(float gain) {
     if (audio_device()) SDL_SetAudioDeviceGain(g_dev, gain);
+}
+
+// The music or speech volume setting changed: apply it to what is playing.
+void mm_update_gains() {
+    if (g_snd.stream) SDL_SetAudioStreamGain(g_snd.stream, g_snd.music ? music_gain() : speech_gain());
+    for (auto& [id, d] : g_mci) {
+        if (d.snd.stream) SDL_SetAudioStreamGain(d.snd.stream, d.snd.music ? music_gain() : speech_gain());
+        if (d.video && d.video->audio) SDL_SetAudioStreamGain(d.video->audio, speech_gain());
+    }
 }
 
 // Called while waiting for messages: advance media and post MCI notifications.

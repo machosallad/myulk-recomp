@@ -66,6 +66,7 @@ struct InputOverlay {
     virtual void character(int ch) = 0;                           // Windows-1252
 };
 void set_input_overlay(InputOverlay* overlay);
+bool input_overlay_active();
 
 // A short note at the bottom of the screen (display.cpp).
 void show_note(const std::string& text);
@@ -89,6 +90,8 @@ void set_farm_paused(bool paused);
 // MMSYSTEM (mmsystem.cpp): skip the movie/speech the game waits for; volume 0..1.
 bool mm_skip_media();
 void mm_set_volume(float gain);
+void mm_update_gains();   // music / speech volume settings changed
+bool mm_waiting();        // the game waits for a movie or speech clip
 void mm_pause(bool paused);   // while a native screen is open
 void screen_invalidate();   // have every window repaint
 

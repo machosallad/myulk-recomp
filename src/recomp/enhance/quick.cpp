@@ -24,6 +24,9 @@ const char* kQuickFile = "SNABB.MLK";
 
 enum class Action { None, Save, Load };
 Action g_pending = Action::None;
+std::string g_loadFile = kQuickFile;   // what the pending load reads
+std::string g_continueFile;            // start card: fast-forwarding the intro to load this
+uint64_t g_lastSkip = 0, g_lastNote = 0;
 int g_lastMode = INT_MIN;
 uint64_t g_autoAt = 0, g_lastAuto = 0;
 
@@ -104,13 +107,19 @@ void idle() {
         return;
     }
     if (a == Action::Load) {
-        if (!ui::save_exists(kQuickFile)) { show_note("Ingen snabbsparning \xE4nnu (F5 sparar)"); return; }
-        ui::auto_answer(kQuickFile, "");
+        bool quick = g_loadFile == kQuickFile;
+        if (!ui::save_exists(g_loadFile)) {
+            show_note(quick ? "Ingen snabbsparning \xE4nnu (F5 sparar)" : "Sparningen finns inte l\xE4ngre");
+            return;
+        }
+        ui::auto_answer(g_loadFile, "");
         call_menu(kLadda);
         ui::auto_answer("", "");
         g_lastMode = mode();   // loading is not a new chapter
         g_autoAt = 0;
-        show_note("Snabbsparning laddad");
+        show_note(quick ? "Snabbsparning laddad" : "V\xE4lkommen tillbaka");
+        if (!quick) mm_set_volume(float(settings::get_int("volume", 100)) / 100.0f);   // muted while fast-forwarding
+        g_loadFile = kQuickFile;
         return;
     }
     g_autoAt = 0;
@@ -123,6 +132,56 @@ const bool g_registered = (set_idle_hook(&idle), true);
 }  // namespace
 
 void request_save() { g_pending = Action::Save; }
-void request_load() { g_pending = Action::Load; }
+void request_load() { g_pending = Action::Load; g_loadFile = kQuickFile; }
+
+// Called on every host_pump: the start card, and fast-forwarding the intro
+// after "Fortsätt" (the game only loads once chapter 1 is running).
+void pump() {
+    static bool cardDone = false;
+    if (!cardDone && active_window_class() == "TADVFORM") {
+        cardDone = true;
+        const char* force = std::getenv("MYULK_START_CARD");   // 0: never, 1: even in scripted runs
+        bool scripted = std::getenv("MYULK_ROUTE") || std::getenv("MYULK_CLICKS") || std::getenv("MYULK_KEYS") ||
+                        std::getenv("MYULK_CALL");
+        bool show = force ? std::string(force) != "0" : !scripted;
+        if (show) {
+            std::string file = ui::run_start_card();
+            if (!file.empty()) {
+                g_continueFile = file;
+                mm_set_volume(0.0f);
+            }
+        }
+        return;
+    }
+    if (g_continueFile.empty()) return;
+    uint64_t now = SDL_GetTicks();
+    if (now - g_lastNote >= 1000) { show_note("Forts\xE4tter d\xE4r du slutade..."); g_lastNote = now; }
+    // the intro reports chapter 1 while its movies play: wait until nothing
+    // has been waited for during a short while
+    static uint64_t calmSince = 0;
+    int m = mode();
+    auto scene_has_exits = [] {   // the intro's letter and cards have none
+        auto& rt = recomp::Runtime::get();
+        for (int i = 0; i < 18; ++i)
+            if (rt.cpu().rd32(rt.data_sel(), uint16_t(0x4F3E + 4 * i))) return true;
+        return false;
+    };
+    if (m >= 1 && m <= 4 && game_ready() && !mm_waiting() && (m == 4 || scene_has_exits())) {
+        if (!calmSince) calmSince = now;
+        if (now - calmSince >= 1500) {
+            g_pending = Action::Load;
+            g_loadFile = g_continueFile;
+            g_continueFile.clear();
+        }
+        return;
+    }
+    calmSince = 0;
+    if (now - g_lastSkip < 250) return;
+    g_lastSkip = now;
+    if (mm_skip_media() || active_window_class() != "TADVFORM") return;
+    input_mouse_move(300, 200);   // the intro's postcards wait for a click
+    input_mouse_button(300, 200, 0, true);
+    input_mouse_button(300, 200, 0, false);
+}
 
 }  // namespace win16::quick

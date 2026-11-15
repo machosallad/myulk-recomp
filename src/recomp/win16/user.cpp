@@ -626,6 +626,7 @@ void set_input_overlay(InputOverlay* overlay) {
     if (!overlay && g_overlay) { g_cursor = g_cursorBeforeOverlay; mm_pause(false); }
     g_overlay = overlay;
 }
+bool input_overlay_active() { return g_overlay != nullptr; }
 
 void screen_invalidate() { invalidate_screen_rect(Rect{0, 0, 640, 480}); }
 

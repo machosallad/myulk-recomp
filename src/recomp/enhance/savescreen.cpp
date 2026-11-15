@@ -462,6 +462,46 @@ private:
     }
 };
 
+// ---- the start card -------------------------------------------------------------
+
+// Shown over the first frame of the intro when there are saves: continue the
+// newest one, or start a new game.
+class StartCard : public ui::OverlayScreen {
+public:
+    explicit StartCard(SaveInfo s) : save_(std::move(s)) {}
+    bool chose_continue = false;
+
+protected:
+    enum { kContinue = 1, kNewGame };
+    void draw(Painter& p) override {
+        Rect d{110, 110, 530, 370};
+        p.fill(d, kPanel);
+        p.frame(d, kBorder);
+        p.text(d.left + 20, d.top + 16, "V\xE4lkommen tillbaka", kText, true);
+        Rect thumb{d.left + 20, d.top + 64, d.left + 20 + kThumbW, d.top + 64 + kThumbH};
+        if (save_.thumb.w) p.image(thumb.left, thumb.top, save_.thumb);
+        else p.fill(thumb, kCard);
+        p.frame(thumb, kBorder);
+        int tx = thumb.right + 16, tw = d.right - 20 - tx;
+        p.text(tx, thumb.top + 4, p.fit(save_.name, tw), kText);
+        if (!save_.where.empty()) p.text(tx, thumb.top + 28, p.fit(save_.where, tw), kDim);
+        if (!save_.money.empty()) p.text(tx, thumb.top + 50, p.fit(save_.money, tw), kDim);
+        if (!save_.savedAt.empty()) p.text(tx, thumb.top + 72, p.fit("Sparat " + short_time(save_.savedAt), tw), kDim);
+        button(p, Rect{d.right - 290, d.bottom - 54, d.right - 150, d.bottom - 18}, "Forts\xE4tt", kContinue, kAccent);
+        button(p, Rect{d.right - 140, d.bottom - 54, d.right - 20, d.bottom - 18}, "Nytt spel", kNewGame);
+    }
+    void activate(int id) override {
+        chose_continue = id == kContinue;
+        close();
+    }
+    void on_key(int vk) override {
+        if (vk == 0x0D) activate(kContinue);   // Enter (Esc: new game)
+    }
+
+private:
+    SaveInfo save_;
+};
+
 // ---- the hook -------------------------------------------------------------------
 
 void show_modal_hook(Cpu& c) {
@@ -511,6 +551,14 @@ namespace ui {
 const Surface& game_frame() { return g_gameFrame; }
 void set_game_frame(const Surface& s) { g_gameFrame = s; }
 void auto_answer(const std::string& file, const std::string& name) { g_autoFile = file; g_autoName = name; }
+std::string run_start_card() {
+    std::vector<SaveInfo> saves = list_saves();
+    if (saves.empty()) return {};
+    std::string file = saves.front().file;
+    StartCard card(std::move(saves.front()));
+    card.run();
+    return card.chose_continue ? file : std::string();
+}
 bool save_exists(const std::string& file) {
     int err = 0;
     int h = vfs::open(kSaveDir + file, 0, &err);

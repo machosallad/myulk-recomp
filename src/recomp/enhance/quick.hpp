@@ -7,5 +7,6 @@ namespace win16::quick {
 
 void request_save();   // F5: SNABB.MLK
 void request_load();   // F9: SNABB.MLK
+void pump();           // every host_pump: start card ("Fortsätt") and its fast-forward
 
 }  // namespace win16::quick

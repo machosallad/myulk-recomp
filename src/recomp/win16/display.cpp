@@ -2,6 +2,7 @@
 #include <SDL3/SDL.h>
 
 #include <algorithm>
+#include <climits>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -10,7 +11,9 @@
 #include <vector>
 
 #include "recomp/enhance/dedither.hpp"
+#include "recomp/enhance/nav.hpp"
 #include "recomp/enhance/quick.hpp"
+#include "recomp/enhance/screenshot.hpp"
 #include "recomp/enhance/settings.hpp"
 #include "recomp/runtime/generated_support.hpp"
 #include "recomp/runtime/runtime.hpp"
@@ -205,6 +208,40 @@ void toggle_pause() {
 // host_pump, outside the event loop.
 bool g_settingsRequested = false;
 void open_settings() { g_settingsRequested = true; }
+
+// F12: the picture as shown (de-dithered when that is on), without notes
+void take_screenshot() {
+    std::string where = save_screenshot(settings::dedither() ? dedither(screen()) : screen());
+    if (where.empty()) { show_toast("Sk\xE4rmbilden kunde inte sparas"); return; }
+    recomp::log("screenshot: %s", where.c_str());
+    size_t slash = where.find_last_of("\\/");
+    show_toast("Sk\xE4rmbild: " + (slash == std::string::npos ? where : where.substr(slash + 1)));
+}
+
+// Window size and position are saved a second after they last changed
+// (not in fullscreen, and not in the browser, where the page sizes the canvas).
+uint64_t g_windowChanged = 0;
+void remember_window(uint64_t now) {
+#ifndef __EMSCRIPTEN__
+    if (!g_windowChanged || now - g_windowChanged < 1000) return;
+    g_windowChanged = 0;
+    static const bool test = SDL_getenv("MYULK_WINDOW") != nullptr;
+    SDL_WindowFlags f = SDL_GetWindowFlags(g_window);
+    if (test || (f & (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_MINIMIZED))) return;
+    bool max = f & SDL_WINDOW_MAXIMIZED;
+    if (settings::get_int("window_max", 0) != int(max)) settings::set_int("window_max", max ? 1 : 0);
+    if (max) return;   // keep the size to restore to
+    int x = 0, y = 0, w = 0, h = 0;
+    SDL_GetWindowPosition(g_window, &x, &y);
+    SDL_GetWindowSize(g_window, &w, &h);
+    if (settings::get_int("window_x", INT_MIN) != x) settings::set_int("window_x", x);
+    if (settings::get_int("window_y", INT_MIN) != y) settings::set_int("window_y", y);
+    if (settings::get_int("window_w", 0) != w) settings::set_int("window_w", w);
+    if (settings::get_int("window_h", 0) != h) settings::set_int("window_h", h);
+#else
+    (void)now;
+#endif
+}
 
 SDL_Texture* g_mid = nullptr;   // integer-scaled copy for "mjuk skalning"
 int g_midScale = 0;
@@ -526,6 +563,16 @@ void automation(uint64_t now) {
             if (k.text.compare(i, 4, "{f9}") == 0) { quick::request_load(); i += 3; continue; }
             if (k.text.compare(i, 4, "{f2}") == 0) { open_settings(); i += 3; continue; }
             if (k.text.compare(i, 3, "{p}") == 0) { toggle_pause(); i += 2; continue; }
+            if (k.text.compare(i, 5, "{f12}") == 0) { take_screenshot(); i += 4; continue; }
+            // navigation shortcuts: {up} {down} {left} {right} {back} {rclick} {wheelup} {wheeldown}
+            if (k.text.compare(i, 4, "{up}") == 0) { recomp::log("nav up: %d", nav::key(SDLK_UP)); i += 3; continue; }
+            if (k.text.compare(i, 6, "{down}") == 0) { recomp::log("nav down: %d", nav::key(SDLK_DOWN)); i += 5; continue; }
+            if (k.text.compare(i, 6, "{left}") == 0) { recomp::log("nav left: %d", nav::key(SDLK_LEFT)); i += 5; continue; }
+            if (k.text.compare(i, 7, "{right}") == 0) { recomp::log("nav right: %d", nav::key(SDLK_RIGHT)); i += 6; continue; }
+            if (k.text.compare(i, 6, "{back}") == 0) { recomp::log("nav back: %d", nav::key(SDLK_BACKSPACE)); i += 5; continue; }
+            if (k.text.compare(i, 8, "{rclick}") == 0) { recomp::log("nav rclick: %d", nav::right_click(320, 200)); i += 7; continue; }
+            if (k.text.compare(i, 9, "{wheelup}") == 0) { recomp::log("nav wheel up: %d", nav::wheel(1)); i += 8; continue; }
+            if (k.text.compare(i, 11, "{wheeldown}") == 0) { recomp::log("nav wheel down: %d", nav::wheel(-1)); i += 10; continue; }
             if (k.text.compare(i, 7, "{hints}") == 0) { g_hintsUntil = now + 3000; i += 6; continue; }
             static const std::pair<const char*, int> named[] = {{"{enter}", 0x0D}, {"{esc}", 0x1B}, {"{bs}", 0x08}, {"{tab}", 0x09}};
             bool special = false;
@@ -665,12 +712,35 @@ bool display_init() {
         recomp::log("SDL_Init: %s", SDL_GetError());
         return false;
     }
-    int ww = 1280, wh = 960;   // MYULK_WINDOW=WxH: starting window size (tests)
-    if (const char* ws = SDL_getenv("MYULK_WINDOW")) std::sscanf(ws, "%dx%d", &ww, &wh);
-    if (!SDL_CreateWindowAndRenderer("Myulk", ww, wh, SDL_WINDOW_RESIZABLE, &g_window, &g_renderer)) {
+    // the window opens as the player left it (desktop); MYULK_WINDOW=WxH for tests
+    int ww = settings::get_int("window_w", 1280), wh = settings::get_int("window_h", 960);
+    const char* testSize = SDL_getenv("MYULK_WINDOW");
+    if (testSize) std::sscanf(testSize, "%dx%d", &ww, &wh);
+    ww = std::max(ww, 320);
+    wh = std::max(wh, 240);
+    SDL_WindowFlags flags = SDL_WINDOW_RESIZABLE;
+#ifndef __EMSCRIPTEN__
+    if (!testSize && settings::get_int("window_max", 0)) flags |= SDL_WINDOW_MAXIMIZED;
+#endif
+    if (!SDL_CreateWindowAndRenderer("Myulk", ww, wh, flags, &g_window, &g_renderer)) {
         recomp::log("window: %s", SDL_GetError());
         return false;
     }
+#ifndef __EMSCRIPTEN__
+    if (!testSize) {
+        int wx = settings::get_int("window_x", INT_MIN), wy = settings::get_int("window_y", INT_MIN);
+        if (wx != INT_MIN && wy != INT_MIN) {
+            // only where a display still shows the title bar
+            SDL_Rect r{wx, wy + 8, 64, 8};
+            if (SDL_GetDisplayForRect(&r)) {
+                SDL_Rect b;
+                if (SDL_GetDisplayBounds(SDL_GetDisplayForRect(&r), &b) && SDL_HasRectIntersection(&r, &b))
+                    SDL_SetWindowPosition(g_window, wx, wy);
+            }
+        }
+        if (settings::get_int("fullscreen", 0)) SDL_SetWindowFullscreen(g_window, true);
+    }
+#endif
     SDL_SetRenderLogicalPresentation(g_renderer, 640, 480, SDL_LOGICAL_PRESENTATION_LETTERBOX);
     SDL_SetRenderVSync(g_renderer, 1);
     g_tex = SDL_CreateTexture(g_renderer, SDL_PIXELFORMAT_XRGB8888, SDL_TEXTUREACCESS_STREAMING, 640, 480);
@@ -719,19 +789,39 @@ void host_pump(int blockMs) {
         }
         switch (ev.type) {
             case SDL_EVENT_QUIT: input_quit(); break;
-            case SDL_EVENT_MOUSE_MOTION: input_mouse_move(int(ev.motion.x), int(ev.motion.y)); break;
+            case SDL_EVENT_MOUSE_MOTION:
+                nav::mouse_at(int(ev.motion.x), int(ev.motion.y));
+                input_mouse_move(int(ev.motion.x), int(ev.motion.y));
+                break;
             case SDL_EVENT_MOUSE_BUTTON_DOWN:
             case SDL_EVENT_MOUSE_BUTTON_UP: {
                 int b = ev.button.button == SDL_BUTTON_LEFT ? 0 : ev.button.button == SDL_BUTTON_RIGHT ? 1 : 2;
-                input_mouse_button(int(ev.button.x), int(ev.button.y), b, ev.type == SDL_EVENT_MOUSE_BUTTON_DOWN);
+                bool down = ev.type == SDL_EVENT_MOUSE_BUTTON_DOWN;
+                int x = int(ev.button.x), y = int(ev.button.y);
+                nav::mouse_at(x, y);
+                // right-click in the scene goes back (the release is swallowed too)
+                static bool rightTaken = false;
+                if (b == 1 && down && nav::right_click(x, y)) { rightTaken = true; break; }
+                if (b == 1 && !down && rightTaken) { rightTaken = false; break; }
+                input_mouse_button(x, y, b, down);
                 break;
             }
+            case SDL_EVENT_MOUSE_WHEEL:
+                nav::wheel(ev.wheel.direction == SDL_MOUSEWHEEL_FLIPPED ? -ev.wheel.y : ev.wheel.y);
+                break;
+            case SDL_EVENT_WINDOW_MOVED:
+            case SDL_EVENT_WINDOW_RESIZED:
+            case SDL_EVENT_WINDOW_MAXIMIZED:
+            case SDL_EVENT_WINDOW_RESTORED:
+                g_windowChanged = SDL_GetTicks();
+                break;
             case SDL_EVENT_KEY_DOWN:
                 if (ev.key.key == SDLK_F11) {
-                    bool full = SDL_GetWindowFlags(g_window) & SDL_WINDOW_FULLSCREEN;
-                    SDL_SetWindowFullscreen(g_window, !full);
+                    host_set_fullscreen(!host_fullscreen());
                     break;
                 }
+                if (ev.key.key == SDLK_F12) { if (!ev.key.repeat) take_screenshot(); break; }
+                if (nav::key(ev.key.key)) break;
                 if (ev.key.key == SDLK_F7) { if (!ev.key.repeat) cycle_scaling(); break; }
                 if (ev.key.key == SDLK_F8) { if (!ev.key.repeat) toggle_text(); break; }
                 if (ev.key.key == SDLK_F5) { if (!ev.key.repeat) quick::request_save(); break; }
@@ -785,6 +875,8 @@ void host_pump(int blockMs) {
         g_lastPresent = now;
     }
     automation(now);
+    quick::pump();
+    remember_window(now);
     static bool inSettings = false;
     if (g_settingsRequested && !inSettings) {
         g_settingsRequested = false;
@@ -797,7 +889,13 @@ void host_pump(int blockMs) {
 void show_note(const std::string& text) { show_toast(text); }
 
 bool host_fullscreen() { return g_window && (SDL_GetWindowFlags(g_window) & SDL_WINDOW_FULLSCREEN); }
-void host_set_fullscreen(bool on) { if (g_window) SDL_SetWindowFullscreen(g_window, on); }
+void host_set_fullscreen(bool on) {
+    if (!g_window) return;
+    SDL_SetWindowFullscreen(g_window, on);
+#ifndef __EMSCRIPTEN__
+    settings::set_int("fullscreen", on ? 1 : 0);   // the browser needs a click for it each visit
+#endif
+}
 
 }  // namespace win16
 

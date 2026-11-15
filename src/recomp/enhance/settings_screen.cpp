@@ -28,7 +28,9 @@ const std::vector<Option>& options() {
          {"skarpa pixlar", "mjuk skalning", "utj\xE4mnad", "heltalsskalning"}},
         {"Avdithring (mjukare f\xE4rgytor)", "dedither", 0, {0, 1}, {"av", "p\xE5"}},
         {"Text", "crisp_text", 0, {0, 1}, {"mjuk", "skarp (som originalet)"}},
-        {"Volym", "volume", 100, {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100}, {}},
+        {"Volym (allt)", "volume", 100, {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100}, {}},
+        {"Musik", "music_volume", 100, {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100}, {}},
+        {"Tal och ljud", "speech_volume", 100, {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100}, {}},
         {"Helsk\xE4rm", "", 0, {0, 1}, {"av", "p\xE5"}},
         {"Klick hoppar \xF6ver filmer och tal", "click_skips", 1, {0, 1}, {"av", "p\xE5"}},
         {"G\xE5rdens hastighet", "farm_speed", 1, {1, 2, 4, 8}, {"1\xD7", "2\xD7", "4\xD7", "8\xD7"}},
@@ -51,6 +53,7 @@ class SettingsScreen : public OverlayScreen {
         settings::set_int(o.key, v);
         if (std::string(o.key) == "crisp_text") screen_invalidate();
         if (std::string(o.key) == "volume") mm_set_volume(float(v) / 100.0f);
+        if (std::string(o.key) == "music_volume" || std::string(o.key) == "speech_volume") mm_update_gains();
     }
     void step(int i, int dir) {
         const Option& o = options()[size_t(i)];
@@ -68,12 +71,12 @@ class SettingsScreen : public OverlayScreen {
 
 protected:
     void draw(Painter& p) override {
-        Rect pr{60, 30, 580, 450};
+        Rect pr{60, 16, 580, 464};
         panel(p, pr, "Inst\xE4llningar");
         const auto& opts = options();
         for (size_t i = 0; i < opts.size(); ++i) {
-            int y = 84 + int(i) * 34;
-            Rect rowR{pr.left + 12, y - 4, pr.right - 12, y + 30};
+            int y = 70 + int(i) * 31;
+            Rect rowR{pr.left + 12, y - 2, pr.right - 12, y + 28};
             if (int(i) == row_) p.fill(rowR, 0x26303C);
             p.text(pr.left + 24, y + 6, opts[i].label, int(i) == row_ ? kText : kDim);
             Rect less{336, y, 368, y + 26}, more{528, y, 560, y + 26};
@@ -82,12 +85,12 @@ protected:
             std::string v = p.fit(shown(opts[i]), 150);
             p.text(372 + (152 - p.width(v)) / 2, y + 5, v, kAccent);
         }
-        int by = 84 + int(opts.size()) * 34 + 10;
+        int by = 70 + int(opts.size()) * 31 + 8;
         button(p, Rect{pr.left + 24, by, pr.left + 184, by + 32}, "Snabbspara (F5)", kQuickSave);
         button(p, Rect{pr.left + 196, by, pr.left + 356, by + 32}, "Snabbladda (F9)", kQuickLoad);
         button(p, Rect{pr.right - 124, by, pr.right - 24, by + 32}, "Klar", kDone, kAccent);
-        p.text(pr.left + 24, pr.bottom - 28,
-               p.fit("F2 inst\xE4llningar \xB7 F5/F9 snabbspara/ladda \xB7 P paus \xB7 F7/F8 bild/text \xB7 F11 helsk\xE4rm",
+        p.text(pr.left + 24, pr.bottom - 26,
+               p.fit("F5/F9 snabbspara/ladda \xB7 P paus \xB7 F7/F8 bild/text \xB7 F11 helsk\xE4rm \xB7 F12 sk\xE4rmbild",
                      pr.w() - 48),
                kDim);
     }
