@@ -13,6 +13,7 @@
 #include <iterator>
 
 #include "funcs.hpp"
+#include "recomp/enhance/watchdog.hpp"
 #include "recomp/enhance/setup.hpp"
 #include "recomp/runtime/runtime.hpp"
 #include "recomp/win16/webdata.hpp"
@@ -112,6 +113,7 @@ int main(int argc, char** argv) {
     auto& rt = recomp::Runtime::get();
     if (!rt.load(exe)) return 1;
     win16::install(rt, fs::path(exe).parent_path().string());
+    win16::watchdog::start();
     try {
         recomp::f_01_0002(rt.cpu());
         recomp::log("program returned normally");

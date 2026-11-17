@@ -12,6 +12,7 @@
 
 #include "recomp/runtime/runtime.hpp"
 #include "recomp/enhance/settings.hpp"
+#include "recomp/enhance/texture_pack.hpp"
 #include "recomp/win16/text.hpp"
 #include "recomp/win16/win16.hpp"
 
@@ -96,8 +97,14 @@ void plot(DC& dc, Surface* s, const Rect& clip, int x, int y, Color c) {
 
 std::shared_ptr<DC> new_dc() {
     auto dc = std::make_shared<DC>();
-    dc->handle = g_nextDC;
-    g_nextDC = uint16_t(g_nextDC + 2);
+    // handles 0x6000-0xFFFE, reused once freed: the farm creates and frees
+    // memory DCs many times a second, and a counter that ran past 0xFFFE
+    // handed out DC 0, which Delphi's canvas cache then never freed (a hang)
+    auto next = [](uint16_t h) { return h >= 0xFFFE ? uint16_t(0x6000) : uint16_t(h + 2); };
+    uint16_t h = g_nextDC;
+    while (g_dcs.count(h)) h = next(h);
+    g_nextDC = next(h);
+    dc->handle = h;
     dc->pen = gdi_stock(7);      // BLACK_PEN
     dc->brush = gdi_stock(0);    // WHITE_BRUSH
     dc->font = gdi_stock(13);    // SYSTEM_FONT
@@ -234,8 +241,54 @@ void draw_fill_rect(DC& dc, const Rect& r, uint16_t brush) {
     GdiObject* b = gdi_get(brush);
     if (!s || brush_hollow(b)) return;
     Rect d = map_rect(dc, r).intersect(dc_bounds(dc));
+    HdLayer* hd = s->hd && s->hd->ref.size() == s->px.size() ? s->hd.get() : nullptr;
     for (int y = d.top; y < d.bottom; ++y)
-        for (int x = d.left; x < d.right; ++x) s->set(x, y, brush_color(b, x, y));
+        for (int x = d.left; x < d.right; ++x) {
+            s->set(x, y, brush_color(b, x, y));
+            if (hd) hd->ref[size_t(y) * s->w + x] = kHdStale;   // repaint even where the colour matches
+        }
+}
+
+// ---- texture packs: HD layers -------------------------------------------------
+
+void hd_ensure(Surface& s, int k) {
+    if (s.hd && s.hd->k == k && s.hd->ref.size() == s.px.size()) return;
+    auto L = std::make_shared<HdLayer>();
+    L->k = k;
+    L->ref.assign(s.px.size(), kHdStale);
+    L->px.assign(s.px.size() * size_t(k) * k, 0);
+    s.hd = std::move(L);
+    hd_sync(s);
+}
+
+void hd_attach(Surface& s, int k, std::vector<Color> px) {
+    if (k < 1 || px.size() != s.px.size() * size_t(k) * k) return;
+    auto L = std::make_shared<HdLayer>();
+    L->k = k;
+    L->px = std::move(px);
+    L->ref = s.px;
+    s.hd = std::move(L);
+}
+
+void hd_sync(Surface& s) {
+    if (!s.hd) return;
+    if (s.hd->ref.size() != s.px.size()) {   // the surface was resized: start over
+        int k = s.hd->k;
+        s.hd.reset();
+        hd_ensure(s, k);
+        return;
+    }
+    HdLayer& L = *s.hd;
+    const int k = L.k, W = s.w * k;
+    for (int y = 0; y < s.h; ++y) {
+        const Color* row = &s.px[size_t(y) * s.w];
+        Color* ref = &L.ref[size_t(y) * s.w];
+        for (int x = 0; x < s.w; ++x) {
+            if (row[x] == ref[x]) continue;
+            ref[x] = row[x];
+            for (int v = 0; v < k; ++v) std::fill_n(&L.px[size_t(y * k + v) * W + size_t(x) * k], k, row[x]);
+        }
+    }
 }
 
 void draw_frame_rect(DC& dc, const Rect& r, uint16_t brush) {
@@ -370,6 +423,27 @@ void blit(DC& dst, int dx, int dy, int dw, int dh, DC* src, int sx, int sy, int 
     if (flipX) { dw = -dw; ox -= dw; }
     if (flipY) { dh = -dh; oy -= dh; }
     bool srcMono = ss && ss->bpp == 1, dstMono = ds->bpp == 1;
+    // Texture packs. A source with an HD layer is drawn into the destination's
+    // layer too (the destination gets one if it has none). Anything else only
+    // changes the small pixels, and hd_sync() enlarges what changed later; a
+    // copy that ignores the destination marks its pixels stale so they are
+    // enlarged even where the colour happens to match.
+    HdLayer* sHd = nullptr;
+    HdLayer* dHd = nullptr;
+    if (usesSrc && ss->hd && !dstMono) {
+        hd_sync(*ss);
+        if (!ds->hd || ds->hd->ref.size() != ds->px.size()) hd_ensure(*ds, ss->hd->k);
+        sHd = ss->hd.get();
+        dHd = ds->hd.get();
+    }
+    bool usesDst = ((code >> 1) ^ code) & 0x55;
+    static const bool hdDebug = std::getenv("MYULK_HD_DEBUG") != nullptr;   // texture pack debugging
+    if (hdDebug && usesSrc && std::abs(dw) >= 60)
+        recomp::log("blit %dx%d rop %02x src %dx%d hd=%d -> %s %dx%d hd=%d", dw, dh, code, ss->w, ss->h, ss->hd ? 1 : 0,
+                    ds == &g_screen ? "screen" : "bitmap", ds->w, ds->h, ds->hd ? 1 : 0);
+    HdLayer* stale = !sHd && !usesDst && ds->hd && ds->hd->ref.size() == ds->px.size() ? ds->hd.get() : nullptr;
+    const int kd = dHd ? dHd->k : 1, ks = sHd ? sHd->k : 1;
+    const int dW = ds->w * kd, sW = ss ? ss->w * ks : 0, sH = ss ? ss->h * ks : 0;
     for (int y = 0; y < dh; ++y) {
         int ty = oy + y;
         if (ty < clip.top || ty >= clip.bottom) continue;
@@ -392,6 +466,23 @@ void blit(DC& dst, int dx, int dy, int dw, int dh, DC* src, int sx, int sy, int 
             Color r = (code == 0xCC) ? s : rop3(code, p, s, d);
             if (dstMono) r = r ? 0xFFFFFF : 0;
             ds->set(tx, ty, r);
+            if (stale) stale->ref[size_t(ty) * ds->w + tx] = kHdStale;
+            if (!dHd) continue;
+            // the k x k block of this pixel, sampled from the source's layer
+            for (int v = 0; v < kd; ++v) {
+                long long fy = (2LL * (y * kd + v) + 1) * sh * ks / (2LL * kd * dh);
+                int Y = flipY ? soy * ks + sh * ks - 1 - int(fy) : soy * ks + int(fy);
+                Y = std::clamp(Y, 0, sH - 1);
+                Color* drow = &dHd->px[size_t(ty * kd + v) * dW + size_t(tx) * kd];
+                const Color* srow = &sHd->px[size_t(Y) * sW];
+                for (int u = 0; u < kd; ++u) {
+                    long long fx = (2LL * (x * kd + u) + 1) * sw * ks / (2LL * kd * dw);
+                    int X = flipX ? sox * ks + sw * ks - 1 - int(fx) : sox * ks + int(fx);
+                    Color sc = srow[std::clamp(X, 0, sW - 1)];
+                    drow[u] = code == 0xCC ? sc : rop3(code, brush_color(brush, tx, ty), sc, drow[u]);
+                }
+            }
+            dHd->ref[size_t(ty) * ds->w + tx] = r;
         }
     }
 }
@@ -789,11 +880,13 @@ API(GDI, 442, CreateDIBitmap, 20) {
             if (ss) { SDL_SaveBMP(ss, path.c_str()); SDL_DestroySurface(ss); }
             recomp::log("dumped RLE dib %dx%d -> %s", w, ah, path.c_str());
         }
+        texture_pack::attach(*surf);
         a.ret(gdi_create_bitmap(surf));
         return;
     }
     auto surf = surface_from_bits(c, w, std::abs(h), bpp, bits, true, pal);
     surf->bpp = bpp == 1 ? 1 : 8;
+    texture_pack::attach(*surf);
     a.ret(gdi_create_bitmap(surf));
 }
 API(GDI, 441, GetDIBits, 18) {

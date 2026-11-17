@@ -40,6 +40,13 @@ bool is_music(const std::string& dosPath) {
     size_t slash = up.find_last_of("\\/:");
     return up.compare(slash == std::string::npos ? 0 : slash + 1, 3, "MU_") == 0;
 }
+// LJUD\ST_*.WAV: short sound effects (the farm's buttons, zoom, alarms)
+bool is_effect(const std::string& dosPath) {
+    std::string up;
+    for (char ch : dosPath) up += char(std::toupper(static_cast<unsigned char>(ch)));
+    size_t slash = up.find_last_of("\\/:");
+    return up.compare(slash == std::string::npos ? 0 : slash + 1, 3, "ST_") == 0;
+}
 float music_gain() { return float(settings::get_int("music_volume", 100)) / 100.0f; }
 float speech_gain() { return float(settings::get_int("speech_volume", 100)) / 100.0f; }
 
@@ -220,12 +227,15 @@ void post_notify(McDevice& d, uint16_t code) {
 // Skip what the game is waiting for (QoL): movies and sounds with a pending
 // notification finish at once and report success, so scenes continue as if
 // the clip had played out; a blocking sndPlaySound stops. Music (MU_*.WAV)
-// is not skipped. Returns true if anything was skipped.
+// and sound effects (LJUD\ST_*.WAV: buttons, zoom, alarms on the farm) are
+// not skipped: the farm plays them all the time, and a click that only
+// skipped an effect never reached the button. Returns true if anything was
+// skipped.
 bool mm_skip_media() {
     bool skipped = false;
     for (auto& [id, d] : g_mci) {
         if (!d.notifyPending) continue;
-        if (is_music(d.element)) continue;
+        if (is_music(d.element) || is_effect(d.element)) continue;
         if (d.video) {
             if (!d.video->playing) continue;
             d.video->posMs = d.video->toMs;

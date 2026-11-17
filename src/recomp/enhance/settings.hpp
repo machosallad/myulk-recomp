@@ -16,6 +16,9 @@ inline int scaling() { return get_int("scaling", kSharpSmooth); }
 inline bool crisp_text() { return get_int("crisp_text", 0) != 0; }
 // De-dither: smooth away the art's dither speckle (enhance/dedither.cpp).
 inline bool dedither() { return get_int("dedither", 0) != 0; }
+// Texture pack: show the HD pictures (on) or the original ones (off), when a
+// pack is installed (enhance/texture_pack.cpp). Switches instantly (F6).
+inline bool texture_pack() { return get_int("texture_pack", 1) != 0; }
 
 // Gameplay helpers (QoL), each on or off; all default on. The play style is
 // derived from them: Original = all off and the farm at 1x, Modern = all on.
