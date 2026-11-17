@@ -44,6 +44,21 @@ You need Python 3.10+ with Pillow.
    - **Upscayl** (Real-ESRGAN): the simplest. Use batch mode on each folder.
    - **realesrgan-ncnn-vulkan** for scripting.
 
+   - **`tools/upscale.py`** (in this repository) runs OpenModelDB models in batch without a GUI. It loads `.pth` models with spandrel (the library chaiNNer uses) and converts them once to ONNX. It then runs them on the GPU through ONNX Runtime + DirectML, which works on AMD, NVIDIA and Intel GPUs under Windows. Models are applied in the order given, and finished pictures are skipped, so an interrupted run can simply be restarted.
+
+     ```bash
+     python -m venv upscale-venv
+     upscale-venv/Scripts/python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+     upscale-venv/Scripts/python -m pip install spandrel onnx onnxruntime-directml pillow numpy
+     upscale-venv/Scripts/python tools/upscale.py work/src/scenes upscaled/scenes models/4x-FSDedither.pth
+     ```
+
+     A trial on scenes and ART pictures compared [4x-FSDedither](https://openmodeldb.info/models/4x-FSDedither) on its own (GPL-3.0) with [1x-DitherDeleterV3-Smooth](https://openmodeldb.info/models/1x-DitherDeleterV3-Smooth) followed by [4x-UltraSharp](https://openmodeldb.info/models/4x-UltraSharp):
+     - **FSDedither** keeps the original's shapes and textures, with some grain left where the dithering was heavy.
+     - **DitherDeleterV3 + UltraSharp** is cleaner but painterly, and reinvents surfaces (brick turns into planks).
+
+     FSDedither is the recommended choice. On an RX 7900 XT it takes about 5 s per picture, about 2.5 hours for everything.
+
    Avoid diffusion/"creative" upscalers. Most scene frames are animation sequences, and these tools invent different detail in each frame, so the animation flickers.
 
 3. **Build** the pack. `--scale` is 2, 3 (default; a 1920×1440 picture) or 4. Every picture is resized to exactly scale × its original size, so the upscaler's own factor does not matter.
