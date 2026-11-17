@@ -56,7 +56,7 @@ const std::vector<Option>& helper_page() {
         {"Spelstil", kStyleKey, 1, {0, 1}, {"Original", "Modern", "Anpassad"},
          "Original: spelet som 1996. Modern: all hj\xE4lp p\xE5. \xC4ndra raderna f\xF6r att v\xE4lja sj\xE4lv."},
         {"Klick hoppar \xF6ver filmer och tal", "click_skips", 1, kOnOff, kOnOffNames,
-         "Ett klick hoppar \xF6ver filmen eller repliken som spelas."},
+         "Ett klick hoppar \xF6ver filmen eller repliken som spelas, och v\xE4ntan n\xE4r g\xE5rden \xF6ppnas."},
         {"Autospara", "autosave", 1, kOnOff, kOnOffNames, "Sparar sj\xE4lv var tionde minut och vid nytt kapitel."},
         {"Snabbspara (F5/F9)", "quick_save", 1, kOnOff, kOnOffNames, "F5 sparar, F9 laddar, utan fr\xE5gor."},
         {"Ny spara/ladda-sk\xE4rm", "save_screen", 1, kOnOff, kOnOffNames,

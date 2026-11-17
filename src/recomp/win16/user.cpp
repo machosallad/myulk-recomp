@@ -543,6 +543,20 @@ uint32_t effective_interval(const Timer& tm) {
     return tm.interval / uint32_t(speed);
 }
 
+// QoL (click skips): the farm opens with 11 s of black screen and the TV
+// (TForm1.StartTimer, Interval 11000 in the form) before the farm and
+// Myulk appear. A click brings that timer due now.
+bool skip_farm_start_wait() {
+    if (active_window_class() != "TFORM1") return false;
+    uint64_t t = now_ms();
+    for (auto& tm : g_timers)
+        if (tm.interval == 11000 && !tm.pending && tm.due > t + 200) {
+            tm.due = t;
+            return true;
+        }
+    return false;
+}
+
 bool timers_due() {
     uint64_t t = now_ms();
     bool any = false;
@@ -699,7 +713,10 @@ void input_mouse_button(int x, int y, int button, bool down) {
     if (g_overlay) { g_overlay->mouse(x, y, button, down); return; }
     // QoL: a click skips the movie or speech the game is waiting for
     static bool swallowUp = false;
-    if (button == 0 && down && settings::get_int("click_skips", 1) && mm_skip_media()) { swallowUp = true; return; }
+    if (button == 0 && down && settings::get_int("click_skips", 1) && (mm_skip_media() || skip_farm_start_wait())) {
+        swallowUp = true;
+        return;
+    }
     if (button == 0 && !down && swallowUp) { swallowUp = false; return; }
     if (button >= 0 && button < 3) g_buttons[button] = down;
     uint16_t target = g_capture ? g_capture : window_from_point(x, y);
