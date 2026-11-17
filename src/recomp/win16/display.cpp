@@ -16,6 +16,7 @@
 #include "recomp/enhance/quick.hpp"
 #include "recomp/enhance/screenshot.hpp"
 #include "recomp/enhance/settings.hpp"
+#include "recomp/enhance/texture_pack.hpp"
 #include "recomp/runtime/generated_support.hpp"
 #include "recomp/runtime/runtime.hpp"
 #include "recomp/win16/user.hpp"
@@ -193,6 +194,13 @@ void cycle_scaling() {
                                   "Bild: heltalsskalning"};
     show_toast(names[m]);
 }
+// F6: the texture pack's HD pictures or the original ones, instantly
+void toggle_texture_pack() {
+    if (!texture_pack::scale()) { show_toast("Inget texturpaket installerat"); return; }
+    bool on = !settings::texture_pack();
+    settings::set_int("texture_pack", on ? 1 : 0);
+    show_toast(on ? "Texturpaket: p\xE5" : "Texturpaket: av (originalbilder)");
+}
 void toggle_text() {
     bool crisp = !settings::crisp_text();
     settings::set_int("crisp_text", crisp ? 1 : 0);
@@ -219,7 +227,7 @@ Surface shot_surface(const Surface& shown);
 
 // F12: the picture as shown (de-dithered when that is on), without notes
 void take_screenshot() {
-    std::string where = save_screenshot(screen().hd ? shot_surface(screen())
+    std::string where = save_screenshot(screen().hd && settings::texture_pack() ? shot_surface(screen())
                                      : settings::dedither() ? dedither(screen()) : screen());
     if (where.empty()) { show_toast("Sk\xE4rmbilden kunde inte sparas"); return; }
     recomp::log("screenshot: %s", where.c_str());
@@ -260,7 +268,7 @@ SDL_Texture* g_texHd = nullptr;   // texture packs: the screen's HD layer
 // adds to the screen (notes, hints) enlarged into it. Null without a pack.
 const HdLayer* screen_hd(const Surface& shown) {
     Surface& scr = screen();
-    if (!scr.hd) return nullptr;
+    if (!scr.hd || !settings::texture_pack()) return nullptr;
     hd_sync(scr);
     const HdLayer& L = *scr.hd;
     if (&shown == &scr) return &L;
@@ -289,7 +297,7 @@ Surface shot_surface(const Surface& shown) {
 void present() {
     bool toast = SDL_GetTicks() < g_toastUntil, hints = hints_active();
     // de-dithering is for the original art; a texture pack replaces it
-    const bool hdOn = screen().hd != nullptr;
+    const bool hdOn = screen().hd && settings::texture_pack();
     const Surface& base = settings::dedither() && !hdOn ? dedither(screen()) : screen();
     const Surface& shown = toast || hints ? compose_toast(base, toast, hints) : base;
     SDL_Texture* tex = g_tex;
@@ -610,6 +618,7 @@ void automation(uint64_t now) {
     for (auto& rl : releases)
         if (!rl.done && now >= rl.at) { rl.done = true; mouse_button(rl.x, rl.y, 0, false); }
     // MYULK_KEYS="ms:text;ms:text": typed characters; {enter} {esc} {bs} {tab}
+    // ({f1} help, {f6} texture pack, {f12} screenshot)
     struct Keys { uint64_t at; std::string text; bool done; };
     static std::vector<Keys> keys;
     static bool keysInit = false;
@@ -640,6 +649,7 @@ void automation(uint64_t now) {
             if (k.text.compare(i, 3, "{p}") == 0) { toggle_pause(); i += 2; continue; }
             if (k.text.compare(i, 5, "{f12}") == 0) { take_screenshot(); i += 4; continue; }
             if (k.text.compare(i, 4, "{f1}") == 0) { g_helpRequested = true; i += 3; continue; }
+            if (k.text.compare(i, 4, "{f6}") == 0) { toggle_texture_pack(); i += 3; continue; }
             if (k.text.compare(i, 7, "{nextd}") == 0) { recomp::log("farm next day: %d", farm::next_day()); i += 6; continue; }
             // navigation shortcuts: {up} {down} {left} {right} {back} {rclick} {wheelup} {wheeldown}
             if (k.text.compare(i, 4, "{up}") == 0) { recomp::log("nav up: %d", nav::key(SDLK_UP)); i += 3; continue; }
@@ -903,6 +913,7 @@ void host_pump(int blockMs) {
                 if (ev.key.key == SDLK_N && farm::next_day()) break;
                 if (ev.key.key == SDLK_F7) { if (!ev.key.repeat) cycle_scaling(); break; }
                 if (ev.key.key == SDLK_F8) { if (!ev.key.repeat) toggle_text(); break; }
+                if (ev.key.key == SDLK_F6) { if (!ev.key.repeat) toggle_texture_pack(); break; }
                 if (ev.key.key == SDLK_F5) { if (!ev.key.repeat) quick::request_save(); break; }
                 if (ev.key.key == SDLK_F9) { if (!ev.key.repeat) quick::request_load(); break; }
                 if (ev.key.key == SDLK_F2) { if (!ev.key.repeat) open_settings(); break; }

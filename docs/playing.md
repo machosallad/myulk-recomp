@@ -100,6 +100,7 @@ You can change it any time under **Inställningar** (F2), all at once with *Spel
 | **F2** | settings |
 | **F5 / F9** | quick-save / quick-load |
 | **F7 / F8** | picture scaling / text style |
+| **F6** | texture pack on/off (HD pictures or the originals, when a pack is installed) |
 | **F11** | fullscreen |
 | **F12** | screenshot (Pictures\Myulk, or a download in the browser) |
 | **H** (hold) | show everything you can click in the scene |

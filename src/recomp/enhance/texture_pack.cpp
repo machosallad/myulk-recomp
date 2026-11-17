@@ -17,7 +17,6 @@
 #include <unordered_map>
 #include <vector>
 
-#include "recomp/enhance/settings.hpp"
 #include "recomp/runtime/runtime.hpp"
 
 #define STB_IMAGE_IMPLEMENTATION
@@ -151,10 +150,8 @@ int read_scale(const fs::path& json) {
 
 void init(const std::string& gameDir) {
     g_log = std::getenv("MYULK_TEXTURE_PACK_LOG") != nullptr;
-    if (!settings::get_int("texture_pack", 1)) {
-        recomp::log("texture pack: turned off in the settings");
-        return;
-    }
+    // The pack is loaded even when switched off in the settings: the HD layers
+    // are kept up to date all the time, so switching it on shows them at once.
     std::vector<fs::path> roots;
     if (const char* d = std::getenv("MYULK_TEXTURE_PACK")) roots.emplace_back(fs::u8path(d));
     if (const char* base = SDL_GetBasePath()) roots.emplace_back(fs::u8path(base) / "texturepack");

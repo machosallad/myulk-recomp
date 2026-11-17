@@ -75,7 +75,9 @@ You need Python 3.10+ with Pillow.
    - `%APPDATA%\myulk-recomp\Myulk\texturepack`
    - `texturepack/` in, or next to, the game folder (in the repository: `extracted/texturepack`)
 
-   The log says `texture pack …: N pictures at 3x`. `texture_pack=0` in `settings.txt` turns it off.
+   The log says `texture pack …: N pictures at 3x`.
+
+**F6**, or *Texturpaket* in the settings menu (F2), switches between the HD pictures and the originals while you play. The switch is instant. The HD layers are kept up to date even while the originals are shown, and the choice is saved (`texture_pack` in `settings.txt`). With the originals shown, *Avdithring* works as usual.
 
 ## Testing
 

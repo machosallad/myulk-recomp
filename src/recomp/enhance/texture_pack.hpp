@@ -14,8 +14,8 @@
 namespace win16::texture_pack {
 
 // Looks for a pack (MYULK_TEXTURE_PACK, "texturepack" next to the program,
-// in the user's app-data folder, or next to the game folder) unless turned
-// off in the settings. `gameDir` is the MYULK folder.
+// in the user's app-data folder, or next to the game folder). `gameDir` is
+// the MYULK folder. Whether it is shown is settings::texture_pack().
 void init(const std::string& gameDir);
 int scale();   // 0 when no pack is in use
 // Called for every bitmap the game creates from pixel data.

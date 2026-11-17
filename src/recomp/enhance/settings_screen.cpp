@@ -41,6 +41,8 @@ const std::vector<Option>& picture_page() {
         {"Avdithring", "dedither", 0, kOnOff, kOnOffNames,
          "Sl\xE4tar ut prickarna i himmel och ytor, kanter f\xF6rblir skarpa."},
         {"Text", "crisp_text", 0, kOnOff, {"mjuk", "skarp (som originalet)"}, "Utj\xE4mnad eller skarp text (F8)."},
+        {"Texturpaket", "texture_pack", 1, kOnOff, kOnOffNames,
+         "HD-bilder fr\xE5n ett installerat texturpaket, eller originalbilderna (F6)."},
         {"Volym (allt)", "volume", 100, kPercent, {}, "All ljudvolym."},
         {"Musik", "music_volume", 100, kPercent, {}, "Musikslingorna."},
         {"Tal och ljud", "speech_volume", 100, kPercent, {}, "Tal, ljudeffekter och filmernas ljud."},
