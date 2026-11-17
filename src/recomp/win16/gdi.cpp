@@ -97,8 +97,14 @@ void plot(DC& dc, Surface* s, const Rect& clip, int x, int y, Color c) {
 
 std::shared_ptr<DC> new_dc() {
     auto dc = std::make_shared<DC>();
-    dc->handle = g_nextDC;
-    g_nextDC = uint16_t(g_nextDC + 2);
+    // handles 0x6000-0xFFFE, reused once freed: the farm creates and frees
+    // memory DCs many times a second, and a counter that ran past 0xFFFE
+    // handed out DC 0, which Delphi's canvas cache then never freed (a hang)
+    auto next = [](uint16_t h) { return h >= 0xFFFE ? uint16_t(0x6000) : uint16_t(h + 2); };
+    uint16_t h = g_nextDC;
+    while (g_dcs.count(h)) h = next(h);
+    g_nextDC = next(h);
+    dc->handle = h;
     dc->pen = gdi_stock(7);      // BLACK_PEN
     dc->brush = gdi_stock(0);    // WHITE_BRUSH
     dc->font = gdi_stock(13);    // SYSTEM_FONT
