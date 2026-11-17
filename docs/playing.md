@@ -126,3 +126,4 @@ Saves are the original `.MLK` files, so they can be moved between the desktop an
 - **"En annan version av Myulk"**: the program was made from a different edition of `MYULK.EXE` than the one on this CD (or the copy is damaged). Building the program from this CD makes one that fits it.
 - **The build stops at "Recompiling MYULK.EXE"**: Python or capstone is missing. Run the setup script again, or `python -m pip install capstone`.
 - **The browser page says JSPI is missing**: use a current Chrome or Edge.
+- **The game stops responding**: after 5 seconds without handling the window, the desktop program appends a report to `hang.txt` (next to `settings.txt`): the game routines it was running and where in the program it was looping. Attach it when reporting the hang. The addresses after `+` are looked up in `myulk_recomp.map` from the same build. `MYULK_TEST_HANG=ms` fakes a 7-second hang to try it.

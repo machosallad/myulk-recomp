@@ -143,6 +143,8 @@ if(EXISTS "${MYULK_EXE}")
         target_compile_options(myulk_recomp PRIVATE /utf-8 /bigobj)
         # a Windows program, no console window (stderr still works when redirected)
         target_link_options(myulk_recomp PRIVATE /SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup)
+        # addresses in hang reports (hang.txt) are looked up in myulk_recomp.map
+        target_link_options(myulk_recomp PRIVATE /MAP)
         # generated code: no warnings, moderate optimisation keeps compile times sane
         set_source_files_properties(${GEN_SOURCES} PROPERTIES COMPILE_OPTIONS "/W0;/O1")
     else()

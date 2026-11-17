@@ -17,6 +17,7 @@
 #include "recomp/enhance/screenshot.hpp"
 #include "recomp/enhance/settings.hpp"
 #include "recomp/enhance/texture_pack.hpp"
+#include "recomp/enhance/watchdog.hpp"
 #include "recomp/runtime/generated_support.hpp"
 #include "recomp/runtime/runtime.hpp"
 #include "recomp/win16/user.hpp"
@@ -857,6 +858,7 @@ void mm_poll();
 
 void host_pump(int blockMs) {
     if (!g_renderer) return;
+    watchdog::alive();
     mm_poll();
     SDL_Event ev;
 #ifdef __EMSCRIPTEN__
