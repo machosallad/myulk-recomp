@@ -34,12 +34,25 @@ struct Rect {
     bool operator!=(const Rect& o) const { return !(*this == o); }
 };
 
+// A high-resolution companion of a surface (texture packs): k times wider and
+// taller. The game only ever sees the small surface; this layer follows it and
+// is what is shown. `ref` holds, per small pixel, the value the layer was last
+// made to match; a small pixel that differs from it was drawn by something
+// that knows nothing of the layer, and hd_sync() repaints that block from it.
+struct HdLayer {
+    int k = 1;
+    std::vector<Color> px;    // (w*k) x (h*k)
+    std::vector<Color> ref;   // w x h
+};
+inline constexpr Color kHdStale = 0xFF000000;   // a ref value no pixel has
+
 // Pixel storage for bitmaps and the screen. bpp 1 marks a monochrome bitmap
 // (pixels still stored as 0x000000 / 0xFFFFFF).
 struct Surface {
     int w = 0, h = 0;
     int bpp = 8;   // what the program is told
     std::vector<Color> px;
+    std::shared_ptr<HdLayer> hd;   // texture pack: the high-resolution version, if any
     Surface() = default;
     Surface(int w_, int h_, int bpp_) : w(w_), h(h_), bpp(bpp_), px(size_t(std::max(w_, 0)) * std::max(h_, 0), 0) {}
     Color get(int x, int y) const { return px[size_t(y) * w + x]; }
@@ -115,6 +128,12 @@ Surface& screen();
 std::vector<Color>& system_palette();
 Color nearest_index_color(uint8_t index);
 uint8_t nearest_index(Color c);
+
+// texture packs: give a surface an HD layer (enlarged from its pixels), attach
+// a ready one, or bring a layer up to date with its small surface
+void hd_ensure(Surface& s, int k);
+void hd_attach(Surface& s, int k, std::vector<Color> px);
+void hd_sync(Surface& s);
 
 void gdi_init();
 

@@ -7,6 +7,7 @@
 #include <filesystem>
 #include <vector>
 
+#include "recomp/enhance/texture_pack.hpp"
 #include "recomp/win16/gdi.hpp"
 #include "recomp/win16/user.hpp"
 #include "recomp/win16/vfs.hpp"
@@ -58,6 +59,7 @@ void install(recomp::Runtime& rt, const std::string& gameDir) {
     kernel_setup(rt, gameDir);
     display_init();
     gdi_init();
+    texture_pack::init(gameDir);
     user_init();
     detail::install_all(rt);
 }

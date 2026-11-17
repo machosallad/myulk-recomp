@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "recomp/enhance/settings.hpp"
+#include "recomp/enhance/texture_pack.hpp"
 #include "recomp/runtime/runtime.hpp"
 #include "recomp/win16/modules.hpp"
 #include "recomp/win16/win16.hpp"
@@ -1628,6 +1629,7 @@ API(USER, 175, LoadBitmap, 6) {
             s->set(x, y, col);
         }
     }
+    texture_pack::attach(*s);
     a.ret(gdi_create_bitmap(s));
 }
 API(USER, 176, LoadString, 10) {

@@ -215,9 +215,12 @@ bool g_helpRequested = false;   // F1 or the settings menu: the handbook
 std::string g_dropped;          // a file dropped on the window (first-start screen)
 bool g_systemCursor = false;    // the system arrow instead of the game's cursor
 
+Surface shot_surface(const Surface& shown);
+
 // F12: the picture as shown (de-dithered when that is on), without notes
 void take_screenshot() {
-    std::string where = save_screenshot(settings::dedither() ? dedither(screen()) : screen());
+    std::string where = save_screenshot(screen().hd ? shot_surface(screen())
+                                     : settings::dedither() ? dedither(screen()) : screen());
     if (where.empty()) { show_toast("Sk\xE4rmbilden kunde inte sparas"); return; }
     recomp::log("screenshot: %s", where.c_str());
     size_t slash = where.find_last_of("\\/");
@@ -251,12 +254,61 @@ void remember_window(uint64_t now) {
 
 SDL_Texture* g_mid = nullptr;   // integer-scaled copy for "mjuk skalning"
 int g_midScale = 0;
+SDL_Texture* g_texHd = nullptr;   // texture packs: the screen's HD layer
+
+// Texture packs: the screen's HD layer, up to date, with whatever `shown`
+// adds to the screen (notes, hints) enlarged into it. Null without a pack.
+const HdLayer* screen_hd(const Surface& shown) {
+    Surface& scr = screen();
+    if (!scr.hd) return nullptr;
+    hd_sync(scr);
+    const HdLayer& L = *scr.hd;
+    if (&shown == &scr) return &L;
+    static HdLayer out;
+    out.k = L.k;
+    out.px = L.px;
+    const int k = L.k, W = scr.w * k;
+    for (int y = 0; y < scr.h; ++y)
+        for (int x = 0; x < scr.w; ++x) {
+            Color c = shown.get(x, y);
+            if (c == scr.get(x, y)) continue;
+            for (int v = 0; v < k; ++v) std::fill_n(&out.px[size_t(y * k + v) * W + size_t(x) * k], k, c);
+        }
+    return &out;
+}
+
+// What a screenshot saves: the HD picture when a texture pack is in use.
+Surface shot_surface(const Surface& shown) {
+    const HdLayer* hd = screen_hd(shown);
+    if (!hd) return shown;
+    Surface s(shown.w * hd->k, shown.h * hd->k, 8);
+    s.px = hd->px;
+    return s;
+}
 
 void present() {
     bool toast = SDL_GetTicks() < g_toastUntil, hints = hints_active();
-    const Surface& base = settings::dedither() ? dedither(screen()) : screen();
-    const Surface& s = toast || hints ? compose_toast(base, toast, hints) : base;
-    SDL_UpdateTexture(g_tex, nullptr, s.px.data(), s.w * 4);
+    // de-dithering is for the original art; a texture pack replaces it
+    const bool hdOn = screen().hd != nullptr;
+    const Surface& base = settings::dedither() && !hdOn ? dedither(screen()) : screen();
+    const Surface& shown = toast || hints ? compose_toast(base, toast, hints) : base;
+    SDL_Texture* tex = g_tex;
+    int texW = shown.w, texH = shown.h;
+    if (const HdLayer* hd = screen_hd(shown)) {
+        texW = shown.w * hd->k;
+        texH = shown.h * hd->k;
+        if (!g_texHd)
+            g_texHd = SDL_CreateTexture(g_renderer, SDL_PIXELFORMAT_XRGB8888, SDL_TEXTUREACCESS_STREAMING, texW, texH);
+        if (g_texHd) {
+            tex = g_texHd;
+            SDL_UpdateTexture(tex, nullptr, hd->px.data(), texW * 4);
+        }
+    }
+    if (tex == g_tex) {
+        texW = shown.w;
+        texH = shown.h;
+        SDL_UpdateTexture(g_tex, nullptr, shown.px.data(), shown.w * 4);
+    }
     SDL_SetRenderDrawColor(g_renderer, 0, 0, 0, 255);
     SDL_RenderClear(g_renderer);
     int mode = settings::scaling();
@@ -268,29 +320,33 @@ void present() {
         SDL_SetRenderLogicalPresentation(g_renderer, 640, 480, want);
         presentation = want;
     }
-    if (mode == settings::kSharpSmooth) {
+    if (tex == g_texHd) {
+        // an HD picture is enlarged or reduced smoothly in every mode
+        SDL_SetTextureScaleMode(tex, SDL_SCALEMODE_LINEAR);
+        SDL_RenderTexture(g_renderer, tex, nullptr, nullptr);
+    } else if (mode == settings::kSharpSmooth) {
         // "sharp bilinear": enlarge by the largest whole factor with sharp pixels,
         // then smoothly to the window, so pixels stay crisp without uneven sizes
         int ow = 0, oh = 0;
         SDL_GetCurrentRenderOutputSize(g_renderer, &ow, &oh);
-        int k = std::max(1, std::min(ow / s.w, oh / s.h));
+        int k = std::max(1, std::min(ow / texW, oh / texH));
         if (k != g_midScale || !g_mid) {
             if (g_mid) SDL_DestroyTexture(g_mid);
-            g_mid = SDL_CreateTexture(g_renderer, SDL_PIXELFORMAT_XRGB8888, SDL_TEXTUREACCESS_TARGET, s.w * k, s.h * k);
+            g_mid = SDL_CreateTexture(g_renderer, SDL_PIXELFORMAT_XRGB8888, SDL_TEXTUREACCESS_TARGET, texW * k, texH * k);
             SDL_SetTextureScaleMode(g_mid, SDL_SCALEMODE_LINEAR);
             g_midScale = k;
         }
-        SDL_SetTextureScaleMode(g_tex, SDL_SCALEMODE_NEAREST);
+        SDL_SetTextureScaleMode(tex, SDL_SCALEMODE_NEAREST);
         if (g_mid && SDL_SetRenderTarget(g_renderer, g_mid)) {
-            SDL_RenderTexture(g_renderer, g_tex, nullptr, nullptr);
+            SDL_RenderTexture(g_renderer, tex, nullptr, nullptr);
             SDL_SetRenderTarget(g_renderer, nullptr);
             SDL_RenderTexture(g_renderer, g_mid, nullptr, nullptr);
         } else {
-            SDL_RenderTexture(g_renderer, g_tex, nullptr, nullptr);
+            SDL_RenderTexture(g_renderer, tex, nullptr, nullptr);
         }
     } else {
-        SDL_SetTextureScaleMode(g_tex, mode == settings::kSmooth ? SDL_SCALEMODE_LINEAR : SDL_SCALEMODE_NEAREST);
-        SDL_RenderTexture(g_renderer, g_tex, nullptr, nullptr);
+        SDL_SetTextureScaleMode(tex, mode == settings::kSmooth ? SDL_SCALEMODE_LINEAR : SDL_SCALEMODE_NEAREST);
+        SDL_RenderTexture(g_renderer, tex, nullptr, nullptr);
     }
     if (const CursorImage* cur = g_systemCursor ? nullptr : current_cursor()) {
         if (cur != g_cursorFor) {
@@ -705,7 +761,7 @@ void automation(uint64_t now) {
             std::string suffix = "_" + std::to_string(shotNext);
             path = dot == std::string::npos ? path + suffix : path.substr(0, dot) + suffix + path.substr(dot);
         }
-        Surface& s = screen();
+        Surface s = shot_surface(screen());   // HD with a texture pack
         SDL_Surface* surf = nullptr;
         if (SDL_getenv("MYULK_SHOT_WINDOW")) {   // what the window shows (scaling, notes)
             present();

@@ -19,3 +19,6 @@ ghidra_project/
 
 # Decompiler output (derived from the original binary)
 decomp/
+
+# HD texture packs made from the game art (tools/texturepack.py)
+texturepack/
